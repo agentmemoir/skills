@@ -4,10 +4,10 @@ description: >-
   Write, audit, and rewrite developer documentation using the Wordsmith method: Diátaxis page
   typing, 28 numbered style rules (S1–S28), AI-tell removal (H1–H26, vendored from
   blader/humanizer), topic-coverage derivation, and rule-traced change logs. Use this skill
-  whenever the user asks to write, improve, review, rewrite, restructure, audit, or plan
+  whenever I ask to write, improve, review, rewrite, restructure, audit, or plan
   documentation of any kind (README, quickstart, how-to guide, reference, explanation, FAQ,
-  guides, docs sites), says their docs are unclear, too long, inconsistent, or not helping
-  readers, asks what documentation they need for a project, or wants a documentation standard
+  guides, docs sites), say my docs are unclear, too long, inconsistent, or not helping
+  readers, ask what documentation I need for a project, or want a documentation standard
   or style guide. Also use it when prose sounds machine-written: "reads like AI wrote it",
   "too robotic", "remove the AI tells", "de-slop this page", "sounds like ChatGPT", even if
   they never say "DX", "developer experience", or "style guide".
@@ -17,7 +17,7 @@ description: >-
 
 **The one principle: every page has one job. Cut everything that doesn't do that job.**
 
-This method is distilled from the established documentation standards: Diátaxis (page types), the Google and Microsoft style guides (prose), Carroll's minimalism and Every Page Is Page One (what to cut), and community specs like standard-readme and the Good Docs Project (artifacts). The evidence behind every rule, with sources, is in `references/research-notes.md` — read it when the user asks *why* a rule exists, not by default.
+This method is distilled from the established documentation standards: Diátaxis (page types), the Google and Microsoft style guides (prose), Carroll's minimalism and Every Page Is Page One (what to cut), and community specs like standard-readme and the Good Docs Project (artifacts). The evidence behind every rule, with sources, is in `references/research-notes.md` — read it when I ask *why* a rule exists, not by default.
 
 The method has three parts, and all of them matter:
 
@@ -71,7 +71,7 @@ The full rules with rationale and examples live in `references/style-guide.md`. 
 - **S27** Docs change with code — a behavior PR without docs is incomplete
 - **S28** One feedback signal per page; every report routes to a fix
 
-## Workflow — route by what the user wants
+## Workflow — route by what I want
 
 ### Route A: "Rewrite / improve / fix this page"
 
@@ -84,7 +84,7 @@ The full rules with rationale and examples live in `references/style-guide.md`. 
 ### Route B: "What docs do I need?" / docs planning
 
 1. Read `references/coverage.md` and follow its three topic sources in order: surface inventory (every command/flag/error is reference-covered — the one place completeness beats minimality), user journey (stage → page type), question log (2nd occurrence = doc candidate, 3rd = must write).
-2. Ask what the user already has (GitHub docs, site, support channels) before recommending anything — the gap analysis matters more than the generic ideal.
+2. Ask what I already have (GitHub docs, site, support channels) before recommending anything — the gap analysis matters more than the generic ideal.
 3. Deliver: minimum coverage contract (checked against what exists), coverage matrix with empty core cells marked as backlog, and GitHub-vs-site placement per S19. Under time pressure, sequence by the journey: README → quickstart → reference → top-3 how-tos → troubleshooting.
 
 ### Route C: "Write a new page"
@@ -106,11 +106,11 @@ The full rules with rationale and examples live in `references/style-guide.md`. 
 4. Apply the **docs exemptions** before flagging anything: the S9 outcome sentence, the S12 exit ramp, reference neutrality (S17), code samples (S13–S16), and section roadmaps stay exactly as they are. A tell that is doing the page's job is not a tell.
 5. Run the voice gate from `references/checklists.md`, then deliver as usual: before → after → change-log citing H-numbers (plus the S rule where one owns the fix) → "what was deliberately NOT done", naming any tell you kept on purpose and why.
 
-## Non-negotiables (these protect the reader and the user's trust)
+## Non-negotiables (these protect the reader and my trust)
 
 - **Classify before touching prose.** Almost every docs problem is a type problem wearing a prose costume. The S7 question — teaching, doing, looking up, or understanding? — comes first, every time.
 - **Never fabricate product facts.** A docs rewrite that invents a flag or a default destroys more value than a bloated paragraph ever did. Flag uncertain items for product verification instead.
 - **Short is a discipline, not a word count.** "Short" means nothing left that the reader can't act on (S24) — not gutted. When a section survives, say why it survived.
-- **Traceability over taste.** Every change in a rewrite cites a rule number so the user can veto by rule ("keep the adjectives, I don't care for S3") instead of arguing line by line. If you make a change you can't tie to a rule, reconsider the change.
+- **Traceability over taste.** Every change in a rewrite cites a rule number so I can veto by rule ("keep the adjectives, I don't care for S3") instead of arguing line by line. If you make a change you can't tie to a rule, reconsider the change.
 - **Respect the existing voice.** The method supplies consistency; the project supplies personality. Where the two conflict, ask.
 - **Facts survive the voice pass.** De-slopping prose never adds, drops, or rewords a product claim — a tell you cannot fix without changing meaning gets reported, not smuggled. Vendored catalog, our rules: the generated region in `voice-and-tells.md` is never hand-edited, and the docs exemptions override it.

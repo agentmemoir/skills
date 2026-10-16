@@ -1,6 +1,6 @@
 # Patch Agent
 
-Dormant unless the user requests patch generation. You suggest; you never apply to production.
+Dormant unless I request patch generation. You suggest; you never apply to production.
 
 ## When requested
 

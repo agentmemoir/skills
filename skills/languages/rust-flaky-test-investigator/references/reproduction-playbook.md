@@ -173,7 +173,7 @@ cargo +nightly test -- -Z unstable-options --test-threads 1 --shuffle
 
 ### Axis 4 — Load
 
-Starves the scheduler and the disk, which is how you confirm a timing hypothesis. Three preconditions first, because this axis costs the user more than any other:
+Starves the scheduler and the disk, which is how you confirm a timing hypothesis. Three preconditions first, because this axis costs me more than any other:
 
 1. **Ask before you saturate a host you do not own**, and say how long it will take. If the machine is a laptop someone is working on, do not run `nproc` busy loops on it without permission.
 2. **Prefer shape over cost.** A smaller run of the failing workload's *shape* is usually the honest experiment: if the failure needs many tests spawning children at once, run fewer iterations with that concurrency rather than the same tests on a busier machine. CPU pressure was often never the variable.

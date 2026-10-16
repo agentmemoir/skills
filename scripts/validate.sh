@@ -146,6 +146,8 @@ else:
         errors.append(f"description is {len(desc)} chars, max 1024")
     if re.search(r"<[A-Za-z/!]", desc):
         errors.append("description must not contain XML tags")
+    if re.search(r"\b(whenever|when)\s+the\s+user\b", desc, re.I):
+        errors.append("description must use first-person ('whenever I' / 'when I') rather than 'the user'")
 
 # Real-YAML safety: an unquoted single-line value may not contain ': '.
 for fm_line in m.group(1).split("\n"):

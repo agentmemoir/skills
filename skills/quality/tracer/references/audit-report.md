@@ -30,7 +30,7 @@ Produce Markdown (this structure) plus one JSON finding per `finding.schema.json
 - Preconditions, impact (concrete), execution path
 - Reproduction (case status and result)
 - Evidence (source / test / command / external)
-- Suggested remediation (user-actionable)
+- Suggested remediation (actionable by me)
 - Patch validation (exact status)
 - Limitations (assumptions, missing evidence)
 
@@ -42,7 +42,7 @@ Produce Markdown (this structure) plus one JSON finding per `finding.schema.json
 ## Limitations and Open Questions
 - Missing tools, unavailable environments, unverified assumptions
 - Unexecuted cases, unresolved dependencies, unchecked references
-- Config not available, findings needing user clarification
+- Config not available, findings needing my clarification
 
 ## Recommended Follow-Up
 - Actions only, no automatic application (confirm prod config,

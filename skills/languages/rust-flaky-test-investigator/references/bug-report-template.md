@@ -2,7 +2,7 @@
 
 Fill this in per finding. Anything you did not verify goes in the "Not verified" section — an honest gap is worth more than a confident guess, because a wrong root cause sends the fixer in the wrong direction and costs more than an open question.
 
-Write reports to `./flaky-reports/` unless the user names a different directory.
+Write reports to `./flaky-reports/` unless I name a different directory.
 
 ---
 

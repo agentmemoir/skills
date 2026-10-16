@@ -1,6 +1,6 @@
 ---
 name: review
-description: "Run a structured, adversarial multi-agent code review pipeline on a codebase. Use this skill whenever the user wants to find bugs, audit code quality, review a codebase for issues, or run any kind of bug-finding or code analysis workflow. Also trigger when the user asks to 'review my code for bugs', 'find all issues in this repo', 'audit this codebase', or any similar request. The pipeline uses three sequential phases: a Bug Finder that maximizes issue discovery, a Bug Adversary that challenges false positives, and an Arbiter that issues final verdicts — producing a clean, high-confidence bug report."
+description: "Run a structured, adversarial multi-agent code review pipeline on a codebase. Use this skill whenever I want to find bugs, audit code quality, review a codebase for issues, or run any kind of bug-finding or code analysis workflow. Also trigger when I ask to 'review my code for bugs', 'find all issues in this repo', 'audit this codebase', or any similar request. The pipeline uses three sequential phases: a Bug Finder that maximizes issue discovery, a Bug Adversary that challenges false positives, and an Arbiter that issues final verdicts — producing a clean, high-confidence bug report."
 ---
 
 # Review
@@ -27,7 +27,7 @@ Before running any phase, ensure the output directory exists:
 mkdir -p ./issues
 ```
 
-If the user has not specified a codebase path, ask them which directory or files to analyze. If they say "this repo" or similar, use the current working directory.
+If I have not specified a codebase path, ask me which directory or files to analyze. If I say "this repo" or similar, use the current working directory.
 
 ---
 
@@ -215,16 +215,16 @@ Give benefit of the doubt to the **Bug Finder** for Critical severity bugs (bett
 
 ## Running the full pipeline
 
-When the user asks to run the bug review pipeline on a codebase:
+When I ask to run the bug review pipeline on a codebase:
 
 1. **Identify scope** — Confirm what files/directories to analyze
 2. **Read relevant code** — Load the target codebase files
 3. **Run Phase 1** — Act as Bug Finder; produce the report
 4. **Run Phase 2** — Act as Bug Adversary; challenge the report
 5. **Run Phase 3** — Act as Arbiter; produce final verdicts
-6. **Present results** — Summarize the final confirmed bug list to the user
+6. **Present results** — Summarize the final confirmed bug list to me
 
-Tell the user upfront that the pipeline has three phases and give status updates as each completes.
+Tell me upfront that the pipeline has three phases and give status updates as each completes.
 
 > **Note:** If the codebase is large (>50 files or >5,000 lines), consider running Phase 1 on focused subsystems (auth, data layer, API endpoints) rather than all files at once, to maintain analysis quality.
 

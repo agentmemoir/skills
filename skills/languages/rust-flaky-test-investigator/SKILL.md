@@ -5,7 +5,7 @@ description: >-
   flake rate, a reproduced failure, and a proven root cause. Use when a Rust test
   passes intermittently, CI is red without a code change, a test is suspected of
   being order-dependent or timing-sensitive, a test needs quarantining, or the
-  user says "flaky test", "intermittent failure", "passes on retry", "works on my
+  I say "flaky test", "intermittent failure", "passes on retry", "works on my
   machine", or asks to find which tests in a Rust suite are unreliable. Built
   around error-code triage, cargo-nextest stress runs, and controlled
   experiments. Execution-driven: never concludes a root cause from reading test
@@ -44,7 +44,7 @@ Both halves fail the same way. Three wrong mechanisms in one investigation came 
 4. **Never resolve with a retry.** Bumping `retries`, adding a sleep, or widening a timeout hides the defect. Containment is allowed only alongside a tracked bug with an owner and a deadline.
 5. **Read-only by default.** Investigate, capture, and propose. Do not edit production or test code, change runner config, or alter CI without a separate explicit request. Proposed fixes ship as diffs.
 6. **Report only what ran.** If a tool was missing, a step was skipped, a loop was cut short, or a command cache replayed a stored verdict instead of executing, say so in the report. Never present a planned step as a completed one, and never a cached result as a measurement.
-7. **Bound the cost.** Stress loops are wall-clock expensive. Default to 50 iterations, raise only with evidence that the rate is below detection at 50, and always tell the user the expected runtime before starting a long one. Never saturate the user's machine without asking: confirm it is not a battery-powered host they are working on, and prefer a smaller run of the failing workload's *shape* over a heavier run of the same tests.
+7. **Bound the cost.** Stress loops are wall-clock expensive. Default to 50 iterations, raise only with evidence that the rate is below detection at 50, and always tell me the expected runtime before starting a long one. Never saturate my machine without asking: confirm it is not a battery-powered host I am working on, and prefer a smaller run of the failing workload's *shape* over a heavier run of the same tests.
 8. **A hypothesis is not a finding until you have read the code that emits the error.** You can satisfy non-negotiable 2 with a well-designed experiment about the wrong mechanism, and then file a confident, well-structured, wrong bug. If you cannot point at the line that produced the error value, the cause is `hypothesis` in the report — not `confirmed`.
 
 ## Workflow
@@ -131,7 +131,7 @@ Axis 1 is the highest-information split. It cleanly separates "the test is inter
 
 Axis 8 deserves emphasis: hardcoded ports and fixed temp paths are the most common single cause, and they are trivially confirmable by changing one thing and re-running.
 
-Axis 4 has preconditions, because saturating a machine is a cost paid by the user. Ask before you stress a host you do not own, confirm it is not a battery-powered machine someone is working on, and state the expected runtime first. Then prefer **shape over cost**: a smaller run of the same workload shape — many tests spawning children at once — usually beats a busier machine running the same tests, and it is the cheap option that respects the user's time. Note also that a test-runner gate serialises concurrent invocations, so "run it eight times concurrently" silently becomes "run it once" and the resulting zero failures read as a pass. Check for that before trusting a load-axis result, and record the axis honestly when load produced no signal.
+Axis 4 has preconditions, because saturating a machine is a cost paid by me. Ask before you stress a host you do not own, confirm it is not a battery-powered machine I am working on, and state the expected runtime first. Then prefer **shape over cost**: a smaller run of the same workload shape — many tests spawning children at once — usually beats a busier machine running the same tests, and it is the cheap option that respects my time. Note also that a test-runner gate serialises concurrent invocations, so "run it eight times concurrently" silently becomes "run it once" and the resulting zero failures read as a pass. Check for that before trusting a load-axis result, and record the axis honestly when load produced no signal.
 
 **A host-dependent failure can be a defect in the code, not the test.** A value can be decoded, truncated, or formatted differently on some hosts. When the failure payload shows production output missing an expected element, follow the production path before proposing any test change, and never weaken the assertion to get green.
 

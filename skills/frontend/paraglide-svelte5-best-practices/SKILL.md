@@ -5,7 +5,7 @@ description: >-
   (compiler-based, tree-shakable) and Svelte 5 (runes). Covers setup, message
   authoring, locale strategies, i18n routing, SSR/SSG, rich-text markup with
   Svelte 5 snippets, reactivity patterns, testing, and troubleshooting. Use when
-  the user mentions Paraglide, inlang, paraglide-js, SvelteKit i18n, locale
+  I mention Paraglide, inlang, paraglide-js, SvelteKit i18n, locale
   switching, localized URLs, or Svelte 5 runes in an internationalization context.
 version: 1.0.0
 last_verified: 2026-09-11

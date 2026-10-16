@@ -201,7 +201,7 @@ Key points:
 
 Status as of September 2026: Svelte 5.57, SvelteKit 2.7x. Async support is still opt-in and not subject to semver; SvelteKit 3 is in release candidate. Treat this section as "know it exists and how to spot it", not as production guidance.
 
-Enable it (only when the user asks) in `svelte.config.js`:
+Enable it (only when I ask) in `svelte.config.js`:
 
 ```js
 export default {
@@ -218,7 +218,7 @@ What it allows (await expressions: Svelte ≥ 5.36; async SSR: Svelte ≥ 5.39.3
 
 Related APIs that appear in this mode: `$effect.pending()` (count of pending promises in the current boundary), `settled()` (promise that resolves when the current update is complete), and `fork()` (start async work you expect to need, for preloading).
 
-Caveats to repeat to users: APIs can change outside semver majors, effects reorder slightly (`{#if}`/`{#each}` block effects before `$effect.pre`), and streaming of boundary content is planned but not shipped. Do not build a production architecture on it yet.
+Caveats to keep in mind: APIs can change outside semver majors, effects reorder slightly (`{#if}`/`{#each}` block effects before `$effect.pre`), and streaming of boundary content is planned but not shipped. Do not build a production architecture on it yet.
 
 ### Keeping this current
 
