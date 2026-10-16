@@ -48,8 +48,8 @@ Vite inlines any env var whose name matches `envPrefix` (default: `VITE_`) direc
 
 Rules:
 - Never put an API key, database credential, or any bearer token behind a `VITE_`/`PUBLIC_` prefix and call a protected API directly from the client.
-- If the app genuinely needs to call an authenticated third-party API, the key belongs behind a separate proxy the user controls (a small serverless function, Cloudflare Worker, etc.) that injects the real credential server-side — that's a different deployment from the static site itself, so flag it explicitly rather than wiring the key into client code to make the immediate task "work."
-- Some services intentionally issue "publishable"/domain-restricted keys designed to be public (e.g. certain Stripe, Firebase, or mapping-provider keys) — those are fine in a `VITE_` var, but confirm with the user (or the provider's docs) that the specific key is meant to be public rather than assuming.
+- If the app genuinely needs to call an authenticated third-party API, the key belongs behind a separate proxy I control (a small serverless function, Cloudflare Worker, etc.) that injects the real credential server-side — that's a different deployment from the static site itself, so flag it explicitly rather than wiring the key into client code to make the immediate task "work."
+- Some services intentionally issue "publishable"/domain-restricted keys designed to be public (e.g. certain Stripe, Firebase, or mapping-provider keys) — those are fine in a `VITE_` var, but confirm with me (or the provider's docs) that the specific key is meant to be public rather than assuming.
 - `.env.local` (git-ignored by Vite's default `.gitignore` template) is for local secrets used only in `vite.config.ts`/build tooling — never re-export those into client code via a `VITE_` alias.
 
 ## 4. Content-Security-Policy on a server-less host

@@ -2,7 +2,7 @@
 name: rust-test-best-practices
 description: >-
   Guidelines for writing Rust tests that stay reliable in CI. Use when adding,
-  reviewing, or refactoring tests in a Rust project, or when a reviewer asks
+  reviewing, or refactoring tests in a Rust project, or when I ask
   whether a test is well written. Covers test layer choice, async tests with
   Tokio paused time, isolation of ports and temp dirs, resource cleanup across
   processes, reading an embedded database a child process writes, determinism

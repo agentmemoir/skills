@@ -4,7 +4,7 @@ description: >-
   Build, migrate, or review static (no server) Svelte 5 apps using runes
   ($state, $derived, $effect, $props, $bindable) instead of legacy Svelte 4
   reactivity (export let, reactive dollar-colon statements, stores-as-default).
-  Use whenever the user mentions Svelte 5, runes, a "static Svelte site",
+  Use whenever I mention Svelte 5, runes, a "static Svelte site",
   "Svelte SPA", "SvelteKit static site"/"adapter-static"/prerendered
   SvelteKit, deploying Svelte to GitHub Pages/Netlify/Cloudflare
   Pages/S3/any CDN, or converting Svelte 4 code (export let, on:click,
@@ -34,7 +34,7 @@ Ask (or infer from context) whether the app needs file-based routing, multiple p
 | Multiple routes, each prerendered to its own HTML file, SEO matters | **SvelteKit + `@sveltejs/adapter-static`** with `prerender = true`. |
 | Multiple routes, but SEO doesn't matter (internal tool, Chrome extension, Electron/Tauri UI) | **SvelteKit + `adapter-static` in SPA mode** (a single `fallback: 'index.html'` shell, client-side routing). |
 
-Default to plain Vite+Svelte unless the user specifically needs routing — it has less to misconfigure. Full setup steps, config files, and deployment notes for both paths are in `references/static-build.md`; read it before generating `svelte.config.js` / `vite.config.js` from memory, because prerender/adapter options change across Svelte versions and are easy to get subtly wrong (e.g. forgetting `trailingSlash`, or setting `ssr = false` on a page you also want prerendered, which produces an empty shell instead of real HTML).
+Default to plain Vite+Svelte unless I specifically need routing — it has less to misconfigure. Full setup steps, config files, and deployment notes for both paths are in `references/static-build.md`; read it before generating `svelte.config.js` / `vite.config.js` from memory, because prerender/adapter options change across Svelte versions and are easy to get subtly wrong (e.g. forgetting `trailingSlash`, or setting `ssr = false` on a page you also want prerendered, which produces an empty shell instead of real HTML).
 
 ## Step 2 — Write components with runes, not Svelte 4 syntax
 
@@ -60,7 +60,7 @@ When migrating existing Svelte 4 code, `npx sv migrate svelte-5` handles the mec
 Static hosting doesn't mean "no security surface" — it removes server-side attack vectors but the client-side ones (XSS, secret leakage, unsafe third-party embeds) are entirely on you since there's no server-side layer to catch them. Before finishing any task that touches user-generated content, `{@html}`, environment variables, or third-party scripts, check `references/security.md`. The highest-impact rules, so they're not missed even on a quick task:
 
 1. **Never pass unsanitized content to `{@html}`.** Svelte auto-escapes everything in `{expression}` braces, but `{@html ...}` bypasses that entirely — it is the single biggest XSS source in Svelte apps. Sanitize with DOMPurify (or a strict allowlist) immediately before rendering, not earlier in the pipeline where it might get bypassed by a later edit.
-2. **Never put a real secret behind a `VITE_`-prefixed (or SvelteKit `PUBLIC_`-prefixed) env variable.** Vite inlines these into the shipped JS bundle at build time — anyone can read them from the built files. A static-only app has no server to hide a secret behind at all, so if the app needs a real API key, the key belongs on the third-party service's server or behind a separate serverless function/proxy the user deploys elsewhere — flag this to the user rather than quietly wiring the key into client code.
+2. **Never put a real secret behind a `VITE_`-prefixed (or SvelteKit `PUBLIC_`-prefixed) env variable.** Vite inlines these into the shipped JS bundle at build time — anyone can read them from the built files. A static-only app has no server to hide a secret behind at all, so if the app needs a real API key, the key belongs on the third-party service's server or behind a separate serverless function/proxy I deploy elsewhere — flag this to me rather than quietly wiring the key into client code.
 3. **Set a Content-Security-Policy even though there's no server to send headers from.** Static hosts still support this via a `<meta http-equiv="Content-Security-Policy">` tag in `app.html`/`index.html`, or via a host-specific headers file (Netlify `_headers`, Cloudflare Pages `_headers`, Vercel `vercel.json` headers) — see `references/security.md` for both.
 4. **Treat every dynamic `href`/`src` as attacker-controlled if it can come from user input or an API response.** Svelte does not block `javascript:` URLs in `href` bindings — validate/allowlist the scheme yourself.
 5. **Run `npm audit` (or equivalent) and pin lockfiles** before shipping — static sites still ship every dependency's code straight to the browser, so a compromised dependency is a direct client-side compromise.

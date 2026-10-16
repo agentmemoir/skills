@@ -4,7 +4,7 @@ description: >-
   Build, migrate, or review server-rendered Svelte 5 apps using runes
   ($state, $derived, $effect, $props, $bindable) with SvelteKit SSR
   (adapter-auto/node/cloudflare/vercel/netlify) or plain Vite SSR using
-  svelte/server render() and hydrate(). Use whenever the user mentions Svelte 5
+  svelte/server render() and hydrate(). Use whenever I mention Svelte 5
   SSR, server-side rendering, SvelteKit load functions, +page.server.js,
   +layout.server.js, hooks.server.js, form actions, streaming SSR, CSP nonces,
   hydration mismatches, or request-scoped state. Also use to review .svelte and
@@ -135,7 +135,7 @@ In plain Svelte SSR (no SvelteKit), `$app/environment` is unavailable — use `t
 - Use `event.fetch` inside `load`: it inherits request cookies and inlines responses for hydration instead of refetching.
 - After navigation, `data` updates without recreating the component: derive from it (`$derived`) instead of copying it into non-reactive locals.
 
-Async SSR (`await` in components) and remote functions are still experimental as of Svelte 5.57 / SvelteKit 2.7x (September 2026). Do not enable `compilerOptions.experimental.async` in production code unless the user explicitly asks; the exact status and opt-in are in `references/runes-ssr.md`.
+Async SSR (`await` in components) and remote functions are still experimental as of Svelte 5.57 / SvelteKit 2.7x (September 2026). Do not enable `compilerOptions.experimental.async` in production code unless I explicitly ask; the exact status and opt-in are in `references/runes-ssr.md`.
 
 ## Step 6 — Apply the SSR security rules
 

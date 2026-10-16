@@ -1,6 +1,6 @@
 ---
 name: debloat
-description: "Enforce lean code in any language: confirm requirements, research current best practices, then write the smallest implementation that works. Use this skill whenever the user asks you to write, add, extend, or refactor code (a feature, script, module, function, endpoint, config, or integration), even if they never mention 'lean', 'minimal', or 'best practices'. Also use it when a task invites scope creep, such as 'make it flexible', 'set this up properly', or 'add support for X'. Skip it for prose, debug-only sessions, code review without edits, and one-line fixes."
+description: "Enforce lean code in any language: confirm requirements, research current best practices, then write the smallest implementation that works. Use this skill whenever I ask you to write, add, extend, or refactor code (a feature, script, module, function, endpoint, config, or integration), even if I never mention 'lean', 'minimal', or 'best practices'. Also use it when a task invites scope creep, such as 'make it flexible', 'set this up properly', or 'add support for X'. Skip it for prose, debug-only sessions, code review without edits, and one-line fixes."
 license: MIT
 ---
 
@@ -21,7 +21,7 @@ One number outranks every trade-off below, and it is checked before the task is 
 - **No file is grandfathered.** Size is never excused by age. If you modify a file that is already above 450 lines, dividing it by responsibility until every part is at 450 or fewer is part of that task — so a small edit to a large file is a large task. Size the work accordingly, and say in the final message which files you split.
 - **Markdown exempt, logic not.** Prose files cost nothing at runtime and are the only ones outside the count. Anything that executes is inside it.
 
-Only the user changes this number, and only by saying so explicitly.
+Only I change this number, and only by saying so explicitly.
 
 ## Scale the process to the task
 
@@ -35,17 +35,17 @@ Only the user changes this number, and only by saying so explicitly.
 
 Restate in your own words: the goal, inputs, outputs, and constraints (language, runtime, performance, compatibility, existing conventions). Then decide:
 
-- **Interactive session:** Ask the user to confirm. If something material is ambiguous, ask at most 3 specific questions rather than guessing.
+- **Interactive session:** Ask me to confirm. If something material is ambiguous, ask at most 3 specific questions rather than guessing.
 - **Autonomous or no-reply context:** Write the restatement as an explicit assumptions list at the top of your work, and choose the narrowest interpretation.
 - **Existing codebase:** Read the neighboring code first so your requirements include its conventions (naming, error style, test framework, dependency policy).
 
-Done when the user confirms, or the task is small enough that the restatement is the confirmation. Guessed requirements fail this gate, because code built on them is the most expensive kind to throw away.
+Done when I confirm, or the task is small enough that the restatement is the confirmation. Guessed requirements fail this gate, because code built on them is the most expensive kind to throw away.
 
 ## Gate 2: Best-Practices Research
 
 Use your agent's search and page-reading tools to find current canonical guidance for the specific task: official docs, language or framework standards, RFCs, or widely cited guides. Prefer sources matching the project's actual language and version. Avoid blog folklore and answers that predate the version in use.
 
-If no search tool is available, say so, fall back to established patterns in the codebase and your own knowledge, and flag anything version-sensitive that the user should verify.
+If no search tool is available, say so, fall back to established patterns in the codebase and your own knowledge, and flag anything version-sensitive that I should verify.
 
 Done when you can state:
 

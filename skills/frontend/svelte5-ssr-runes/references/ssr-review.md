@@ -1,6 +1,6 @@
 # Reviewing an Existing SSR App — Checklist
 
-A build-focused skill needs a review counterpart: when the user asks to audit, debug, or review an existing SvelteKit/SSR app, walk this list and collect findings with file and line. Each item names the failure it catches, not just the rule.
+A build-focused skill needs a review counterpart: when I ask to audit, debug, or review an existing SvelteKit/SSR app, walk this list and collect findings with file and line. Each item names the failure it catches, not just the rule.
 
 ## 1. Rendering modes
 

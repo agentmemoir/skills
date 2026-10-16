@@ -7,7 +7,7 @@ const config = {
 
   // Async SSR + remote functions are experimental (await expressions: Svelte 5.36+;
   // async SSR: Svelte 5.39.3+ with SvelteKit 2.43+).
-  // Leave off unless the user explicitly asks; see references/runes-ssr.md.
+  // Leave off unless I explicitly ask; see references/runes-ssr.md.
   // compilerOptions: { experimental: { async: true } },
 
   kit: {

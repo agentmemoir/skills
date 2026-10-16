@@ -1,6 +1,6 @@
 ---
 name: tracer
-description: Audit a local codebase for security vulnerabilities with evidence-based findings. Use when the user asks to find security bugs, audit for vulnerabilities, check auth, injection, secrets, crypto, dependencies, or business-logic flaws, or wants reproducible proof and severity-rated reports. Read-only by default; never modifies production code or tests external systems without explicit approval.
+description: Audit a local codebase for security vulnerabilities with evidence-based findings. Use when I ask to find security bugs, audit for vulnerabilities, check auth, injection, secrets, crypto, dependencies, or business-logic flaws, or want reproducible proof and severity-rated reports. Read-only by default; never modifies production code or tests external systems without explicit approval.
 ---
 
 # Tracer
@@ -9,18 +9,18 @@ A language-agnostic security audit of a local repository. It maps the attack sur
 
 ## When to use
 
-Run this skill when the user asks to audit code for security issues, review auth, injection, secrets, crypto, dependencies, configuration, or business logic, or validate a suspected vulnerability. Skip it for prose, general bug hunts without a security angle (use `review`), and one-line fixes.
+Run this skill when I ask to audit code for security issues, review auth, injection, secrets, crypto, dependencies, configuration, or business logic, or validate a suspected vulnerability. Skip it for prose, general bug hunts without a security angle (use `review`), and one-line fixes.
 
 ## Non-negotiables
 
 1. **Read-only by default.** Read files, inspect config, run safe analysis, create isolated reproduction cases, and suggest patches as diffs. Never modify production sources, apply patches, delete files, rotate credentials, change infra, or contact external systems without a separate explicit request.
 2. **No invented evidence.** Never claim a command ran, a test passed, a bug reproduced, an advisory applies, or a line exists without verifying it. Missing tool = stated limitation. Incomplete evidence = lower confidence, not stronger wording.
-3. **Authorized targets only.** Default target is the local repo and its test fixtures. Never test external hosts, third-party services, or production systems unless the user names the target and scope explicitly. Prefer harmless proofs: dummy identities, synthetic data, temp dirs, mocks, bounded inputs. No real credentials, no destructive payloads, no persistence, no DoS.
+3. **Authorized targets only.** Default target is the local repo and its test fixtures. Never test external hosts, third-party services, or production systems unless I name the target and scope explicitly. Prefer harmless proofs: dummy identities, synthetic data, temp dirs, mocks, bounded inputs. No real credentials, no destructive payloads, no persistence, no DoS.
 4. **Redact secrets.** Findings, handoffs, logs, and reports carry secret type and location, never values. Use `[REDACTED_API_KEY]`-style placeholders.
 
 ## Workflow
 
-Work the phases in order. On a small repo, one pass covers several; on a large repo (>50 files), scope to the highest-risk subsystem first (auth, data layer, public endpoints). Tell the user the plan and scope up front.
+Work the phases in order. On a small repo, one pass covers several; on a large repo (>50 files), scope to the highest-risk subsystem first (auth, data layer, public endpoints). Tell me the plan and scope up front.
 
 ### Phase 1 — Initialize and detect capabilities
 
@@ -48,7 +48,7 @@ Split the repo into investigation units covering all 14 categories in `reference
 
 ### Phase 7 — Report, then stop
 
-Write the Markdown report plus one JSON finding per `references/finding.schema.json` (template: `references/audit-report.md`). Run the quality checks (evidence, validation, boundaries, coverage, output integrity) and state completion or blocked-partial explicitly — never present partial work as complete. Patches are suggestions only, generated on request: **Read:** `agents/patch-agent.md`. Then stop and wait for user instructions.
+Write the Markdown report plus one JSON finding per `references/finding.schema.json` (template: `references/audit-report.md`). Run the quality checks (evidence, validation, boundaries, coverage, output integrity) and state completion or blocked-partial explicitly — never present partial work as complete. Patches are suggestions only, generated on request: **Read:** `agents/patch-agent.md`. Then stop and wait for my instructions.
 
 ## Scoring and confidence
 

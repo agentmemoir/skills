@@ -1,14 +1,14 @@
 ---
 name: verification-antipattern
 description: >-
-  Detects hostile verification gates and recommends concrete fixes: lint, format, typecheck, build, test, coverage, mutation, or security checks that take more than 5 minutes and block a developer or agent. Use when a verification command runs longer than 5 minutes, when CI feedback or merge queues are slow, when a pre-commit hook or local gate blocks, when asked to speed up a test, check, build, or coverage gate, or when agent-added checks have inflated verification time.
+  Detects hostile verification gates and recommends concrete fixes: lint, format, typecheck, build, test, coverage, mutation, or security checks that take more than 5 minutes and block me or an agent. Use when a verification command runs longer than 5 minutes, when CI feedback or merge queues are slow, when a pre-commit hook or local gate blocks, when asked to speed up a test, check, build, or coverage gate, or when agent-added checks have inflated verification time.
 ---
 
 # Verification Antipattern
 
 A **verification gate** is any automated check whose failure blocks, fails, or delays accepted work: lint, format, typecheck, build, tests, coverage, mutation and fault injection, security scans, packaging, generated-code and docs checks.
 
-A **hostile gate** keeps a person or agent waiting beyond the published guidelines, or it grows with no budget and no owner. The default output of this skill is a finding and a plan, not a rewrite. Change gates only when the task asks for a fix.
+A **hostile gate** keeps me or an agent waiting beyond the published guidelines, or it grows with no budget and no owner. The default output of this skill is a finding and a plan, not a rewrite. Change gates only when the task asks for a fix.
 
 ## Precedence over other skills
 
@@ -21,13 +21,13 @@ This skill fires after a gate already passed 5 minutes. Do not sit and watch it.
 - Move the running command to the background, or let CI own it. Keep a log and a completion signal, and continue with other work.
 - Do not re-run the gate after every small edit. Batch edits, then run it once.
 - Record the observed duration and the exact command now. That observation is the first measurement.
-- If the gate is on a commit, push, or merge path, say so plainly: a person or agent is blocked by it.
+- If the gate is on a commit, push, or merge path, say so plainly: it blocks me or an agent.
 
 ## The threshold, stated honestly
 
 - **5 minutes** is the published ideal for a commit stage. Humble & Farley, *Continuous Delivery*: the commit stage should "ideally take less than five minutes to run". It is a professional guideline, not a measured point where harm starts.
 - **10 minutes** is the published ceiling. Fowler/XP: "the XP guideline of a ten minute build". DORA: developers should "get feedback from automated tests in less than ten minutes". It was also the most common maximum acceptable build time among 523 developers (Hilton et al. 2017).
-- Blocking a person or agent for over 5 minutes is a finding. Blocking for over 10 minutes is urgent: it exceeds every major published guideline.
+- Blocking me or an agent for over 5 minutes is a finding. Blocking for over 10 minutes is urgent: it exceeds every major published guideline.
 - Duration alone does not make an off-path gate hostile. A nightly, post-submit, release, or security gate may run long. Judge blocking position first, then duration. An off-path gate is still hostile when it has no owner, no deadline, or a result nobody acts on.
 - Never claim that 5 minutes is where people disengage. Quotes, counter-evidence, and caveats: `references/evidence.md`.
 
@@ -60,8 +60,8 @@ Completion: every gate has a measured time or an explicit unknown with the reaso
 
 | Observation | Verdict |
 |---|---|
-| Blocks a person or agent, over 10 minutes | Hostile, urgent |
-| Blocks a person or agent, 5–10 minutes | Hostile finding; above the published ideal, inside the published ceiling |
+| Blocks me or an agent, over 10 minutes | Hostile, urgent |
+| Blocks me or an agent, 5–10 minutes | Hostile finding; above the published ideal, inside the published ceiling |
 | Off the blocking path, with an owner and a deadline | Acceptable while long |
 | Off the blocking path, with no owner, deadline, or acting consumer | Hostile finding; results nobody consumes rot |
 | Under 5 minutes, but flaky, duplicated, or unpriced | Secondary finding |
@@ -93,7 +93,7 @@ Detection signals, fixes, and trade-offs: `references/antipatterns.md`.
 
 Default order, cheapest safe wins first.
 
-1. **Take the person off the hook.** Move the long gate to CI, background, or a scheduled stage. Keep a fast local subset, measured in seconds, on the commit path. Gives up: nothing immediate, when the full gate still runs before merge.
+1. **Take me off the hook.** Move the long gate to CI, background, or a scheduled stage. Keep a fast local subset, measured in seconds, on the commit path. Gives up: nothing immediate, when the full gate still runs before merge.
 2. **Delete duplicate work.** Remove exact duplicates, second coverage passes, and whole-repo lint on small changes. Gives up: fidelity only where the duplicate was not exact.
 3. **Bound the run.** Add per-test and per-job deadlines from measured baselines; fail fast. Gives up: breadth within one run, recoverable by re-running.
 4. **Select the scope.** Use diff, dependency graph, or coverage selection for tests and lint. Gives up: some detection per change; bound it with a full-run backstop.
@@ -140,7 +140,7 @@ An added check can be useful, but it must be priced before it is placed.
 
 ## Rules
 
-- Protect the operator's time: run the smallest check that can fail, batch edits, and never re-run an unchanged slow gate.
+- Protect my time: run the smallest check that can fail, batch edits, and never re-run an unchanged slow gate.
 - Keep proof: no speed fix may silently drop verification. State what each fix gives up, and keep the backstop that catches what selection or caching skips.
 - Measure before and after. Never claim a saving you did not measure.
 - One gate, one definition: local and CI run the same check; only the scope and stage differ.

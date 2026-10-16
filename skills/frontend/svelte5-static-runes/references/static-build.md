@@ -53,7 +53,7 @@ Leave `fallback` unset. Every route SvelteKit can statically render becomes its 
 
 1. **Don't set `export const ssr = false` on a page you also want prerendered.** `ssr = false` renders an empty shell — the prerendered file will exist but contain no real HTML, only a mount point. `ssr` and `prerender` are separate switches; for real prerendered content you need `ssr` to stay `true` (its default) and `prerender = true`.
 2. **`trailingSlash`.** If the static host serves `/a.html` when a browser requests `/a` (most do, including GitHub Pages and Netlify), the default is fine. If your host requires an actual `/a/index.html` for a request to `/a/`, set `export const trailingSlash = 'always'` in the root layout so SvelteKit emits `a/index.html` instead of `a.html`.
-3. Any route that isn't purely static-renderable at build time (reads `params` that aren't enumerable, depends on request headers/cookies, uses `+page.server.js`/`+server.js`) cannot be prerendered — those files are exactly what "static-only" rules out. If the user's app has any of these, flag it: either the data source needs to move to build-time (fetch at build, bake into the page) or the feature needs a different hosting model entirely (this skill doesn't cover that).
+3. Any route that isn't purely static-renderable at build time (reads `params` that aren't enumerable, depends on request headers/cookies, uses `+page.server.js`/`+server.js`) cannot be prerendered — those files are exactly what "static-only" rules out. If my app has any of these, flag it: either the data source needs to move to build-time (fetch at build, bake into the page) or the feature needs a different hosting model entirely (this skill doesn't cover that).
 
 ### SPA mode (fallback shell, client-side routing)
 
