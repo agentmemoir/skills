@@ -1,0 +1,57 @@
+name: humanizer upstream
+
+# The vendored humanizer catalog in wordsmith is pinned to a specific upstream
+# release (skills/writing/wordsmith/references/upstream/humanizer.json). This job
+# is the only thing that notices when upstream moves while we are idle: PRs stay
+# offline-deterministic (npm test checks the region against the pin), and this
+# weekly probe reports drift as an issue plus a red run.
+on:
+  schedule:
+    - cron: "0 7 * * 1" # Mondays, 07:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  drift:
+    name: is the pinned humanizer stale?
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Probe upstream
+        id: probe
+        run: |
+          set +e
+          output=$(node scripts/sync-humanizer.cjs --live 2>&1)
+          code=$?
+          set -e
+          printf '%s\n' "$output"
+          {
+            echo "output<<PROBE_EOF"
+            printf '%s\n' "$output"
+            echo "PROBE_EOF"
+          } >> "$GITHUB_OUTPUT"
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+      - name: File or update the drift issue
+        if: steps.probe.outputs.code == '10'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BODY: ${{ steps.probe.outputs.output }}
+        run: |
+          title="humanizer: a newer upstream release is available"
+          existing=$(gh issue list --state open --search "$title in:title" --json number --jq '.[0].number // empty')
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body "$BODY"
+          else
+            gh issue create --title "$title" --body "$BODY"
+          fi
+      - name: Fail so the drift is loud
+        if: steps.probe.outputs.code == '10'
+        run: |
+          echo "Upstream humanizer moved. Run: npm run update:humanizer"
+          exit 1

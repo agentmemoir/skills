@@ -1,0 +1,129 @@
+{
+  "schema_version": "1.0",
+  "finding_id": "FLAKY-001",
+  "title": "object_put_converges_on_remote_target fails ~8% of runs with EADDRINUSE: fake target binds a hardcoded port",
+  "test_id": "e2e_test replication_target_matrix_test::object_put_converges_on_remote_target",
+  "test_file": "crates/e2e_test/src/replication_target_matrix_test.rs",
+  "test_layer": "e2e",
+  "root_cause_family": "resource_contention",
+  "severity": "high",
+  "confidence": "confirmed",
+  "cause_basis": "measured",
+  "defect_location": "test",
+  "flake_rate": {
+    "iterations": 50,
+    "failures": 4,
+    "percent": 8,
+    "observed_under_load": false,
+    "measured_with_retries": false,
+    "runs_distinct": true
+  },
+  "reproduction": {
+    "status": "reproduced",
+    "command": "cargo nextest run -E 'test(replication_target_matrix_test::object_put_converges_on_remote_target)' --stress-count 50 --no-fail-fast",
+    "runner": "nextest",
+    "profile": "e2e-repl-nightly",
+    "gates_prs": false,
+    "environment": {
+      "os": "linux",
+      "cpus": 4,
+      "build_profile": "debug",
+      "under_load": false,
+      "in_container": false
+    }
+  },
+  "failure_signature": "thread 'object_put_converges_on_remote_target' panicked at crates/e2e_test/src/replication_target_matrix_test.rs:212:14:\n  called `Result::unwrap()` on an `Err` value: Address already in use (os error 98)\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\nThe failure is always at mock-target bind, never at the convergence assertion.",
+  "error_decode": [
+    {
+      "value": "os error 98",
+      "kind": "errno",
+      "meaning": "EADDRINUSE - the address is already in use. Linux value 98; the macOS value is 48, so the number is resolved on the host that failed.",
+      "source": "python3 -c 'import os; print(os.strerror(98))' on the Linux runner; /usr/include/asm-generic/errno-base.h",
+      "emitted_by": "crates/e2e_test/src/replication_target_matrix_test.rs:212 - start_fake_target's listener bind, which unwraps the TcpListener::bind result"
+    },
+    {
+      "value": "crates/e2e_test/src/replication_target_matrix_test.rs:212",
+      "kind": "panic_message",
+      "meaning": "The unwrap is at the fixture's bind, so the failure is in setup rather than in the replication logic the test exists to check.",
+      "source": "RUST_BACKTRACE=1 run of the failing iteration",
+      "emitted_by": "same line; backtrace confirms no frames below the fixture's own bind"
+    }
+  ],
+  "symptom_summary": "Fails roughly 8% of runs with EADDRINUSE while binding the fake replication target, and only when the sibling test in the same module also runs. Passes 50/50 when run alone.",
+  "root_cause": "The fake replication target binds a hardcoded port (9411) instead of an ephemeral one, and two tests in the same module bind it concurrently. Under process-per-test execution their lifetimes overlap, so whichever loses the bind panics at setup. The convergence logic under test is never reached on a failing run, so the failure signature is misleading: it looks like a replication bug and is a fixture collision.",
+  "discrimination": [
+    {
+      "axis": "isolation",
+      "command": "cargo nextest run -E 'test(replication_target_matrix_test::object_put_converges_on_remote_target)' --stress-count 50 --no-fail-fast",
+      "outcome": "50 iterations, 0 failures.",
+      "implication": "The test is internally deterministic. Eliminates async scheduling, wall-clock timing, orphan-task, and cancellation-safety families as the cause of the observed failure."
+    },
+    {
+      "axis": "serialization",
+      "command": "cargo nextest run --stress-count 5 -j 1",
+      "outcome": "Full suite passed with no failures across 5 iterations.",
+      "implication": "The failure requires concurrency. Narrowing to resource contention or global-state mutation, and away from anything intrinsic to the test body."
+    },
+    {
+      "axis": "ordering",
+      "command": "cargo nextest run -E 'test(replication_target_matrix_test::delete_marker_replication) + test(replication_target_matrix_test::object_put_converges_on_remote_target)' --stress-count 20 --no-fail-fast",
+      "outcome": "7 failures in 20 iterations, all EADDRINUSE, all in the put test.",
+      "implication": "The failure follows the sibling test. Confirms a shared-resource collision between two specific tests rather than a general parallelism problem, and rules out order dependence in the sense of leaked state (nothing is left behind; the resource is held concurrently)."
+    },
+    {
+      "axis": "resources",
+      "command": "applied fix: bind 127.0.0.1:0 and read back listener.local_addr(); then re-ran the same 20-iteration pair",
+      "outcome": "20 iterations, 0 failures. Reverting to port 9411 reproduced 6 failures in 20.",
+      "implication": "Directly confirms the hardcoded port as the cause, in both directions."
+    },
+    {
+      "axis": "load",
+      "command": "not run",
+      "outcome": "skipped",
+      "implication": "Load was not needed to reproduce; the failure rate at rest was already 8%, well above the noise floor. Recorded as unverified rather than assumed."
+    }
+  ],
+  "confirming_experiment": {
+    "hypothesis": "If the hardcoded port 9411 is the cause, then binding an ephemeral port removes the failure and restoring the hardcoded port brings it back.",
+    "experiment": "Patched the fake target fixture to bind 127.0.0.1:0 and pass listener.local_addr() to the client, ran the failing pair for 20 iterations, then reverted the patch and ran the same pair for 20 iterations.",
+    "result": "Patched: 0 failures in 20. Reverted: 6 failures in 20, all EADDRINUSE at the same line. Both directions observed.",
+    "both_directions_tested": true
+  },
+  "policy_context": {
+    "existing_quarantine_entry": false,
+    "linked_issue": null,
+    "violates_written_rule": "docs/testing/README.md requires per-test random ports and isolated temp dirs; this fixture uses a fixed port.",
+    "relies_on_inert_serial_attr": false,
+    "constraints_on_fix": [
+      "Must not add the test to a max-threads = 1 test group, since the project rule is isolation over serialization and the fix is two lines.",
+      "The outbound target matrix expectation table in docs pins known-red cells to an open issue; the fixed port is not one of those cells, so no expectation-table change is needed."
+    ]
+  },
+  "proposed_fix": {
+    "summary": "Bind the fake replication target to an ephemeral port and read the assigned address back, instead of hardcoding 9411.",
+    "diff": "--- a/crates/e2e_test/src/replication_target_matrix_test.rs\n+++ b/crates/e2e_test/src/replication_target_matrix_test.rs\n@@ -198,9 +198,11 @@ async fn start_fake_target() -> FakeTarget {\n-    let listener = TcpListener::bind(\"127.0.0.1:9411\").await.unwrap();\n-    let addr = SocketAddr::from(([127, 0, 0, 1], 9411));\n+    // Bind 0 so the OS assigns a free port. A hardcoded port collides with\n+    // any sibling test that starts a fake target concurrently.\n+    let listener = TcpListener::bind(\"127.0.0.1:0\").await.unwrap();\n+    let addr = listener.local_addr().unwrap();\n     FakeTarget { listener, addr }\n }\n",
+    "applied": false,
+    "rejected_alternatives": [
+      "Add retries=2 for this test. Rejected: the project flake policy requires a linked open issue and a fix-or-delete deadline, and this is a two-line fix with a confirmed cause.",
+      "Add a [test-groups] entry with max-threads = 1. Rejected: slower, and it leaves the collision in place for anyone who adds a third sibling later.",
+      "Widen the mock target startup timeout. Rejected: the failure is a bind error, not a timeout, so no timeout change affects it."
+    ],
+    "expected_effect": "Flake rate at 50 iterations goes from 8% to 0%. Predicted from the confirming experiment, not yet measured on the full pair plus the rest of the module."
+  },
+  "blast_radius": [
+    "delete_marker_replication in the same module binds the same port and is the observed collision partner.",
+    "Any future test in replication_target_matrix_test that calls start_fake_target inherits the same collision, so the fix removes a recurring class rather than one instance."
+  ],
+  "not_verified": [
+    "The fix was not applied, so the 0% rate is predicted from the two-direction experiment rather than measured on a full 50-iteration run of the patched module.",
+    "Not tested on macOS or ARM; the CI lane is Linux-only.",
+    "Did not check whether other e2e modules hardcode ports, so the blast radius outside this module is unquantified.",
+    "Did not run the load axis, so it is unconfirmed whether the rate also rises under CPU pressure.",
+    "Did not verify the claim about the project's quarantine policy against .config/nextest.toml; it comes from docs/testing/README.md."
+  ],
+  "suggested_next_step": "Apply the two-line port fix, run the full module for 50 iterations to confirm 0%, then open an issue referencing FLAKY-001 and attach the stress output as evidence.",
+  "tooling_gaps": [
+    "tokio-console was not installed, so had the failure turned out to be a hang rather than a bind error there would have been no task-level introspection available.",
+    "No nightly toolchain, so the shuffle-seed ordering sweep and ThreadSanitizer were unavailable; neither was needed here."
+  ]
+}

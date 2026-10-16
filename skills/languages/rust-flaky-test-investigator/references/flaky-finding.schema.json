@@ -1,0 +1,523 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "rust-flaky-test-investigator finding",
+  "description": "One flaky Rust test, filed as a bug. Every measurement must come from a command that was actually run; use null for unknowns, never guess. confidence=confirmed requires a completed discriminating experiment.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "finding_id",
+    "test_id",
+    "title",
+    "root_cause_family",
+    "severity",
+    "confidence",
+    "flake_rate",
+    "reproduction"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "finding_id": {
+      "type": "string",
+      "pattern": "^FLAKY-[0-9]{3,}$"
+    },
+    "test_id": {
+      "type": "string",
+      "description": "nextest-form identifier: binary::module::test_name"
+    },
+    "title": {
+      "type": "string"
+    },
+    "test_file": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "test_layer": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "unit",
+        "crate_integration",
+        "e2e",
+        "conformance",
+        "fuzz",
+        "doc",
+        "bench",
+        null
+      ]
+    },
+    "root_cause_family": {
+      "type": "string",
+      "description": "One of the nineteen families in references/flaky-taxonomy.md, plus environment_only for a cause that could not be attributed to a mechanism, and unclassified when the family is genuinely unclear.",
+      "enum": [
+        "wall_clock_timing",
+        "scheduling_starvation",
+        "orphan_background_work",
+        "cancellation_safety",
+        "global_state_mutation",
+        "resource_contention",
+        "order_dependence",
+        "nondeterministic_data",
+        "background_io_contention",
+        "cleanup_leak",
+        "memory_pressure",
+        "runner_misconfiguration",
+        "dns_hostname_identity",
+        "environment_derived_test_data",
+        "self_inflicted_resource_damage",
+        "async_executor_blocking",
+        "subprocess_pipe_deadlock",
+        "floating_point_comparison",
+        "platform_filesystem_semantics",
+        "environment_only",
+        "unclassified"
+      ]
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "confirmed",
+        "probable",
+        "hypothesis"
+      ],
+      "description": "confirmed requires a completed discriminating experiment. Reading code is never sufficient for confirmed."
+    },
+    "cause_basis": {
+      "type": "string",
+      "enum": [
+        "measured",
+        "inferred",
+        "environmental"
+      ],
+      "description": "Whether the cause was measured here. measured = a discriminating experiment confirmed it locally. inferred = the mechanism comes from the decoded error value plus reading the emitting code path, and no local run reproduced it. environmental = no mechanism could be attributed. Required whenever reproduction.status is not_reproduced or inconclusive."
+    },
+    "defect_location": {
+      "type": "string",
+      "enum": [
+        "test",
+        "production",
+        "both",
+        "infrastructure",
+        "unknown"
+      ],
+      "description": "Where the fix belongs. 'production' means the test exposed a real defect."
+    },
+    "flake_rate": {
+      "type": "object",
+      "description": "A rate is only valid with a sample size. iterations=0 means not measured, which caps confidence at 'hypothesis'.",
+      "required": [
+        "iterations",
+        "failures"
+      ],
+      "properties": {
+        "iterations": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "failures": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "percent": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 100
+        },
+        "observed_under_load": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "measured_with_retries": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "runs_distinct": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "Whether every iteration actually executed. false means a command cache may have replayed stored verdicts, so the iteration count does not bound the rate."
+        }
+      }
+    },
+    "reproduction": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "reproduced",
+            "not_reproduced",
+            "inconclusive",
+            "blocked"
+          ]
+        },
+        "command": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "runner": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "nextest",
+            "cargo_test",
+            "other",
+            null
+          ]
+        },
+        "profile": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "gates_prs": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "environment": {
+          "type": "object",
+          "properties": {
+            "os": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "cpus": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "build_profile": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "debug",
+                "release",
+                null
+              ]
+            },
+            "under_load": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "in_container": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "failure_signature": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "error_decode": {
+      "type": "array",
+      "description": "Every distinct value the error carries, resolved against the vendor's own documentation. See references/error-triage.md. One entry per value, not one per hypothesis.",
+      "items": {
+        "type": "object",
+        "required": [
+          "value",
+          "kind",
+          "meaning"
+        ],
+        "properties": {
+          "value": {
+            "type": "string",
+            "description": "As printed in the output, e.g. 'extended_code: 776' or 'os error 48'."
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "vendor_error_code",
+              "primary_code",
+              "extended_code",
+              "errno",
+              "exit_signal",
+              "http_status",
+              "grpc_status",
+              "sqlstate",
+              "panic_message"
+            ]
+          },
+          "meaning": {
+            "type": "string",
+            "description": "The documented meaning, in the vendor's terms. Not a guess."
+          },
+          "source": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Where the meaning was resolved from, with a URL or version."
+          },
+          "emitted_by": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The code path that can produce this value, as file:line. Null means the value was never matched against the code that emits it, so the cause stays a hypothesis."
+          }
+        }
+      }
+    },
+    "symptom_summary": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "root_cause": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "The mechanism, not the symptom. Must be null when confidence is 'hypothesis' and no experiment was run."
+    },
+    "discrimination": {
+      "type": "array",
+      "description": "Controlled experiments, one entry per axis of the discrimination matrix in SKILL.md. 'implication' is what the outcome rules in or out. Retry behaviour is not a matrix axis; record it in flake_rate.measured_with_retries and in the reproduction command instead.",
+      "items": {
+        "type": "object",
+        "required": [
+          "axis",
+          "outcome",
+          "implication"
+        ],
+        "properties": {
+          "axis": {
+            "type": "string",
+            "enum": [
+              "isolation",
+              "serialization",
+              "ordering",
+              "load",
+              "build_profile",
+              "environment",
+              "cleanup",
+              "resources"
+            ]
+          },
+          "command": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "outcome": {
+            "type": "string"
+          },
+          "implication": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "confirming_experiment": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "Null when no experiment was run, which caps confidence at 'hypothesis'.",
+      "required": [
+        "hypothesis",
+        "experiment",
+        "result"
+      ],
+      "properties": {
+        "hypothesis": {
+          "type": "string"
+        },
+        "experiment": {
+          "type": "string"
+        },
+        "result": {
+          "type": "string"
+        },
+        "both_directions_tested": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      }
+    },
+    "policy_context": {
+      "type": "object",
+      "properties": {
+        "existing_quarantine_entry": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "linked_issue": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "violates_written_rule": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "relies_on_inert_serial_attr": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "constraints_on_fix": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "proposed_fix": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "summary": {
+          "type": "string"
+        },
+        "diff": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "applied": {
+          "type": "boolean"
+        },
+        "rejected_alternatives": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "expected_effect": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "blast_radius": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Other tests or paths sharing this cause. Several symptoms with one cause is one bug."
+    },
+    "not_verified": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Required to be non-empty when confidence is not 'confirmed'."
+    },
+    "suggested_next_step": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "tooling_gaps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tools or capabilities that were unavailable and limited the investigation."
+    }
+  },
+  "allOf": [
+    {
+      "description": "A finding that never reproduced locally must say so in its shape, not just in prose: the cause basis is inferred, and the honest gaps are listed. A filed issue is read by someone who will implement it.",
+      "if": {
+        "properties": {
+          "reproduction": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "not_reproduced",
+                  "inconclusive",
+                  "blocked"
+                ]
+              }
+            }
+          }
+        },
+        "required": [
+          "reproduction"
+        ]
+      },
+      "then": {
+        "required": [
+          "cause_basis",
+          "not_verified"
+        ],
+        "properties": {
+          "cause_basis": {
+            "enum": [
+              "inferred",
+              "environmental"
+            ]
+          },
+          "not_verified": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ]
+}

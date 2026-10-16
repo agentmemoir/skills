@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Pre-commit hook: verify skill frontmatter, marketplace sync, and JSON formatting.
+set -euo pipefail
+
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
+bash scripts/validate.sh --quick

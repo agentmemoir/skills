@@ -1,0 +1,29 @@
+{
+  "name": "agentmemoir-skills",
+  "owner": {
+    "name": "agentmemoir"
+  },
+  "plugins": [
+    {
+      "name": "agentmemoir-skills",
+      "source": "./",
+      "description": "Agent skills collection by agentmemoir.",
+      "strict": false,
+      "skills": [
+        "./skills/frontend/paraglide-svelte5-best-practices",
+        "./skills/frontend/svelte5-ssr-runes",
+        "./skills/frontend/svelte5-static-runes",
+        "./skills/languages/python-subprocess-and-concurrency",
+        "./skills/languages/rust-flaky-test-investigator",
+        "./skills/languages/rust-test-best-practices",
+        "./skills/languages/sql-guidelines",
+        "./skills/quality/autopsy",
+        "./skills/quality/debloat",
+        "./skills/quality/review",
+        "./skills/quality/tracer",
+        "./skills/quality/verification-antipattern",
+        "./skills/writing/wordsmith"
+      ]
+    }
+  ]
+}

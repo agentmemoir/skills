@@ -1,0 +1,12 @@
+# Netlify / Cloudflare Pages headers file.
+# Place at the root of the published static output directory (e.g. dist/ or build/).
+# Adjust connect-src/img-src to match the actual APIs and asset hosts the app uses.
+
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), camera=(), microphone=()
+
+# For SPA-mode fallback routing on Netlify, also add a _redirects file alongside this one:
+# /*    /index.html   200

@@ -1,0 +1,256 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AutopsyFindings",
+  "type": "object",
+  "required": [
+    "subject",
+    "verdict",
+    "verdict_justification",
+    "requirements",
+    "issues"
+  ],
+  "properties": {
+    "subject": {
+      "type": "string",
+      "description": "The title or subject of the work under review."
+    },
+    "verdict": {
+      "type": "string",
+      "enum": [
+        "Excellent",
+        "Good",
+        "Adequate",
+        "Inadequate"
+      ],
+      "description": "High-level verdict on the work under review."
+    },
+    "verdict_justification": {
+      "type": "string",
+      "description": "2-3 sentence justification for the verdict."
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "generated": {
+          "type": "string",
+          "description": "Date in YYYY-MM-DD format."
+        },
+        "applies_to": {
+          "type": "string",
+          "description": "Commit SHA, tag, or version."
+        },
+        "source": {
+          "type": "string",
+          "description": "What files or artifacts were evaluated."
+        }
+      },
+      "additionalProperties": false
+    },
+    "standard": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "What the work was judged against (requirements, implicit expectations, constraints)."
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "requirement",
+          "status",
+          "evidence"
+        ],
+        "properties": {
+          "requirement": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Fully satisfied",
+              "Partially satisfied",
+              "Missed",
+              "Not applicable"
+            ]
+          },
+          "evidence": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "Low",
+              "Medium",
+              "High",
+              "Critical"
+            ]
+          },
+          "confidence": {
+            "type": "string"
+          },
+          "correction_needed": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "title",
+          "severity",
+          "why_it_matters",
+          "impact",
+          "evidence",
+          "confidence",
+          "proposed_fix"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "Critical",
+              "Important",
+              "Minor",
+              "Dismissed"
+            ]
+          },
+          "why_it_matters": {
+            "type": "string"
+          },
+          "impact": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "string",
+            "enum": [
+              "High",
+              "Medium",
+              "Low"
+            ]
+          },
+          "proposed_fix": {
+            "type": "string"
+          },
+          "fixed": {
+            "type": "boolean",
+            "description": "Set to true when the issue has been resolved."
+          },
+          "commentary": {
+            "type": "string",
+            "description": "Concise explanation of what was done to fix the issue or how it was resolved."
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "dismissed": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Things considered as potential issues but dismissed upon review."
+    },
+    "verification": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "claim",
+          "classification"
+        ],
+        "properties": {
+          "claim": {
+            "type": "string"
+          },
+          "classification": {
+            "type": "string",
+            "enum": [
+              "Established",
+              "Supported",
+              "Inferred",
+              "Uncertain",
+              "Contradicted"
+            ]
+          },
+          "source_note": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "unknowns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "what"
+        ],
+        "properties": {
+          "what": {
+            "type": "string"
+          },
+          "why_unknown": {
+            "type": "string"
+          },
+          "what_would_resolve_it": {
+            "type": "string"
+          },
+          "materiality": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "strengths": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "regrets": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "process_changes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "plan_1hr": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "plan_unlimited": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "tracer finding",
+  "description": "Final finding contract. score must match severity (low=1, medium=5, critical=10). Use null for unknowns; never guess.",
+  "type": "object",
+  "required": ["schema_version", "finding_id", "title", "category", "severity", "score", "confidence", "status"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0" },
+    "finding_id": { "type": "string", "pattern": "^SEC-[0-9]{3,}$" },
+    "title": { "type": "string" },
+    "category": {
+      "type": "string",
+      "enum": ["authentication", "authorization", "injection", "validation", "secrets", "cryptography", "data_protection", "serialization", "dependency", "configuration", "business_logic", "concurrency", "error_handling", "other"]
+    },
+    "severity": { "type": "string", "enum": ["low", "medium", "critical"] },
+    "score": { "type": "integer", "enum": [1, 5, 10] },
+    "confidence": { "type": "string", "enum": ["confirmed", "likely", "suspected", "rejected"] },
+    "status": {
+      "type": "string",
+      "enum": ["discovered", "triaged", "investigating", "validated", "partially_validated", "rejected", "reported", "patch_requested", "patch_generated", "patch_validated", "patch_unvalidated"]
+    },
+    "exploitability": { "type": ["string", "null"], "enum": ["low", "medium", "high", "unknown", null] },
+    "impact": { "type": ["string", "null"], "enum": ["low", "medium", "high", "unknown", null] },
+    "attack_surface": { "type": ["string", "null"] },
+    "preconditions": { "type": "array", "items": { "type": "string" } },
+    "affected_assets": { "type": "array", "items": { "type": "string" } },
+    "affected_components": { "type": "array", "items": { "type": "string" } },
+    "locations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["file", "line_start", "line_end"],
+        "properties": {
+          "file": { "type": "string" },
+          "line_start": { "type": "integer" },
+          "line_end": { "type": "integer" },
+          "symbol": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "root_cause": { "type": ["string", "null"] },
+    "description": { "type": ["string", "null"] },
+    "expected_behavior": { "type": ["string", "null"] },
+    "actual_behavior": { "type": ["string", "null"] },
+    "impact_description": { "type": ["string", "null"] },
+    "execution_path": { "type": "array", "items": { "type": "string" } },
+    "evidence": { "type": "array" },
+    "reproduction": {
+      "type": "object",
+      "properties": {
+        "status": { "type": ["string", "null"], "enum": ["not_created", "created_not_executed", "executed_passed", "executed_failed", "blocked", "inconclusive", null] },
+        "mode": { "type": ["string", "null"], "enum": ["safe", "authorized_active", null] },
+        "test_file": { "type": ["string", "null"] },
+        "commands": { "type": "array", "items": { "type": "string" } },
+        "observations": { "type": "array", "items": { "type": "string" } },
+        "cleanup": { "type": ["string", "null"] }
+      }
+    },
+    "external_references": { "type": "array" },
+    "suggested_remediation": { "type": ["string", "null"] },
+    "patch": {
+      "type": "object",
+      "properties": {
+        "requested": { "type": "boolean" },
+        "status": { "type": ["string", "null"] },
+        "path": { "type": ["string", "null"] },
+        "validation": { "type": ["string", "null"] }
+      }
+    },
+    "limitations": { "type": "array", "items": { "type": "string" } },
+    "supporting_agents": { "type": "array", "items": { "type": "string" } },
+    "timestamps": {
+      "type": "object",
+      "properties": {
+        "discovered": { "type": ["string", "null"] },
+        "validated": { "type": ["string", "null"] },
+        "reported": { "type": ["string", "null"] }
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "finding_id": "SEC-003",
+  "title": "Suspected weak randomness in password-reset tokens",
+  "category": "cryptography",
+  "severity": "medium",
+  "score": 5,
+  "confidence": "rejected",
+  "status": "rejected",
+  "exploitability": "low",
+  "impact": "low",
+  "attack_surface": "password-reset token generation",
+  "preconditions": [],
+  "affected_assets": [],
+  "affected_components": ["password recovery"],
+  "locations": [
+    { "file": "src/auth/recovery.ts", "line_start": 88, "line_end": 96, "symbol": "newResetToken" }
+  ],
+  "root_cause": "Initial suspicion was Math.random; code actually uses crypto.randomBytes(32).",
+  "description": "Pattern looked weak at a glance, but the implementation uses a secure RNG.",
+  "expected_behavior": "Unpredictable single-use reset tokens.",
+  "actual_behavior": "Tokens are 32 bytes from crypto.randomBytes; matches the property.",
+  "impact_description": "No impact; retained to prevent re-investigation.",
+  "execution_path": [],
+  "evidence": [
+    {
+      "type": "source",
+      "description": "RNG call site",
+      "location": { "file": "src/auth/recovery.ts", "line_start": 88, "line_end": 96 },
+      "result": "crypto.randomBytes(32) confirmed; no Math.random in module.",
+      "verified": true,
+      "sensitivity": "none"
+    }
+  ],
+  "reproduction": {
+    "status": "not_created",
+    "mode": "safe",
+    "test_file": null,
+    "commands": [],
+    "observations": [],
+    "cleanup": null
+  },
+  "external_references": [],
+  "suggested_remediation": "None.",
+  "patch": { "requested": false, "status": "not_requested", "path": null, "validation": null },
+  "limitations": [],
+  "supporting_agents": ["security-specialist", "validator"],
+  "timestamps": { "discovered": null, "validated": null, "reported": null }
+}

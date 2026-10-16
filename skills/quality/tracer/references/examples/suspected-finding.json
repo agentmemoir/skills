@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "finding_id": "SEC-002",
+  "title": "Dependency advisory may affect session handling but reachability is unverified",
+  "category": "dependency",
+  "severity": "medium",
+  "score": 5,
+  "confidence": "likely",
+  "status": "partially_validated",
+  "exploitability": "unknown",
+  "impact": "medium",
+  "attack_surface": "session parsing via transitive dependency",
+  "preconditions": ["vulnerable code path is reachable from login flow (unverified)"],
+  "affected_assets": ["user sessions"],
+  "affected_components": ["auth service"],
+  "locations": [
+    { "file": "package-lock.json", "line_start": 120, "line_end": 128, "symbol": "sess-lib@1.2.3" }
+  ],
+  "root_cause": "Transitive dependency sess-lib@1.2.3 falls inside advisory CVE-20XX-XXXXX range; call-site reachability not yet traced.",
+  "description": "Advisory matches the resolved version, but no traced path from the login flow to the vulnerable function yet.",
+  "expected_behavior": "Session parsing uses a fixed dependency version.",
+  "actual_behavior": "Resolved version is inside the affected range; reachability unknown.",
+  "impact_description": "If reachable, session handling weakness with medium integrity impact.",
+  "execution_path": [],
+  "evidence": [
+    {
+      "type": "dependency",
+      "description": "Advisory range vs resolved version",
+      "location": { "file": "package-lock.json", "line_start": 1, "line_end": 1 },
+      "result": "Resolved sess-lib@1.2.3; advisory affects <1.2.4, fixed in 1.2.4. Line numbers are illustrative — locate the sess-lib stanza in the real lockfile.",
+      "verified": true,
+      "sensitivity": "none"
+    }
+  ],
+  "reproduction": {
+    "status": "not_created",
+    "mode": "safe",
+    "test_file": null,
+    "commands": [],
+    "observations": [],
+    "cleanup": null
+  },
+  "external_references": [
+    { "source": "upstream advisory", "url": "https://example.invalid/advisory/CVE-20XX-XXXXX", "claim": "affected <1.2.4", "applies": "version matches; reachability unverified" }
+  ],
+  "suggested_remediation": "Trace login flow to the vulnerable function; upgrade to 1.2.4 after compat check if reachable.",
+  "patch": { "requested": false, "status": "not_requested", "path": null, "validation": null },
+  "limitations": ["call-site reachability not traced", "exploit preconditions not verified"],
+  "supporting_agents": ["security-specialist"],
+  "timestamps": { "discovered": null, "validated": null, "reported": null }
+}

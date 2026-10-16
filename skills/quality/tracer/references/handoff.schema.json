@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "tracer agent handoff",
+  "description": "Structured result every agent returns. Prose alone is not accepted.",
+  "type": "object",
+  "required": ["agent_id", "role", "scope", "status"],
+  "properties": {
+    "agent_id": { "type": "string" },
+    "role": { "type": "string" },
+    "scope": { "type": "array", "items": { "type": "string" } },
+    "status": { "type": "string", "enum": ["complete", "partial", "blocked", "failed"] },
+    "findings": { "type": "array" },
+    "hypotheses": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/hypothesis" }
+    },
+    "evidence": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/evidence" }
+    },
+    "tests": { "type": "array" },
+    "limitations": { "type": "array", "items": { "type": "string" } },
+    "uncovered_areas": { "type": "array", "items": { "type": "string" } },
+    "recommended_followups": { "type": "array", "items": { "type": "string" } }
+  },
+  "definitions": {
+    "evidence": {
+      "type": "object",
+      "required": ["type", "description", "result", "verified"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["source", "test", "command", "configuration", "dependency", "external_reference"]
+        },
+        "description": { "type": "string" },
+        "location": {
+          "type": "object",
+          "properties": {
+            "file": { "type": "string" },
+            "line_start": { "type": "integer" },
+            "line_end": { "type": "integer" }
+          }
+        },
+        "result": { "type": "string" },
+        "verified": { "type": "boolean" },
+        "sensitivity": { "type": "string", "enum": ["none", "redacted", "restricted"] }
+      }
+    },
+    "hypothesis": {
+      "type": "object",
+      "required": ["hypothesis_id", "title", "category", "confidence"],
+      "properties": {
+        "hypothesis_id": { "type": "string", "pattern": "^HYP-[0-9]{3,}$" },
+        "title": { "type": "string" },
+        "category": { "type": "string" },
+        "suspected_severity": { "type": "string", "enum": ["low", "medium", "critical"] },
+        "root_cause": { "type": "string" },
+        "attack_surface": { "type": "string" },
+        "preconditions": { "type": "array", "items": { "type": "string" } },
+        "potential_impact": { "type": "string" },
+        "source_locations": { "type": "array" },
+        "supporting_evidence": { "type": "array" },
+        "missing_evidence": { "type": "array", "items": { "type": "string" } },
+        "reproduction_plan": { "type": "string" },
+        "confidence": { "type": "string", "enum": ["confirmed", "likely", "suspected", "rejected"] }
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "plain-ssr-smoke",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:client": "vite build --outDir dist/client",
+    "build:server": "vite build --outDir dist/server --ssr src/entry-server.js"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^7.3.0",
+    "svelte": "^5.57.0",
+    "vite": "^8.3.0"
+  }
+}

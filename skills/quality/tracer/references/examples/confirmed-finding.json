@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "finding_id": "SEC-001",
+  "title": "Missing ownership check lets any authenticated user read another tenant's invoice",
+  "category": "authorization",
+  "severity": "critical",
+  "score": 10,
+  "confidence": "confirmed",
+  "status": "validated",
+  "exploitability": "high",
+  "impact": "high",
+  "attack_surface": "GET /api/invoices/:id with any valid session",
+  "preconditions": ["valid authenticated session", "knowledge or enumeration of invoice id"],
+  "affected_assets": ["customer invoices (PII, amounts)"],
+  "affected_components": ["invoice API"],
+  "locations": [
+    { "file": "src/routes/invoices.ts", "line_start": 42, "line_end": 58, "symbol": "getInvoice" }
+  ],
+  "root_cause": "Handler loads invoice by id without comparing invoice.tenantId to session.tenantId.",
+  "description": "Invoice lookup is keyed only by the URL id; no ownership check exists on the read path.",
+  "expected_behavior": "Users can read only invoices belonging to their own tenant.",
+  "actual_behavior": "Any authenticated user can read any invoice by id (verified with two test tenants).",
+  "impact_description": "Cross-tenant disclosure of billing records and PII.",
+  "execution_path": ["GET /api/invoices/:id", "auth middleware (identity only)", "getInvoice(id)", "return row"],
+  "evidence": [
+    {
+      "type": "test",
+      "description": "Cross-tenant read reproduction",
+      "location": { "file": "tests/invoices.tenant.test.ts", "line_start": 12, "line_end": 40 },
+      "result": "User of tenant B received tenant A's invoice (HTTP 200, matching fixture).",
+      "verified": true,
+      "sensitivity": "none"
+    }
+  ],
+  "reproduction": {
+    "status": "executed_passed",
+    "mode": "safe",
+    "test_file": "tests/invoices.tenant.test.ts",
+    "commands": ["npm test -- invoices.tenant"],
+    "observations": ["200 with other tenant's row; control (own invoice) also 200"],
+    "cleanup": "Fixture tenants destroyed by test teardown."
+  },
+  "external_references": [],
+  "suggested_remediation": "Scope the lookup by tenant (where id and tenant_id) and add a regression test for cross-tenant read/write.",
+  "patch": { "requested": false, "status": "not_requested", "path": null, "validation": null },
+  "limitations": [],
+  "supporting_agents": ["security-specialist", "bug-case-writer", "validator"],
+  "timestamps": { "discovered": null, "validated": null, "reported": null }
+}

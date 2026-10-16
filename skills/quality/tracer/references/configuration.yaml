@@ -1,0 +1,51 @@
+audit:
+  mode: standard_security_audit
+
+  target:
+    type: local_repository
+    allow_external_targets: false
+    active_testing: safe_reproduction_only
+
+  architecture:
+    strategy: hybrid
+    adaptive_assignment: true
+    coordinator_owns_state: true
+    max_concurrent_agents: adaptive
+
+  threat_model:
+    mode: adaptive
+
+  validation:
+    proof_standard: tiered
+    independent_challenge: true
+    require_reproduction_for_confirmed: true
+
+  scheduling:
+    strategy: adaptive
+    pause_lower_priority_work_for_critical_validation: true
+
+  bug_cases:
+    mode: temporary
+    allow_permanent_cases: true
+
+  patches:
+    mode: suggestions_only
+    apply_automatically: false
+    generate_only_when_requested: true
+    validate_in_sandbox_when_possible: true
+
+  dependencies:
+    validation_depth: full_when_practical
+    check_advisories: true
+    inspect_resolved_versions: true
+    check_reachability: true
+    check_exploit_preconditions: true
+
+  secrets:
+    redact_values: true
+    protect_agent_handoffs: true
+
+  output:
+    markdown: true
+    json: true
+    patches: true
