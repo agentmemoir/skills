@@ -17,7 +17,7 @@ npx skills add agentmemoir/skills --all --global -y
 | Category | Skills | Focus |
 |---|---:|---|
 | [Frontend](#frontend) | 3 | Build and review Svelte 5 apps |
-| [Languages](#languages) | 4 | Language and data-store craft |
+| [Languages](#languages) | 7 | Language, data-store, and host-portability craft |
 | [Quality](#quality) | 5 | Review, red-team, and verify finished work |
 | [Writing](#writing) | 1 | Write and improve prose |
 
@@ -69,10 +69,43 @@ Say: "Build my Svelte 5 static site with runes."
 
 | Skill | Description |
 |---|---|
+| [`noexec-coding`](skills/languages/noexec-coding/SKILL.md) | Code and tests that work where scratch storage is mounted `noexec`. |
+| [`noexec-python`](skills/languages/noexec-python/SKILL.md) | Python under a `noexec` mount: run scripts through the interpreter, keep temp paths for data. |
+| [`noexec-rust`](skills/languages/noexec-rust/SKILL.md) | Rust under a `noexec` mount: probe and relocate the cargo target dir. |
 | [`python-subprocess-and-concurrency`](skills/languages/python-subprocess-and-concurrency/SKILL.md) | Runs external programs safely and picks the right concurrency model. |
 | [`rust-flaky-test-investigator`](skills/languages/rust-flaky-test-investigator/SKILL.md) | Finds why a Rust test fails intermittently and files it with a measured flake rate. |
 | [`rust-test-best-practices`](skills/languages/rust-test-best-practices/SKILL.md) | Guidelines for writing Rust tests that stay reliable in CI. |
 | [`sql-guidelines`](skills/languages/sql-guidelines/SKILL.md) | Postgres formatting conventions for case, layout, naming, and types. |
+
+#### Noexec coding
+
+```
+npx skills add agentmemoir/skills --skill noexec-coding --global -y
+```
+
+Write and test code for hosts where every scratch directory is mounted `noexec`, so starting a file from a temporary path is refused with `Permission denied` or exit code 126. Covers what the mount blocks, why shebangs and mode bits do not help, the three-way execution probe, where executables belong, test design that cannot skip, and the anti-patterns that hide the defect.
+
+Say: "My tests fail with Permission denied from /tmp — make this code work on a noexec host."
+
+#### Noexec python
+
+```
+npx skills add agentmemoir/skills --skill noexec-python --global -y
+```
+
+Write and test Python on hosts where scratch storage is mounted `noexec`. Run scripts through `sys.executable` instead of starting them, keep `tempfile` and `tmp_path` for data, resolve a proven executable directory with a three-state probe, and replace skip-based tests with one negative test that fails when a program lands in scratch. Includes a tested resolver, twelve reference tests, and a migration workflow.
+
+Say: "Why does subprocess raise PermissionError for a helper script in tmp_path?"
+
+#### Noexec rust
+
+```
+npx skills add agentmemoir/skills --skill noexec-rust --global -y
+```
+
+Build and test Rust on hosts where scratch storage is mounted `noexec`, where `cargo test` fails with `Permission denied (os error 13)`. Probe the cargo target directory before a cold build, move it to executable storage, cover doctests and build scripts, and spawn helper programs from a resolved directory while keeping `TempDir` for data. Includes compile-checked resolver and spawn examples.
+
+Say: "cargo test fails with Permission denied on a temp target dir — fix the setup."
 
 #### Python subprocess and concurrency
 
