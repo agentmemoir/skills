@@ -5,7 +5,7 @@
 import { test, before } from "node:test";
 import assert from "node:assert/strict";
 import * as path from "node:path";
-import { listSkillDirs, readText, readJson, frontmatter, frontmatterValue } from "./helpers.mts";
+import { listSkillDirs, readText, readJson, frontmatter, frontmatterValue, run } from "./helpers.mts";
 
 type PackageJson = {
   name?: string;
@@ -49,18 +49,40 @@ test("each SKILL.md frontmatter name matches its directory", async (): Promise<v
   }
 });
 
+test("every skill declares the index metadata the generator reads", async (): Promise<void> => {
+  for (const rel of skillDirs) {
+    const text = await readText(`skills/${rel}/SKILL.md`);
+    const front = frontmatter(text);
+    assert.ok(front, `skills/${rel}/SKILL.md has no frontmatter`);
+    const category = frontmatterValue(front, "category");
+    assert.ok(category, `skills/${rel}/SKILL.md: category is empty`);
+    assert.equal(
+      category,
+      path.dirname(rel),
+      `skills/${rel}/SKILL.md: category must equal the parent directory`,
+    );
+    for (const field of ["title", "summary", "say"]) {
+      assert.ok(
+        frontmatterValue(front, field),
+        `skills/${rel}/SKILL.md: ${field} is empty`,
+      );
+    }
+  }
+});
+
+test("the generated index matches the skill frontmatter", async (): Promise<void> => {
+  const result = await run("node", ["scripts/generate-index.cjs", "--check"]);
+  assert.equal(
+    result.status,
+    0,
+    `README index and marketplace are stale, run "npm run generate:index"\n${result.stdout}${result.stderr}`,
+  );
+});
+
 test("marketplace lists exactly the skill directories, alphabetically", (): void => {
   const listed = marketplace.plugins[0].skills.map((entry) => path.normalize(entry.replace(/^\.\//, "")));
   assert.deepEqual(listed, skillDirs.map((rel) => path.join("skills", rel)));
   assert.deepEqual(listed, [...listed].sort(), "marketplace skills must stay alphabetical");
-});
-
-test("README has one install snippet per skill", async (): Promise<void> => {
-  const readme = await readText("README.md");
-  const count = (readme.match(/npx skills add agentmemoir\/skills --skill /g) || []).length;
-  assert.equal(count, skillDirs.length, "README install snippets must match the skill count");
-  const sections = (readme.match(/^#### /gm) || []).length;
-  assert.equal(sections, skillDirs.length, "README per-skill sections must match the skill count");
 });
 
 test("package.json bin targets exist and start with a node shebang", async (): Promise<void> => {

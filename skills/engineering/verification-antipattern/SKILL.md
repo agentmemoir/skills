@@ -2,6 +2,17 @@
 name: verification-antipattern
 description: >-
   Detects hostile verification gates and recommends concrete fixes: lint, format, typecheck, build, test, coverage, mutation, or security checks that take more than 5 minutes and block me or an agent. Use when a verification command runs longer than 5 minutes, when CI feedback or merge queues are slow, when a pre-commit hook or local gate blocks, when asked to speed up a test, check, build, or coverage gate, or when agent-added checks have inflated verification time.
+category: engineering
+title: Verification antipattern
+summary: >-
+  Finds verification gates that block people or agents for over 5 minutes, names the cause, and ranks
+  the fixes. Covers lint, format, typecheck, build, test, coverage, mutation, and security checks, and
+  reports from a catalog of eleven antipatterns with fixes ranked by expected wait saved. It reports
+  and plans; it changes gates only when the task
+  asks.
+say: >-
+  "CI blocks every merge for 20 minutes. Find where the time goes and fix
+  it."
 ---
 
 # Verification Antipattern

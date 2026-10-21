@@ -19,6 +19,8 @@ jobs:
           node-version: ${{ matrix.node }}
       - name: Format check
         run: npm run format:check
+      - name: Generated index in sync
+        run: npm run check:index
       - name: Vendored humanizer region
         run: npm run check:humanizer
       - name: Full skill + marketplace validate

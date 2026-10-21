@@ -11,6 +11,17 @@ description: >-
   methods (spawn/forkserver/fork), pickling limits, GIL and free-threading, and
   cancellation. For event-loop and coroutine rules (TaskGroup, blocking calls,
   cancellation), use python-async-best-practices instead.
+category: code
+title: Python subprocess and concurrency
+summary: >-
+  Runs external programs safely and picks the right concurrency model instead of the habitual one.
+  Covers argv vs `shell=True`, timeouts that kill the whole process tree, pipe deadlocks,
+  `ThreadPoolExecutor` sizing, GIL and free-threading, multiprocessing start methods
+  (spawn/forkserver/fork), pickling limits, and inter-process messaging, plus hang, orphan, and zombie
+  diagnosis.
+say: >-
+  "Review this subprocess and threading code" or "Why is this Python script
+  hanging?"
 ---
 
 # Python Subprocess & Concurrency

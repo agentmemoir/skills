@@ -1,6 +1,17 @@
 ---
 name: noexec-python
 description: "Write and test Python on hosts where scratch storage is mounted noexec, so starting a file from a temporary path raises PermissionError. Use when: (1) a test spawns a helper script written to tmp_path, tempfile, or TMPDIR and fails with Permission denied, (2) code calls subprocess with a path under a temp directory, (3) a console script, entry point, or venv lives on scratch storage, (4) code uses os.access, os.X_OK, shutil.which, or mode bits to decide whether a file can run, (5) multiprocessing or build tooling writes helper state to a temp directory, (6) a test skips or early-returns because storage may refuse execution."
+category: portability
+title: Noexec python
+summary: >-
+  Python under a `noexec` mount: run scripts through the interpreter and keep temp paths for data.
+  Resolve a proven executable directory with a three-state probe, and replace skip-based tests with
+  one negative test that fails when a program lands in scratch. Includes a tested resolver, twelve
+  reference tests, and a migration
+  workflow.
+say: >-
+  "Why does subprocess raise PermissionError for a helper script in
+  tmp_path?"
 ---
 
 # Python where scratch storage is `noexec`

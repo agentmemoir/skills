@@ -11,6 +11,17 @@ description: >-
   cargo-nextest configuration. Every rule states the failure it prevents and
   shows the pattern to use instead. Use it before writing a test, not after one
   has already gone flaky.
+category: code
+title: Rust test best practices
+summary: >-
+  Guidelines for writing Rust tests that stay reliable in CI. Covers test layer choice, async tests
+  with Tokio paused time, isolating ports and temp dirs, resource cleanup across processes,
+  determinism against clocks, hash order and floating point, blocking the async executor, filesystem
+  semantics across platforms, timeouts, property-based tests, and cargo-nextest
+  configuration.
+say: >-
+  "Write this Rust test following rust-test-best-practices" or "Review my Rust tests against the
+  guidelines."
 ---
 
 # Rust Test Best Practices

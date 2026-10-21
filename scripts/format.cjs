@@ -25,6 +25,7 @@ const JSON_FILES = [
 ];
 
 const JS_FILES = [
+  "scripts/generate-index.cjs",
   "scripts/install-hooks.cjs",
   "scripts/format.cjs",
   "scripts/verify-rust-skill-commands.cjs",

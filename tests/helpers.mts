@@ -71,6 +71,48 @@ export function frontmatter(text: string): string | null {
 
 /** Value of a top-level `key:` line in frontmatter text, or null. */
 export function frontmatterValue(frontmatterText: string, key: string): string | null {
-  const line = frontmatterText.split(/\r?\n/).find((l) => l.startsWith(`${key}:`));
-  return line ? line.slice(key.length + 1).trim() : null;
+  const lines = frontmatterText.split(/\r?\n/);
+  for (let i = 0; i < lines.length; i += 1) {
+    const line = lines[i];
+    if (!line.startsWith(`${key}:`)) continue;
+    const rest = line.slice(key.length + 1).trim();
+    if (rest.startsWith(">") || rest.startsWith("|")) {
+      const folded = rest.startsWith(">");
+      const block: string[] = [];
+      let indent: number | null = null;
+      for (let j = i + 1; j < lines.length; j += 1) {
+        const current = lines[j];
+        if (!current.trim()) {
+          block.push("");
+          continue;
+        }
+        const currentIndent = current.length - current.trimStart().length;
+        if (currentIndent === 0) break;
+        if (indent === null) indent = currentIndent;
+        if (currentIndent < indent) break;
+        block.push(current.slice(indent));
+      }
+      while (block.length && block[block.length - 1] === "") block.pop();
+      if (folded) {
+        const paragraphs: string[] = [];
+        let current: string[] = [];
+        for (const piece of block) {
+          if (piece === "") {
+            paragraphs.push(current.join(" "));
+            current = [];
+          } else {
+            current.push(piece);
+          }
+        }
+        paragraphs.push(current.join(" "));
+        return paragraphs.join("\n").trim();
+      }
+      return block.join("\n");
+    }
+    if (rest.length >= 2 && rest[0] === rest[1] && (rest[0] === '"' || rest[0] === "'")) {
+      return rest.slice(1, -1);
+    }
+    return rest;
+  }
+  return null;
 }

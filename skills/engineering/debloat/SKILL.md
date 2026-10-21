@@ -1,6 +1,15 @@
 ---
 name: debloat
 description: "Enforce lean code in any language: confirm requirements, research current best practices, then write the smallest implementation that works. Use this skill whenever I ask you to write, add, extend, or refactor code (a feature, script, module, function, endpoint, config, or integration), even if I never mention 'lean', 'minimal', or 'best practices'. Also use it when a task invites scope creep, such as 'make it flexible', 'set this up properly', or 'add support for X'. Skip it for prose, debug-only sessions, code review without edits, and one-line fixes."
+category: engineering
+title: Debloat
+summary: >-
+  Forces lean code in any language and caps every file it creates or modifies at 450 lines. Confirms
+  requirements, researches current best practices, then writes the smallest implementation that
+  works.
+say: >-
+  "Add the endpoint, but keep it
+  debloated."
 license: MIT
 ---
 

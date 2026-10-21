@@ -7,6 +7,16 @@ description: >-
   Svelte 5 snippets, reactivity patterns, testing, and troubleshooting. Use when
   I mention Paraglide, inlang, paraglide-js, SvelteKit i18n, locale
   switching, localized URLs, or Svelte 5 runes in an internationalization context.
+category: web
+title: Paraglide Svelte5 best practices
+summary: >-
+  Type-safe, tree-shakable i18n for Svelte 5 and SvelteKit with Paraglide JS 2.x. Covers
+  compiler-based messages, locale strategies, localized URLs, SSR/SSG setup, rich-text markup with
+  Svelte 5 snippets, testing, and common
+  pitfalls.
+say: >-
+  "Set up Paraglide i18n in my SvelteKit app with localized
+  URLs."
 version: 1.0.0
 last_verified: 2026-09-11
 ---

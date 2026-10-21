@@ -11,6 +11,19 @@ description: >-
   or style guide. Also use it when prose sounds machine-written: "reads like AI wrote it",
   "too robotic", "remove the AI tells", "de-slop this page", "sounds like ChatGPT", even if
   they never say "DX", "developer experience", or "style guide".
+category: docs
+title: Wordsmith
+summary: >-
+  Writes, audits, and rewrites developer documentation with page typing, 28 style rules, and a
+  26-pattern AI-tell catalog. Its voice pass strips machine-written tells (not-X-but-Y contrasts,
+  one-line closers, forced triads, stock words, decorative bold) from docs prose without touching
+  facts, code samples, or reference neutrality. Every change is traced to the rule that caused it, and
+  the catalog is vendored verbatim from [blader/humanizer](https://github.com/blader/humanizer) at a
+  pinned release and checked in CI, so a hand-edit to the vendored text fails the
+  build.
+say: >-
+  "Rewrite this README with wordsmith" or "These docs read like AI wrote them — de-slop
+  them."
 ---
 
 # Wordsmith — documentation that respects the reader's time
