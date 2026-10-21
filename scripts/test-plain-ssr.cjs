@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Smoke test for the plain-Vite SSR starter files shipped in
- * skills/frontend/svelte5-ssr-runes/assets/.
+ * skills/web/svelte5-ssr-runes/assets/.
  *
  * It copies the shipped assets into tests/plain-ssr, builds a real client and
  * server bundle, then asserts that the production HTML links the built JS/CSS
@@ -20,7 +20,7 @@ const { pathToFileURL } = require("node:url");
 
 const ROOT = path.resolve(__dirname, "..");
 const FIXTURE = path.join(ROOT, "tests/plain-ssr");
-const ASSETS = path.join(ROOT, "skills/frontend/svelte5-ssr-runes/assets");
+const ASSETS = path.join(ROOT, "skills/web/svelte5-ssr-runes/assets");
 const VITE_BIN = path.join(
   FIXTURE,
   "node_modules/.bin/vite" + (process.platform === "win32" ? ".cmd" : "")

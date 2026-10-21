@@ -14,11 +14,11 @@ type Check = [label: string, cmd: string, args: string[], options?: ExecFileOpti
 
 const CHECKS: Check[] = [
   ["format --check", NODE, ["scripts/format.cjs", "--check"]],
-  ["autopsy report", NODE, ["skills/quality/autopsy/scripts/generate-report.cjs", "--self-check"]],
-  ["rust flake loop", "bash", ["skills/languages/rust-flaky-test-investigator/scripts/flake-loop.sh", "--self-check"]],
-  ["python subprocess recipes", PY, ["skills/languages/python-subprocess-and-concurrency/scripts/verify-recipes.py"]],
-  ["noexec python self-check", PY, ["skills/languages/noexec-python/scripts/self-check.py"]],
-  ["noexec rust self-check", "bash", ["skills/languages/noexec-rust/scripts/self-check.sh"]],
+  ["autopsy report", NODE, ["skills/review/autopsy/scripts/generate-report.cjs", "--self-check"]],
+  ["rust flake loop", "bash", ["skills/code/rust-flaky-test-investigator/scripts/flake-loop.sh", "--self-check"]],
+  ["python subprocess recipes", PY, ["skills/code/python-subprocess-and-concurrency/scripts/verify-recipes.py"]],
+  ["noexec python self-check", PY, ["skills/portability/noexec-python/scripts/self-check.py"]],
+  ["noexec rust self-check", "bash", ["skills/portability/noexec-rust/scripts/self-check.sh"]],
   ["rust skill commands", NODE, ["scripts/verify-rust-skill-commands.cjs"]],
   ["humanizer vendored region", NODE, ["scripts/sync-humanizer.cjs"]],
   ["validate.sh", "bash", ["scripts/validate.sh", "--quick"]],

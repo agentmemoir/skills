@@ -14,11 +14,11 @@ const ROOT = path.resolve(__dirname, "..");
 const checkOnly = process.argv.includes("--check");
 
 const JSON_FILES = [
-  "skills/quality/autopsy/references/findings.schema.json",
-  "skills/quality/autopsy/references/findings.example.json",
-  "skills/languages/rust-flaky-test-investigator/references/flaky-finding.schema.json",
-  "skills/languages/rust-flaky-test-investigator/references/flaky-finding.example.json",
-  "skills/writing/wordsmith/references/upstream/humanizer.json",
+  "skills/review/autopsy/references/findings.schema.json",
+  "skills/review/autopsy/references/findings.example.json",
+  "skills/code/rust-flaky-test-investigator/references/flaky-finding.schema.json",
+  "skills/code/rust-flaky-test-investigator/references/flaky-finding.example.json",
+  "skills/docs/wordsmith/references/upstream/humanizer.json",
   "package.json",
   ".claude-plugin/marketplace.json",
   "tsconfig.json",
@@ -29,7 +29,7 @@ const JS_FILES = [
   "scripts/format.cjs",
   "scripts/verify-rust-skill-commands.cjs",
   "scripts/test-plain-ssr.cjs",
-  "skills/quality/autopsy/scripts/generate-report.cjs",
+  "skills/review/autopsy/scripts/generate-report.cjs",
 ];
 
 // Test files are TypeScript and run through Node's type stripping; `node

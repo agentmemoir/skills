@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """verify-recipes.py - executable verification for the recipes and version
-claims in skills/languages/python-subprocess-and-concurrency.
+claims in skills/code/python-subprocess-and-concurrency.
 
 Repo tooling, not runtime behaviour of the vendored skill. It exists for the
 same reason as scripts/verify-rust-skill-commands.cjs: a skill whose value is
@@ -8,9 +8,9 @@ recipe accuracy must not be the thing that ships a broken recipe. Every check
 names the rule id it backs, so a failure points at the rule to correct.
 
 Usage:
-    python3 skills/languages/python-subprocess-and-concurrency/scripts/verify-recipes.py
-    python3 skills/languages/python-subprocess-and-concurrency/scripts/verify-recipes.py --quiet
-    python3 skills/languages/python-subprocess-and-concurrency/scripts/verify-recipes.py --self-check
+    python3 skills/code/python-subprocess-and-concurrency/scripts/verify-recipes.py
+    python3 skills/code/python-subprocess-and-concurrency/scripts/verify-recipes.py --quiet
+    python3 skills/code/python-subprocess-and-concurrency/scripts/verify-recipes.py --self-check
 
 Exit 0 = every check passed (skips are allowed and reported).
 Exit 1 = at least one check failed.

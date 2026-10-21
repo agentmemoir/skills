@@ -1,7 +1,7 @@
 name: humanizer upstream
 
 # The vendored humanizer catalog in wordsmith is pinned to a specific upstream
-# release (skills/writing/wordsmith/references/upstream/humanizer.json). This job
+# release (skills/docs/wordsmith/references/upstream/humanizer.json). This job
 # is the only thing that notices when upstream moves while we are idle: PRs stay
 # offline-deterministic (npm test checks the region against the pin), and this
 # weekly probe reports drift as an issue plus a red run.

@@ -5,11 +5,11 @@
 # skill's own rule is that a file must be started from executable storage.
 # Skips (exit 0) when rustc is not installed, so the Node-only CI still passes.
 #
-# Usage: bash skills/languages/noexec-rust/scripts/self-check.sh
+# Usage: bash skills/portability/noexec-rust/scripts/self-check.sh
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../.." && pwd)"
-REFS="$ROOT/skills/languages/noexec-rust/references"
+REFS="$ROOT/skills/portability/noexec-rust/references"
 BUILD="$ROOT/.build/noexec-rust-self-check.$$"
 
 if ! command -v rustc >/dev/null 2>&1; then

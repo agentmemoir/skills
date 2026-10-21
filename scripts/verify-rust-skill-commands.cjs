@@ -24,7 +24,7 @@ const path = require("node:path");
 const { execFileSync } = require("node:child_process");
 
 const ROOT = path.resolve(__dirname, "..");
-const SKILLS = ["skills/languages/rust-flaky-test-investigator", "skills/languages/rust-test-best-practices"];
+const SKILLS = ["skills/code/rust-flaky-test-investigator", "skills/code/rust-test-best-practices"];
 const LIVE = process.argv.includes("--live");
 const QUIET = process.argv.includes("--quiet");
 
@@ -231,9 +231,9 @@ for (const { file, text } of corpus) {
 // ---------------------------------------------------------------------------
 // 8. Schema and example agree, and the example actually validates.
 // ---------------------------------------------------------------------------
-const schemaPath = path.join(ROOT, "skills/languages/rust-flaky-test-investigator/references/flaky-finding.schema.json");
-const examplePath = path.join(ROOT, "skills/languages/rust-flaky-test-investigator/references/flaky-finding.example.json");
-const taxonomyPath = path.join(ROOT, "skills/languages/rust-flaky-test-investigator/references/flaky-taxonomy.md");
+const schemaPath = path.join(ROOT, "skills/code/rust-flaky-test-investigator/references/flaky-finding.schema.json");
+const examplePath = path.join(ROOT, "skills/code/rust-flaky-test-investigator/references/flaky-finding.example.json");
+const taxonomyPath = path.join(ROOT, "skills/code/rust-flaky-test-investigator/references/flaky-taxonomy.md");
 if (fs.existsSync(schemaPath) && fs.existsSync(examplePath)) {
   const schema = JSON.parse(fs.readFileSync(schemaPath, "utf8"));
   const example = JSON.parse(fs.readFileSync(examplePath, "utf8"));
@@ -270,7 +270,7 @@ if (fs.existsSync(schemaPath) && fs.existsSync(examplePath)) {
   // The schema's discrimination axes must match the matrix in SKILL.md, or a
   // reported finding can name an axis the workflow never runs. Matrix row
   // labels are human-facing ("Build") so normalise before comparing.
-  const matrix = fs.readFileSync(path.join(ROOT, "skills/languages/rust-flaky-test-investigator/SKILL.md"), "utf8");
+  const matrix = fs.readFileSync(path.join(ROOT, "skills/code/rust-flaky-test-investigator/SKILL.md"), "utf8");
   const normalise = (s) => s.trim().toLowerCase().replace(/[\s-]+/g, "_");
   const matrixAxes = new Set(
     (matrix.match(/^\| \d+ \| ([A-Za-z ]+) \|/gm) || []).map((l) => normalise(l.split("|")[2]))
