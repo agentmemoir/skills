@@ -1,6 +1,13 @@
 ---
 name: my-skill-name
-description: What this skill does plus when the agent uses it. Use when <trigger> or when the user mentions <keywords>. Keep under 1024 chars, third person.
+description: What this skill does plus when the agent uses it. Use when <trigger> or when I mention <keywords>. Keep under 1024 chars, third person.
+category: <category-folder>
+title: My Skill Name
+summary: >-
+  The first sentence is the README index table cell, so keep it under 140 characters.
+  Everything after it is the body of the README section for this skill.
+say: >-
+  "What the user says to invoke this skill."
 ---
 
 # My Skill Name

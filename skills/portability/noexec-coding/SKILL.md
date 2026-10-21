@@ -1,6 +1,18 @@
 ---
 name: noexec-coding
 description: "Write and test code that must run on hosts where scratch directories are mounted noexec, so executing a file from a temporary path is refused. Use when: (1) code creates temporary files or directories, (2) code spawns a helper binary or script, (3) code sets a build or target directory, (4) a check or program fails with Permission denied or exit code 126 while starting a process from a temp path, (5) code uses os.access, test -x, shutil.which, or mode bits to decide whether a file can run, (6) a test skips or early-returns because storage may refuse execution."
+category: portability
+title: Noexec coding
+summary: >-
+  Code and tests that work where scratch storage is mounted `noexec`. The mount blocks starting any
+  file from a temporary path, so scripts run through an interpreter, executables live in a probed
+  directory, and tests cannot skip around the defect. Covers what the mount blocks, why shebangs and
+  mode bits do not help, the three-way execution probe, where executables belong, test design that
+  cannot skip, and the anti-patterns that hide the
+  defect.
+say: >-
+  "My tests fail with Permission denied from /tmp — make this code work on a noexec
+  host."
 ---
 
 # Code that works where scratch storage is `noexec`

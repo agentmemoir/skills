@@ -1,6 +1,18 @@
 ---
 name: noexec-rust
 description: "Guide for building and testing Rust on hosts where scratch storage is mounted noexec. Use when: (1) cargo test fails with Permission denied (os error 13) or EACCES on a target path, (2) a build script or proc macro fails to run or load, (3) a test writes a helper binary or script into a temp directory, (4) the cargo target dir may sit under TMPDIR, (5) a check skips or early-returns because scratch may refuse execution."
+category: portability
+title: Noexec rust
+summary: >-
+  Rust under a `noexec` mount: probe and relocate the cargo target dir. `cargo test` fails with
+  `Permission denied (os error 13)` on a scratch target path, so probe the directory before a cold
+  build and move it to executable storage. Covers doctests and build scripts, and spawns helper
+  programs from a resolved directory while keeping `TempDir` for data. Includes compile-checked
+  resolver and spawn
+  examples.
+say: >-
+  "cargo test fails with Permission denied on a temp target dir — fix the
+  setup."
 ---
 
 # Rust where scratch storage is `noexec`

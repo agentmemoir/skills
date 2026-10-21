@@ -1,6 +1,16 @@
 ---
 name: tracer
 description: Audit a local codebase for security vulnerabilities with evidence-based findings. Use when I ask to find security bugs, audit for vulnerabilities, check auth, injection, secrets, crypto, dependencies, or business-logic flaws, or want reproducible proof and severity-rated reports. Read-only by default; never modifies production code or tests external systems without explicit approval.
+category: review
+title: Tracer
+summary: >-
+  Evidence-based, read-only security audit with severity-rated findings. Maps the attack surface,
+  investigates reachable vulnerabilities, reproduces them safely, challenges each hypothesis
+  independently, and reports honest
+  limits.
+say: >-
+  "Audit this repo for security vulnerabilities and show me the confirmed
+  findings."
 ---
 
 # Tracer

@@ -14,6 +14,16 @@ description: >-
   secrets, and to apply the bundled XSS/CSP/secrets security checklist.
   Trigger even for a bare pasted .svelte file or a vague "make this a
   static site" request.
+category: web
+title: Svelte5 static runes
+summary: >-
+  Static (no server) Svelte 5 apps with runes and adapter-static. Build, migrate, or review apps that
+  use runes instead of legacy Svelte 4 reactivity, with SvelteKit adapter-static setup and an
+  XSS/CSP/secrets security
+  checklist.
+say: >-
+  "Build my Svelte 5 static site with
+  runes."
 ---
 
 # Svelte 5 Static-Only (Runes)

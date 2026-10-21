@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Validates every skill under skills/<category>/ against the core Agent Skills rules,
-# and checks the Claude Code marketplace lists exactly those skills.
+# checks the generated README index and the Claude Code marketplace are in sync with
+# the skill frontmatter, and checks the marketplace lists exactly those skills.
 # Usage: ./scripts/validate.sh [skills/<category>/<name>] [--quick]
 # With explicit targets, only those skills are checked. The marketplace check
 # runs on full scans only, so temporary test skills do not trip it.
@@ -149,6 +150,17 @@ else:
     if re.search(r"\b(whenever|when)\s+the\s+user\b", desc, re.I):
         errors.append("description must use first-person ('whenever I' / 'when I') rather than 'the user'")
 
+# Index metadata: scripts/generate-index.cjs builds the README index and the
+# marketplace list from these fields, so they are part of the skill contract.
+parent = target.split("/")[-2]
+if "category" not in front or not front["category"]:
+    errors.append("frontmatter missing 'category'")
+elif front["category"] != parent:
+    errors.append(f"category '{front['category']}' must match the parent directory '{parent}'")
+for field in ("title", "summary", "say"):
+    if not front.get(field):
+        errors.append(f"frontmatter missing '{field}'")
+
 # Real-YAML safety: an unquoted single-line value may not contain ': '.
 for fm_line in m.group(1).split("\n"):
     lm = re.match(r"^([A-Za-z0-9_-]+):\s+(\S.*)$", fm_line)
@@ -177,6 +189,8 @@ PY
 done
 
 if [ "$#" -eq 0 ]; then
+  echo "== index =="
+  node "$ROOT/scripts/generate-index.cjs" --check || fail=1
   echo "== marketplace =="
   python3 - "$ROOT" <<'PY' || fail=1
 import json

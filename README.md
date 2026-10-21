@@ -12,6 +12,8 @@ npx skills add agentmemoir/skills --all --global -y
 
 `--all` is shorthand for `--skill '*' --agent '*' -y`: all skills, all agents, no prompts. `--global` installs to `~/.agents/skills/` (symlinked into each agent) instead of the current project. Each skill's `Say:` line below shows how to invoke it once installed.
 
+<!-- BEGIN GENERATED: skills index -->
+
 ## Categories
 
 | Category | Skills | Focus |
@@ -31,8 +33,8 @@ npx skills add agentmemoir/skills --all --global -y
 
 | Skill | Description |
 |---|---|
-| [`python-subprocess-and-concurrency`](skills/code/python-subprocess-and-concurrency/SKILL.md) | Runs external programs safely and picks the right concurrency model. |
-| [`rust-flaky-test-investigator`](skills/code/rust-flaky-test-investigator/SKILL.md) | Finds why a Rust test fails intermittently and files it with a measured flake rate. |
+| [`python-subprocess-and-concurrency`](skills/code/python-subprocess-and-concurrency/SKILL.md) | Runs external programs safely and picks the right concurrency model instead of the habitual one. |
+| [`rust-flaky-test-investigator`](skills/code/rust-flaky-test-investigator/SKILL.md) | Finds why a Rust test fails intermittently and files it as a bug. |
 | [`rust-test-best-practices`](skills/code/rust-test-best-practices/SKILL.md) | Guidelines for writing Rust tests that stay reliable in CI. |
 | [`sql-guidelines`](skills/code/sql-guidelines/SKILL.md) | Postgres formatting conventions for case, layout, naming, and types. |
 
@@ -42,7 +44,7 @@ npx skills add agentmemoir/skills --all --global -y
 npx skills add agentmemoir/skills --skill python-subprocess-and-concurrency --global -y
 ```
 
-Subprocess and concurrency discipline for Python: how to run external programs safely, and how to pick the right concurrency model instead of the habitual one. Covers argv vs `shell=True`, timeouts that kill the whole process tree, pipe deadlocks, `ThreadPoolExecutor` sizing, GIL and free-threading, multiprocessing start methods (spawn/forkserver/fork), pickling limits, and inter-process messaging, plus hang, orphan, and zombie diagnosis.
+Runs external programs safely and picks the right concurrency model instead of the habitual one. Covers argv vs `shell=True`, timeouts that kill the whole process tree, pipe deadlocks, `ThreadPoolExecutor` sizing, GIL and free-threading, multiprocessing start methods (spawn/forkserver/fork), pickling limits, and inter-process messaging, plus hang, orphan, and zombie diagnosis.
 
 Say: "Review this subprocess and threading code" or "Why is this Python script hanging?"
 
@@ -52,7 +54,7 @@ Say: "Review this subprocess and threading code" or "Why is this Python script h
 npx skills add agentmemoir/skills --skill rust-flaky-test-investigator --global -y
 ```
 
-Finds out why a Rust test fails intermittently and files it as a bug with a measured flake rate, a reproduced failure, and a root cause backed by a controlled experiment. Decodes the error's own codes before forming any hypothesis, then uses cargo-nextest stress runs, an eight-axis discrimination matrix, and a nineteen-family root-cause taxonomy. Never concludes a cause from reading test code alone.
+Finds why a Rust test fails intermittently and files it as a bug. Reports a measured flake rate, a reproduced failure, and a root cause backed by a controlled experiment. Decodes the error's own codes before forming any hypothesis, then uses cargo-nextest stress runs, an eight-axis discrimination matrix, and a nineteen-family root-cause taxonomy. Never concludes a cause from reading test code alone.
 
 Say: "Investigate why `replication_convergence` is flaky in this Rust repo."
 
@@ -82,7 +84,7 @@ Say: "Write (or review) this SQL using sql-guidelines."
 
 | Skill | Description |
 |---|---|
-| [`wordsmith`](skills/docs/wordsmith/SKILL.md) | Writes, audits, and rewrites developer documentation with page typing, 28 style rules, a 26-pattern AI-tell catalog, and rule-traced change logs. |
+| [`wordsmith`](skills/docs/wordsmith/SKILL.md) | Writes, audits, and rewrites developer documentation with page typing, 28 style rules, and a 26-pattern AI-tell catalog. |
 
 #### Wordsmith
 
@@ -90,7 +92,7 @@ Say: "Write (or review) this SQL using sql-guidelines."
 npx skills add agentmemoir/skills --skill wordsmith --global -y
 ```
 
-Write, audit, and rewrite developer documentation using the Wordsmith method — page typing, 28 numbered style rules, a 26-pattern AI-tell catalog, and rule-traced change logs. Its voice pass strips machine-written tells (not-X-but-Y contrasts, one-line closers, forced triads, stock words, decorative bold) from docs prose without touching facts, code samples, or reference neutrality. The catalog is vendored verbatim from [blader/humanizer](https://github.com/blader/humanizer) at a pinned release and checked in CI, so a hand-edit to the vendored text fails the build.
+Writes, audits, and rewrites developer documentation with page typing, 28 style rules, and a 26-pattern AI-tell catalog. Its voice pass strips machine-written tells (not-X-but-Y contrasts, one-line closers, forced triads, stock words, decorative bold) from docs prose without touching facts, code samples, or reference neutrality. Every change is traced to the rule that caused it, and the catalog is vendored verbatim from [blader/humanizer](https://github.com/blader/humanizer) at a pinned release and checked in CI, so a hand-edit to the vendored text fails the build.
 
 Say: "Rewrite this README with wordsmith" or "These docs read like AI wrote them — de-slop them."
 
@@ -100,8 +102,8 @@ Say: "Rewrite this README with wordsmith" or "These docs read like AI wrote them
 
 | Skill | Description |
 |---|---|
-| [`debloat`](skills/engineering/debloat/SKILL.md) | Forces lean code in any language; caps every file it creates or modifies at 450 lines. |
-| [`verification-antipattern`](skills/engineering/verification-antipattern/SKILL.md) | Finds verification gates that block people or agents for over 5 minutes, names the cause, and ranks fixes. |
+| [`debloat`](skills/engineering/debloat/SKILL.md) | Forces lean code in any language and caps every file it creates or modifies at 450 lines. |
+| [`verification-antipattern`](skills/engineering/verification-antipattern/SKILL.md) | Finds verification gates that block people or agents for over 5 minutes, names the cause, and ranks the fixes. |
 
 #### Debloat
 
@@ -109,7 +111,7 @@ Say: "Rewrite this README with wordsmith" or "These docs read like AI wrote them
 npx skills add agentmemoir/skills --skill debloat --global -y
 ```
 
-Enforce lean code in any language: confirm requirements, research current best practices, then write the smallest implementation that works. Caps every file it creates or modifies at 450 lines.
+Forces lean code in any language and caps every file it creates or modifies at 450 lines. Confirms requirements, researches current best practices, then writes the smallest implementation that works.
 
 Say: "Add the endpoint, but keep it debloated."
 
@@ -119,7 +121,7 @@ Say: "Add the endpoint, but keep it debloated."
 npx skills add agentmemoir/skills --skill verification-antipattern --global -y
 ```
 
-Detects hostile verification gates — lint, format, typecheck, build, test, coverage, mutation, or security checks that block a person or agent for more than five minutes — and returns a short report naming the cause from a catalog of eleven antipatterns, with fixes ranked by expected wait saved. It reports and plans; it changes gates only when the task asks.
+Finds verification gates that block people or agents for over 5 minutes, names the cause, and ranks the fixes. Covers lint, format, typecheck, build, test, coverage, mutation, and security checks, and reports from a catalog of eleven antipatterns with fixes ranked by expected wait saved. It reports and plans; it changes gates only when the task asks.
 
 Say: "CI blocks every merge for 20 minutes. Find where the time goes and fix it."
 
@@ -130,7 +132,7 @@ Say: "CI blocks every merge for 20 minutes. Find where the time goes and fix it.
 | Skill | Description |
 |---|---|
 | [`noexec-coding`](skills/portability/noexec-coding/SKILL.md) | Code and tests that work where scratch storage is mounted `noexec`. |
-| [`noexec-python`](skills/portability/noexec-python/SKILL.md) | Python under a `noexec` mount: run scripts through the interpreter, keep temp paths for data. |
+| [`noexec-python`](skills/portability/noexec-python/SKILL.md) | Python under a `noexec` mount: run scripts through the interpreter and keep temp paths for data. |
 | [`noexec-rust`](skills/portability/noexec-rust/SKILL.md) | Rust under a `noexec` mount: probe and relocate the cargo target dir. |
 
 #### Noexec coding
@@ -139,7 +141,7 @@ Say: "CI blocks every merge for 20 minutes. Find where the time goes and fix it.
 npx skills add agentmemoir/skills --skill noexec-coding --global -y
 ```
 
-Write and test code for hosts where every scratch directory is mounted `noexec`, so starting a file from a temporary path is refused with `Permission denied` or exit code 126. Covers what the mount blocks, why shebangs and mode bits do not help, the three-way execution probe, where executables belong, test design that cannot skip, and the anti-patterns that hide the defect.
+Code and tests that work where scratch storage is mounted `noexec`. The mount blocks starting any file from a temporary path, so scripts run through an interpreter, executables live in a probed directory, and tests cannot skip around the defect. Covers what the mount blocks, why shebangs and mode bits do not help, the three-way execution probe, where executables belong, test design that cannot skip, and the anti-patterns that hide the defect.
 
 Say: "My tests fail with Permission denied from /tmp — make this code work on a noexec host."
 
@@ -149,7 +151,7 @@ Say: "My tests fail with Permission denied from /tmp — make this code work on 
 npx skills add agentmemoir/skills --skill noexec-python --global -y
 ```
 
-Write and test Python on hosts where scratch storage is mounted `noexec`. Run scripts through `sys.executable` instead of starting them, keep `tempfile` and `tmp_path` for data, resolve a proven executable directory with a three-state probe, and replace skip-based tests with one negative test that fails when a program lands in scratch. Includes a tested resolver, twelve reference tests, and a migration workflow.
+Python under a `noexec` mount: run scripts through the interpreter and keep temp paths for data. Resolve a proven executable directory with a three-state probe, and replace skip-based tests with one negative test that fails when a program lands in scratch. Includes a tested resolver, twelve reference tests, and a migration workflow.
 
 Say: "Why does subprocess raise PermissionError for a helper script in tmp_path?"
 
@@ -159,7 +161,7 @@ Say: "Why does subprocess raise PermissionError for a helper script in tmp_path?
 npx skills add agentmemoir/skills --skill noexec-rust --global -y
 ```
 
-Build and test Rust on hosts where scratch storage is mounted `noexec`, where `cargo test` fails with `Permission denied (os error 13)`. Probe the cargo target directory before a cold build, move it to executable storage, cover doctests and build scripts, and spawn helper programs from a resolved directory while keeping `TempDir` for data. Includes compile-checked resolver and spawn examples.
+Rust under a `noexec` mount: probe and relocate the cargo target dir. `cargo test` fails with `Permission denied (os error 13)` on a scratch target path, so probe the directory before a cold build and move it to executable storage. Covers doctests and build scripts, and spawns helper programs from a resolved directory while keeping `TempDir` for data. Includes compile-checked resolver and spawn examples.
 
 Say: "cargo test fails with Permission denied on a temp target dir — fix the setup."
 
@@ -169,7 +171,7 @@ Say: "cargo test fails with Permission denied on a temp target dir — fix the s
 
 | Skill | Description |
 |---|---|
-| [`autopsy`](skills/review/autopsy/SKILL.md) | Second pass on finished work; returns one HTML audit report and changes nothing until you pick fixes. |
+| [`autopsy`](skills/review/autopsy/SKILL.md) | Second pass on finished work: returns one HTML audit report and changes nothing until you pick fixes. |
 | [`review`](skills/review/review/SKILL.md) | Three-pass bug hunt that keeps only the bugs that survive refutation. |
 | [`tracer`](skills/review/tracer/SKILL.md) | Evidence-based, read-only security audit with severity-rated findings. |
 
@@ -179,7 +181,7 @@ Say: "cargo test fails with Permission denied on a temp target dir — fix the s
 npx skills add agentmemoir/skills --skill autopsy --global -y
 ```
 
-A second pass on finished work. It checks docs, plans, or code against what you asked for, verifies checkable claims with web search, and returns a single HTML report with a verdict, missing requirements, and fixes ordered by priority. It changes nothing until you pick what to fix.
+Second pass on finished work: returns one HTML audit report and changes nothing until you pick fixes. Checks docs, plans, or code against what you asked for, verifies checkable claims with web search, and reports a verdict, missing requirements, and fixes ordered by priority.
 
 Say: "Run an autopsy on docs/plan.md and show me the report."
 
@@ -189,7 +191,7 @@ Say: "Run an autopsy on docs/plan.md and show me the report."
 npx skills add agentmemoir/skills --skill review --global -y
 ```
 
-A three-pass bug hunt on a codebase. The first pass lists as many bugs as it can find, the second argues against each one, and the third keeps only the ones that hold up. Each phase writes a dated file and every bug keeps one ID (BUG-001, BUG-002) with file and line across all three. Point it at one folder when the repo is large, since it does better work on a small scope than on everything at once.
+Three-pass bug hunt that keeps only the bugs that survive refutation. The first pass lists as many bugs as it can find, the second argues against each one, and the third keeps only the ones that hold up. Each phase writes a dated file and every bug keeps one ID (BUG-001, BUG-002) with file and line across all three. Point it at one folder when the repo is large, since it does better work on a small scope than on everything at once.
 
 Say: "Run a review on ./src/auth."
 
@@ -199,7 +201,7 @@ Say: "Run a review on ./src/auth."
 npx skills add agentmemoir/skills --skill tracer --global -y
 ```
 
-Evidence-based security audit of a local codebase. It maps the attack surface, investigates reachable vulnerabilities, reproduces them safely, challenges each hypothesis independently, and reports severity-rated findings with honest limits. Read-only by default.
+Evidence-based, read-only security audit with severity-rated findings. Maps the attack surface, investigates reachable vulnerabilities, reproduces them safely, challenges each hypothesis independently, and reports honest limits.
 
 Say: "Audit this repo for security vulnerabilities and show me the confirmed findings."
 
@@ -219,7 +221,7 @@ Say: "Audit this repo for security vulnerabilities and show me the confirmed fin
 npx skills add agentmemoir/skills --skill paraglide-svelte5-best-practices --global -y
 ```
 
-Type-safe, tree-shakable i18n for Svelte 5 and SvelteKit with Paraglide JS 2.x: compiler-based messages, locale strategies, localized URLs, SSR/SSG setup, rich-text markup with Svelte 5 snippets, testing, and common pitfalls.
+Type-safe, tree-shakable i18n for Svelte 5 and SvelteKit with Paraglide JS 2.x. Covers compiler-based messages, locale strategies, localized URLs, SSR/SSG setup, rich-text markup with Svelte 5 snippets, testing, and common pitfalls.
 
 Say: "Set up Paraglide i18n in my SvelteKit app with localized URLs."
 
@@ -229,7 +231,7 @@ Say: "Set up Paraglide i18n in my SvelteKit app with localized URLs."
 npx skills add agentmemoir/skills --skill svelte5-ssr-runes --global -y
 ```
 
-Build, migrate, or review server-rendered Svelte 5 apps using runes with SvelteKit SSR or plain Vite SSR: request-scoped state, hydration-safe rendering, streaming loads, CSP nonces, and an SSR security checklist.
+Server-rendered Svelte 5 with runes, SvelteKit SSR, or plain Vite SSR. Build, migrate, or review apps that use runes: request-scoped state, hydration-safe rendering, streaming loads, CSP nonces, and an SSR security checklist.
 
 Say: "Build my Svelte 5 app with SSR and runes."
 
@@ -239,9 +241,11 @@ Say: "Build my Svelte 5 app with SSR and runes."
 npx skills add agentmemoir/skills --skill svelte5-static-runes --global -y
 ```
 
-Build, migrate, or review static (no server) Svelte 5 apps using runes ($state, $derived, $effect, $props, $bindable) instead of legacy Svelte 4 reactivity, with SvelteKit adapter-static setup and an XSS/CSP/secrets security checklist.
+Static (no server) Svelte 5 apps with runes and adapter-static. Build, migrate, or review apps that use runes instead of legacy Svelte 4 reactivity, with SvelteKit adapter-static setup and an XSS/CSP/secrets security checklist.
 
 Say: "Build my Svelte 5 static site with runes."
+
+<!-- END GENERATED: skills index -->
 
 ## CLI tools
 
@@ -257,7 +261,7 @@ npx --package github:agentmemoir/skills sqlm <input_directory> [output_file]
 
 ## Next steps
 
-- Add a skill: copy `template/SKILL.md`, then follow the index-sync checklist in `AGENTS.md`.
+- Add a skill: copy `template/SKILL.md`, fill in its frontmatter, then run `npm run generate:index`.
 - Verify a change: run `npm test` (needs Node.js 22.18+).
 
 [MIT](LICENSE) — use freely, attribution appreciated.

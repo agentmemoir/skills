@@ -12,6 +12,8 @@
     "test:flake-loop": "bash skills/code/rust-flaky-test-investigator/scripts/flake-loop.sh --self-check",
     "test:python-subprocess-concurrency": "python3 skills/code/python-subprocess-and-concurrency/scripts/verify-recipes.py",
     "check:rust-skill-commands": "node scripts/verify-rust-skill-commands.cjs",
+    "generate:index": "node scripts/generate-index.cjs",
+    "check:index": "node scripts/generate-index.cjs --check",
     "check:humanizer": "node scripts/sync-humanizer.cjs",
     "check:humanizer:live": "node scripts/sync-humanizer.cjs --live",
     "sync:humanizer": "node scripts/sync-humanizer.cjs --write",

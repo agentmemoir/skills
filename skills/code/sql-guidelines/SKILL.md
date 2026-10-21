@@ -1,6 +1,16 @@
 ---
 name: sql-guidelines
 description: Enforces Postgres SQL formatting conventions for case, layout, naming, and types. Use when writing or reviewing SQL.
+category: code
+title: SQL guidelines
+summary: >-
+  Postgres formatting conventions for case, layout, naming, and types. Keywords uppercase, type names
+  lowercase (except `TIMESTAMP WITH TIME ZONE`), snake_case identifiers, 2-space indent, types at
+  column 96, plus naming, type, table, function, and index rules. Applies to every SQL
+  change.
+say: >-
+  "Write (or review) this SQL using
+  sql-guidelines."
 license: MIT
 ---
 

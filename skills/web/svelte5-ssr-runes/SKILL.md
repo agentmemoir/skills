@@ -12,6 +12,16 @@ description: >-
   module-level state leaking between users, non-deterministic render values,
   and secrets reaching the client. Trigger even on a bare pasted component that
   "renders differently on the server and client".
+category: web
+title: Svelte5 SSR runes
+summary: >-
+  Server-rendered Svelte 5 with runes, SvelteKit SSR, or plain Vite SSR. Build, migrate, or review
+  apps that use runes: request-scoped state, hydration-safe rendering, streaming loads, CSP nonces,
+  and an SSR security
+  checklist.
+say: >-
+  "Build my Svelte 5 app with SSR and
+  runes."
 ---
 
 # Svelte 5 Server-Side Rendering (Runes)

@@ -6,6 +6,16 @@ description: >-
   one HTML report and changes nothing until I pick fixes. Triggers: review, red-team,
   audit, autopsy, critique, roast, poke holes, devil's advocate, fact-check, verify, second
   opinion, check yourself, what did I miss.
+category: review
+title: Autopsy
+summary: >-
+  Second pass on finished work: returns one HTML audit report and changes nothing until you pick
+  fixes. Checks docs, plans, or code against what you asked for, verifies checkable claims with web
+  search, and reports a verdict, missing requirements, and fixes ordered by
+  priority.
+say: >-
+  "Run an autopsy on docs/plan.md and show me the
+  report."
 license: MIT
 compatibility: Requires Node.js to generate the report from findings.json, web search for claim verification, and a desktop session to auto-open the report (otherwise the report path is printed).
 metadata:

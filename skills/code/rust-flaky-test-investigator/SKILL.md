@@ -10,6 +10,18 @@ description: >-
   around error-code triage, cargo-nextest stress runs, and controlled
   experiments. Execution-driven: never concludes a root cause from reading test
   code alone.
+category: code
+title: Rust flaky test investigator
+summary: >-
+  Finds why a Rust test fails intermittently and files it as a bug. Reports a measured flake rate, a
+  reproduced failure, and a root cause backed by a controlled experiment. Decodes the error's own
+  codes before forming any hypothesis, then uses cargo-nextest stress runs, an eight-axis
+  discrimination matrix, and a nineteen-family root-cause taxonomy. Never concludes a cause from
+  reading test code
+  alone.
+say: >-
+  "Investigate why `replication_convergence` is flaky in this Rust
+  repo."
 ---
 
 # Rust Flaky Test Investigator

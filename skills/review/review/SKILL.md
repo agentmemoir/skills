@@ -1,6 +1,18 @@
 ---
 name: review
 description: "Run a structured, adversarial multi-agent code review pipeline on a codebase. Use this skill whenever I want to find bugs, audit code quality, review a codebase for issues, or run any kind of bug-finding or code analysis workflow. Also trigger when I ask to 'review my code for bugs', 'find all issues in this repo', 'audit this codebase', or any similar request. The pipeline uses three sequential phases: a Bug Finder that maximizes issue discovery, a Bug Adversary that challenges false positives, and an Arbiter that issues final verdicts — producing a clean, high-confidence bug report."
+category: review
+title: Review
+summary: >-
+  Three-pass bug hunt that keeps only the bugs that survive refutation. The first pass lists as many
+  bugs as it can find, the second argues against each one, and the third keeps only the ones that hold
+  up. Each phase writes a dated file and every bug keeps one ID (BUG-001, BUG-002) with file and line
+  across all three. Point it at one folder when the repo is large, since it does better work on a
+  small scope than on everything at
+  once.
+say: >-
+  "Run a review on
+  ./src/auth."
 ---
 
 # Review
