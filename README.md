@@ -24,6 +24,7 @@ npx skills add agentmemoir/skills --all --global -y
 | [Portability](#portability) | 3 | Code that runs on hosts that block execution |
 | [Review](#review) | 3 | Verdicts on finished work |
 | [Web](#web) | 3 | Apps that run in a browser |
+| [Workflow](#workflow) | 4 | Decide, plan, and report progress with you |
 
 ## Skill Index
 
@@ -244,6 +245,57 @@ npx skills add agentmemoir/skills --skill svelte5-static-runes --global -y
 Static (no server) Svelte 5 apps with runes and adapter-static. Build, migrate, or review apps that use runes instead of legacy Svelte 4 reactivity, with SvelteKit adapter-static setup and an XSS/CSP/secrets security checklist.
 
 Say: "Build my Svelte 5 static site with runes."
+
+### Workflow
+
+`skills/workflow/`
+
+| Skill | Description |
+|---|---|
+| [`prism`](skills/workflow/prism/SKILL.md) | Puts a costly, hard-to-undo decision to you as one short question, one option per lens, and a recommendation. |
+| [`probe`](skills/workflow/probe/SKILL.md) | Grills you on a request before any code changes, then turns the settled decisions into a plan, a GitHub master issue, or a coding session. |
+| [`progress`](skills/workflow/progress/SKILL.md) | Keeps a ledger of the large work items in a long task and sends a 12-line progress and ETA report each time one changes state. |
+| [`retro`](skills/workflow/retro/SKILL.md) | Ends a session with up to three suggestions to fix your skills, agent instructions, and rules, each grounded in something that happened. |
+
+#### Prism
+
+```
+npx skills add agentmemoir/skills --skill prism --global -y
+```
+
+Puts a costly, hard-to-undo decision to you as one short question, one option per lens, and a recommendation. Speed, Simplicity, Reliability, and Flexibility each get an option that fully solves the problem, with real pros and cons. If a choice is clear or cheap to undo, the agent makes it and tells you in one line.
+
+Say: "Prism this: which cache fix should we ship?"
+
+#### Probe
+
+```
+npx skills add agentmemoir/skills --skill probe --global -y
+```
+
+Grills you on a request before any code changes, then turns the settled decisions into a plan, a GitHub master issue, or a coding session. Restates your goal, researches avenues, and asks one decision at a time. Costly choices go through prism. Plans and preferences are saved outside the CLI's data folder, so session cleanup cannot delete them.
+
+Say: "Probe me on the auth refactor before you touch any code."
+
+#### Progress
+
+```
+npx skills add agentmemoir/skills --skill progress --global -y
+```
+
+Keeps a ledger of the large work items in a long task and sends a 12-line progress and ETA report each time one changes state. Items are never silently dropped or renamed. Scope changes are stated, and the ETA is always a range based on evidence. Works for one agent alone or for an orchestrator with subagents.
+
+Say: "Track progress on this and give me ETAs."
+
+#### Retro
+
+```
+npx skills add agentmemoir/skills --skill retro --global -y
+```
+
+Ends a session with up to three suggestions to fix your skills, agent instructions, and rules, each grounded in something that happened. Every suggestion names the file, quotes the instruction, and states the effect seen. One switch turns retros off for every future session.
+
+Say: "Run a retro on this session."
 
 <!-- END GENERATED: skills index -->
 
