@@ -225,7 +225,7 @@ fi
 
 if [ "$QUICK" -eq 0 ]; then
   echo "== autopsy self-check =="
-  node "$ROOT/skills/quality/autopsy/scripts/generate-report.cjs" --self-check || fail=1
+  node "$ROOT/skills/review/autopsy/scripts/generate-report.cjs" --self-check || fail=1
 fi
 
 exit "$fail"

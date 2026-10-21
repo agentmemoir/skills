@@ -235,4 +235,4 @@ Several behaviours here are version-sensitive and were verified against the vers
 | `shuttle::check_random(f, iterations)` | shuttle 0.9.x | Two arguments; randomized and **not sound** |
 | TSan needs `-Zbuild-std` and the `rust-src` component | nightly | Without it, false races from uninstrumented `std` |
 
-In the agentmemoir/skills repo, two guards keep the tool-facing parts of this table honest: `skills/languages/rust-flaky-test-investigator/scripts/flake-loop.sh --self-check` and the repo-root `verify-rust-skill-commands.cjs` (pass `--live` to check commands against an installed nextest). Both run in CI.
+In the agentmemoir/skills repo, two guards keep the tool-facing parts of this table honest: `skills/code/rust-flaky-test-investigator/scripts/flake-loop.sh --self-check` and the repo-root `verify-rust-skill-commands.cjs` (pass `--live` to check commands against an installed nextest). Both run in CI.

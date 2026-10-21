@@ -7,8 +7,8 @@ claims are checked on a machine without pytest. When pytest is installed, the
 twelve reference tests in ``references/test_exec_dir.py`` also run.
 
 Usage:
-    python3 skills/languages/noexec-python/scripts/self-check.py
-    python3 skills/languages/noexec-python/scripts/self-check.py --quiet
+    python3 skills/portability/noexec-python/scripts/self-check.py
+    python3 skills/portability/noexec-python/scripts/self-check.py --quiet
 
 Exit 0 = every check passed (a missing pytest is reported as a skip).
 Exit 1 = at least one check failed.

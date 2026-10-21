@@ -28,7 +28,7 @@ const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
 const REPO = "blader/humanizer";
-const SKILL_DIR = path.join(ROOT, "skills/writing/wordsmith");
+const SKILL_DIR = path.join(ROOT, "skills/docs/wordsmith");
 const UPSTREAM_DIR = path.join(SKILL_DIR, "references/upstream");
 const PIN_FILE = path.join(UPSTREAM_DIR, "humanizer.json");
 const LICENSE_FILE = path.join(UPSTREAM_DIR, "humanizer-LICENSE.txt");
@@ -239,7 +239,7 @@ async function update() {
   const releases = changelogSince(changelog, prev.version);
   console.log(`  upstream releases since the old pin: ${releases.length ? releases.join(", ") : "none listed"}`);
   console.log("  review now: the crosswalk, the docs-exemption table, and the H-number citations in");
-  console.log("              skills/writing/wordsmith/references/voice-and-tells.md");
+  console.log("              skills/docs/wordsmith/references/voice-and-tells.md");
   return 0;
 }
 

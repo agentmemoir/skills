@@ -10,22 +10,22 @@
       "description": "Agent skills collection by agentmemoir.",
       "strict": false,
       "skills": [
-        "./skills/frontend/paraglide-svelte5-best-practices",
-        "./skills/frontend/svelte5-ssr-runes",
-        "./skills/frontend/svelte5-static-runes",
-        "./skills/languages/noexec-coding",
-        "./skills/languages/noexec-python",
-        "./skills/languages/noexec-rust",
-        "./skills/languages/python-subprocess-and-concurrency",
-        "./skills/languages/rust-flaky-test-investigator",
-        "./skills/languages/rust-test-best-practices",
-        "./skills/languages/sql-guidelines",
-        "./skills/quality/autopsy",
-        "./skills/quality/debloat",
-        "./skills/quality/review",
-        "./skills/quality/tracer",
-        "./skills/quality/verification-antipattern",
-        "./skills/writing/wordsmith"
+        "./skills/code/python-subprocess-and-concurrency",
+        "./skills/code/rust-flaky-test-investigator",
+        "./skills/code/rust-test-best-practices",
+        "./skills/code/sql-guidelines",
+        "./skills/docs/wordsmith",
+        "./skills/engineering/debloat",
+        "./skills/engineering/verification-antipattern",
+        "./skills/portability/noexec-coding",
+        "./skills/portability/noexec-python",
+        "./skills/portability/noexec-rust",
+        "./skills/review/autopsy",
+        "./skills/review/review",
+        "./skills/review/tracer",
+        "./skills/web/paraglide-svelte5-best-practices",
+        "./skills/web/svelte5-ssr-runes",
+        "./skills/web/svelte5-static-runes"
       ]
     }
   ]

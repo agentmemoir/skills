@@ -16,96 +16,25 @@ npx skills add agentmemoir/skills --all --global -y
 
 | Category | Skills | Focus |
 |---|---:|---|
-| [Frontend](#frontend) | 3 | Build and review Svelte 5 apps |
-| [Languages](#languages) | 7 | Language, data-store, and host-portability craft |
-| [Quality](#quality) | 5 | Review, red-team, and verify finished work |
-| [Writing](#writing) | 1 | Write and improve prose |
+| [Code](#code) | 4 | Write, run, and test code inside one language |
+| [Docs](#docs) | 1 | Write and improve documentation |
+| [Engineering](#engineering) | 2 | Build lean code and keep verification gates honest |
+| [Portability](#portability) | 3 | Code that runs on hosts that block execution |
+| [Review](#review) | 3 | Verdicts on finished work |
+| [Web](#web) | 3 | Apps that run in a browser |
 
 ## Skill Index
 
-### Frontend
+### Code
 
-`skills/frontend/`
-
-| Skill | Description |
-|---|---|
-| [`paraglide-svelte5-best-practices`](skills/frontend/paraglide-svelte5-best-practices/SKILL.md) | Type-safe, tree-shakable i18n for Svelte 5 and SvelteKit with Paraglide JS 2.x. |
-| [`svelte5-ssr-runes`](skills/frontend/svelte5-ssr-runes/SKILL.md) | Server-rendered Svelte 5 with runes, SvelteKit SSR, or plain Vite SSR. |
-| [`svelte5-static-runes`](skills/frontend/svelte5-static-runes/SKILL.md) | Static (no server) Svelte 5 apps with runes and adapter-static. |
-
-#### Paraglide Svelte5 best practices
-
-```
-npx skills add agentmemoir/skills --skill paraglide-svelte5-best-practices --global -y
-```
-
-Type-safe, tree-shakable i18n for Svelte 5 and SvelteKit with Paraglide JS 2.x: compiler-based messages, locale strategies, localized URLs, SSR/SSG setup, rich-text markup with Svelte 5 snippets, testing, and common pitfalls.
-
-Say: "Set up Paraglide i18n in my SvelteKit app with localized URLs."
-
-#### Svelte5 SSR runes
-
-```
-npx skills add agentmemoir/skills --skill svelte5-ssr-runes --global -y
-```
-
-Build, migrate, or review server-rendered Svelte 5 apps using runes with SvelteKit SSR or plain Vite SSR: request-scoped state, hydration-safe rendering, streaming loads, CSP nonces, and an SSR security checklist.
-
-Say: "Build my Svelte 5 app with SSR and runes."
-
-#### Svelte5 static runes
-
-```
-npx skills add agentmemoir/skills --skill svelte5-static-runes --global -y
-```
-
-Build, migrate, or review static (no server) Svelte 5 apps using runes ($state, $derived, $effect, $props, $bindable) instead of legacy Svelte 4 reactivity, with SvelteKit adapter-static setup and an XSS/CSP/secrets security checklist.
-
-Say: "Build my Svelte 5 static site with runes."
-
-### Languages
-
-`skills/languages/`
+`skills/code/`
 
 | Skill | Description |
 |---|---|
-| [`noexec-coding`](skills/languages/noexec-coding/SKILL.md) | Code and tests that work where scratch storage is mounted `noexec`. |
-| [`noexec-python`](skills/languages/noexec-python/SKILL.md) | Python under a `noexec` mount: run scripts through the interpreter, keep temp paths for data. |
-| [`noexec-rust`](skills/languages/noexec-rust/SKILL.md) | Rust under a `noexec` mount: probe and relocate the cargo target dir. |
-| [`python-subprocess-and-concurrency`](skills/languages/python-subprocess-and-concurrency/SKILL.md) | Runs external programs safely and picks the right concurrency model. |
-| [`rust-flaky-test-investigator`](skills/languages/rust-flaky-test-investigator/SKILL.md) | Finds why a Rust test fails intermittently and files it with a measured flake rate. |
-| [`rust-test-best-practices`](skills/languages/rust-test-best-practices/SKILL.md) | Guidelines for writing Rust tests that stay reliable in CI. |
-| [`sql-guidelines`](skills/languages/sql-guidelines/SKILL.md) | Postgres formatting conventions for case, layout, naming, and types. |
-
-#### Noexec coding
-
-```
-npx skills add agentmemoir/skills --skill noexec-coding --global -y
-```
-
-Write and test code for hosts where every scratch directory is mounted `noexec`, so starting a file from a temporary path is refused with `Permission denied` or exit code 126. Covers what the mount blocks, why shebangs and mode bits do not help, the three-way execution probe, where executables belong, test design that cannot skip, and the anti-patterns that hide the defect.
-
-Say: "My tests fail with Permission denied from /tmp — make this code work on a noexec host."
-
-#### Noexec python
-
-```
-npx skills add agentmemoir/skills --skill noexec-python --global -y
-```
-
-Write and test Python on hosts where scratch storage is mounted `noexec`. Run scripts through `sys.executable` instead of starting them, keep `tempfile` and `tmp_path` for data, resolve a proven executable directory with a three-state probe, and replace skip-based tests with one negative test that fails when a program lands in scratch. Includes a tested resolver, twelve reference tests, and a migration workflow.
-
-Say: "Why does subprocess raise PermissionError for a helper script in tmp_path?"
-
-#### Noexec rust
-
-```
-npx skills add agentmemoir/skills --skill noexec-rust --global -y
-```
-
-Build and test Rust on hosts where scratch storage is mounted `noexec`, where `cargo test` fails with `Permission denied (os error 13)`. Probe the cargo target directory before a cold build, move it to executable storage, cover doctests and build scripts, and spawn helper programs from a resolved directory while keeping `TempDir` for data. Includes compile-checked resolver and spawn examples.
-
-Say: "cargo test fails with Permission denied on a temp target dir — fix the setup."
+| [`python-subprocess-and-concurrency`](skills/code/python-subprocess-and-concurrency/SKILL.md) | Runs external programs safely and picks the right concurrency model. |
+| [`rust-flaky-test-investigator`](skills/code/rust-flaky-test-investigator/SKILL.md) | Finds why a Rust test fails intermittently and files it with a measured flake rate. |
+| [`rust-test-best-practices`](skills/code/rust-test-best-practices/SKILL.md) | Guidelines for writing Rust tests that stay reliable in CI. |
+| [`sql-guidelines`](skills/code/sql-guidelines/SKILL.md) | Postgres formatting conventions for case, layout, naming, and types. |
 
 #### Python subprocess and concurrency
 
@@ -147,27 +76,32 @@ Postgres formatting conventions for case, layout, naming, and types. Keywords up
 
 Say: "Write (or review) this SQL using sql-guidelines."
 
-### Quality
+### Docs
 
-`skills/quality/`
+`skills/docs/`
 
 | Skill | Description |
 |---|---|
-| [`autopsy`](skills/quality/autopsy/SKILL.md) | Second pass on finished work; returns one HTML audit report and changes nothing until you pick fixes. |
-| [`debloat`](skills/quality/debloat/SKILL.md) | Forces lean code in any language; caps every file it creates or modifies at 450 lines. |
-| [`review`](skills/quality/review/SKILL.md) | Three-pass bug hunt that keeps only the bugs that survive refutation. |
-| [`tracer`](skills/quality/tracer/SKILL.md) | Evidence-based, read-only security audit with severity-rated findings. |
-| [`verification-antipattern`](skills/quality/verification-antipattern/SKILL.md) | Finds verification gates that block people or agents for over 5 minutes, names the cause, and ranks fixes. |
+| [`wordsmith`](skills/docs/wordsmith/SKILL.md) | Writes, audits, and rewrites developer documentation with page typing, 28 style rules, a 26-pattern AI-tell catalog, and rule-traced change logs. |
 
-#### Autopsy
+#### Wordsmith
 
 ```
-npx skills add agentmemoir/skills --skill autopsy --global -y
+npx skills add agentmemoir/skills --skill wordsmith --global -y
 ```
 
-A second pass on finished work. It checks docs, plans, or code against what you asked for, verifies checkable claims with web search, and returns a single HTML report with a verdict, missing requirements, and fixes ordered by priority. It changes nothing until you pick what to fix.
+Write, audit, and rewrite developer documentation using the Wordsmith method — page typing, 28 numbered style rules, a 26-pattern AI-tell catalog, and rule-traced change logs. Its voice pass strips machine-written tells (not-X-but-Y contrasts, one-line closers, forced triads, stock words, decorative bold) from docs prose without touching facts, code samples, or reference neutrality. The catalog is vendored verbatim from [blader/humanizer](https://github.com/blader/humanizer) at a pinned release and checked in CI, so a hand-edit to the vendored text fails the build.
 
-Say: "Run an autopsy on docs/plan.md and show me the report."
+Say: "Rewrite this README with wordsmith" or "These docs read like AI wrote them — de-slop them."
+
+### Engineering
+
+`skills/engineering/`
+
+| Skill | Description |
+|---|---|
+| [`debloat`](skills/engineering/debloat/SKILL.md) | Forces lean code in any language; caps every file it creates or modifies at 450 lines. |
+| [`verification-antipattern`](skills/engineering/verification-antipattern/SKILL.md) | Finds verification gates that block people or agents for over 5 minutes, names the cause, and ranks fixes. |
 
 #### Debloat
 
@@ -178,6 +112,76 @@ npx skills add agentmemoir/skills --skill debloat --global -y
 Enforce lean code in any language: confirm requirements, research current best practices, then write the smallest implementation that works. Caps every file it creates or modifies at 450 lines.
 
 Say: "Add the endpoint, but keep it debloated."
+
+#### Verification antipattern
+
+```
+npx skills add agentmemoir/skills --skill verification-antipattern --global -y
+```
+
+Detects hostile verification gates — lint, format, typecheck, build, test, coverage, mutation, or security checks that block a person or agent for more than five minutes — and returns a short report naming the cause from a catalog of eleven antipatterns, with fixes ranked by expected wait saved. It reports and plans; it changes gates only when the task asks.
+
+Say: "CI blocks every merge for 20 minutes. Find where the time goes and fix it."
+
+### Portability
+
+`skills/portability/`
+
+| Skill | Description |
+|---|---|
+| [`noexec-coding`](skills/portability/noexec-coding/SKILL.md) | Code and tests that work where scratch storage is mounted `noexec`. |
+| [`noexec-python`](skills/portability/noexec-python/SKILL.md) | Python under a `noexec` mount: run scripts through the interpreter, keep temp paths for data. |
+| [`noexec-rust`](skills/portability/noexec-rust/SKILL.md) | Rust under a `noexec` mount: probe and relocate the cargo target dir. |
+
+#### Noexec coding
+
+```
+npx skills add agentmemoir/skills --skill noexec-coding --global -y
+```
+
+Write and test code for hosts where every scratch directory is mounted `noexec`, so starting a file from a temporary path is refused with `Permission denied` or exit code 126. Covers what the mount blocks, why shebangs and mode bits do not help, the three-way execution probe, where executables belong, test design that cannot skip, and the anti-patterns that hide the defect.
+
+Say: "My tests fail with Permission denied from /tmp — make this code work on a noexec host."
+
+#### Noexec python
+
+```
+npx skills add agentmemoir/skills --skill noexec-python --global -y
+```
+
+Write and test Python on hosts where scratch storage is mounted `noexec`. Run scripts through `sys.executable` instead of starting them, keep `tempfile` and `tmp_path` for data, resolve a proven executable directory with a three-state probe, and replace skip-based tests with one negative test that fails when a program lands in scratch. Includes a tested resolver, twelve reference tests, and a migration workflow.
+
+Say: "Why does subprocess raise PermissionError for a helper script in tmp_path?"
+
+#### Noexec rust
+
+```
+npx skills add agentmemoir/skills --skill noexec-rust --global -y
+```
+
+Build and test Rust on hosts where scratch storage is mounted `noexec`, where `cargo test` fails with `Permission denied (os error 13)`. Probe the cargo target directory before a cold build, move it to executable storage, cover doctests and build scripts, and spawn helper programs from a resolved directory while keeping `TempDir` for data. Includes compile-checked resolver and spawn examples.
+
+Say: "cargo test fails with Permission denied on a temp target dir — fix the setup."
+
+### Review
+
+`skills/review/`
+
+| Skill | Description |
+|---|---|
+| [`autopsy`](skills/review/autopsy/SKILL.md) | Second pass on finished work; returns one HTML audit report and changes nothing until you pick fixes. |
+| [`review`](skills/review/review/SKILL.md) | Three-pass bug hunt that keeps only the bugs that survive refutation. |
+| [`tracer`](skills/review/tracer/SKILL.md) | Evidence-based, read-only security audit with severity-rated findings. |
+
+#### Autopsy
+
+```
+npx skills add agentmemoir/skills --skill autopsy --global -y
+```
+
+A second pass on finished work. It checks docs, plans, or code against what you asked for, verifies checkable claims with web search, and returns a single HTML report with a verdict, missing requirements, and fixes ordered by priority. It changes nothing until you pick what to fix.
+
+Say: "Run an autopsy on docs/plan.md and show me the report."
 
 #### Review
 
@@ -199,33 +203,45 @@ Evidence-based security audit of a local codebase. It maps the attack surface, i
 
 Say: "Audit this repo for security vulnerabilities and show me the confirmed findings."
 
-#### Verification antipattern
+### Web
 
-```
-npx skills add agentmemoir/skills --skill verification-antipattern --global -y
-```
-
-Detects hostile verification gates — lint, format, typecheck, build, test, coverage, mutation, or security checks that block a person or agent for more than five minutes — and returns a short report naming the cause from a catalog of eleven antipatterns, with fixes ranked by expected wait saved. It reports and plans; it changes gates only when the task asks.
-
-Say: "CI blocks every merge for 20 minutes. Find where the time goes and fix it."
-
-### Writing
-
-`skills/writing/`
+`skills/web/`
 
 | Skill | Description |
 |---|---|
-| [`wordsmith`](skills/writing/wordsmith/SKILL.md) | Writes, audits, and rewrites developer documentation with page typing, 28 style rules, a 26-pattern AI-tell catalog, and rule-traced change logs. |
+| [`paraglide-svelte5-best-practices`](skills/web/paraglide-svelte5-best-practices/SKILL.md) | Type-safe, tree-shakable i18n for Svelte 5 and SvelteKit with Paraglide JS 2.x. |
+| [`svelte5-ssr-runes`](skills/web/svelte5-ssr-runes/SKILL.md) | Server-rendered Svelte 5 with runes, SvelteKit SSR, or plain Vite SSR. |
+| [`svelte5-static-runes`](skills/web/svelte5-static-runes/SKILL.md) | Static (no server) Svelte 5 apps with runes and adapter-static. |
 
-#### Wordsmith
+#### Paraglide Svelte5 best practices
 
 ```
-npx skills add agentmemoir/skills --skill wordsmith --global -y
+npx skills add agentmemoir/skills --skill paraglide-svelte5-best-practices --global -y
 ```
 
-Write, audit, and rewrite developer documentation using the Wordsmith method — page typing, 28 numbered style rules, a 26-pattern AI-tell catalog, and rule-traced change logs. Its voice pass strips machine-written tells (not-X-but-Y contrasts, one-line closers, forced triads, stock words, decorative bold) from docs prose without touching facts, code samples, or reference neutrality. The catalog is vendored verbatim from [blader/humanizer](https://github.com/blader/humanizer) at a pinned release and checked in CI, so a hand-edit to the vendored text fails the build.
+Type-safe, tree-shakable i18n for Svelte 5 and SvelteKit with Paraglide JS 2.x: compiler-based messages, locale strategies, localized URLs, SSR/SSG setup, rich-text markup with Svelte 5 snippets, testing, and common pitfalls.
 
-Say: "Rewrite this README with wordsmith" or "These docs read like AI wrote them — de-slop them."
+Say: "Set up Paraglide i18n in my SvelteKit app with localized URLs."
+
+#### Svelte5 SSR runes
+
+```
+npx skills add agentmemoir/skills --skill svelte5-ssr-runes --global -y
+```
+
+Build, migrate, or review server-rendered Svelte 5 apps using runes with SvelteKit SSR or plain Vite SSR: request-scoped state, hydration-safe rendering, streaming loads, CSP nonces, and an SSR security checklist.
+
+Say: "Build my Svelte 5 app with SSR and runes."
+
+#### Svelte5 static runes
+
+```
+npx skills add agentmemoir/skills --skill svelte5-static-runes --global -y
+```
+
+Build, migrate, or review static (no server) Svelte 5 apps using runes ($state, $derived, $effect, $props, $bindable) instead of legacy Svelte 4 reactivity, with SvelteKit adapter-static setup and an XSS/CSP/secrets security checklist.
+
+Say: "Build my Svelte 5 static site with runes."
 
 ## CLI tools
 
