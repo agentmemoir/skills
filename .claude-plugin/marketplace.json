@@ -25,7 +25,11 @@
         "./skills/review/tracer",
         "./skills/web/paraglide-svelte5-best-practices",
         "./skills/web/svelte5-ssr-runes",
-        "./skills/web/svelte5-static-runes"
+        "./skills/web/svelte5-static-runes",
+        "./skills/workflow/prism",
+        "./skills/workflow/probe",
+        "./skills/workflow/progress",
+        "./skills/workflow/retro"
       ]
     }
   ]

@@ -54,6 +54,11 @@ const CATEGORIES = [
   },
   { id: "review", title: "Review", focus: "Verdicts on finished work" },
   { id: "web", title: "Web", focus: "Apps that run in a browser" },
+  {
+    id: "workflow",
+    title: "Workflow",
+    focus: "Decide, plan, and report progress with you",
+  },
 ];
 
 /** Parse the YAML frontmatter of a SKILL.md into top-level scalar fields. */
