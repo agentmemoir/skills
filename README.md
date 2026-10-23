@@ -19,7 +19,7 @@ npx skills add agentmemoir/skills --all --global -y
 | Category | Skills | Focus |
 |---|---:|---|
 | [Code](#code) | 4 | Write, run, and test code inside one language |
-| [Docs](#docs) | 1 | Write and improve documentation |
+| [Docs](#docs) | 2 | Write and improve documentation |
 | [Engineering](#engineering) | 2 | Build lean code and keep verification gates honest |
 | [Portability](#portability) | 3 | Code that runs on hosts that block execution |
 | [Review](#review) | 3 | Verdicts on finished work |
@@ -85,7 +85,18 @@ Say: "Write (or review) this SQL using sql-guidelines."
 
 | Skill | Description |
 |---|---|
+| [`philosophy`](skills/docs/philosophy/SKILL.md) | Researches your project before the first question — product truths with evidence, hypotheses, and tensions between existing features. |
 | [`wordsmith`](skills/docs/wordsmith/SKILL.md) | Writes, audits, and rewrites developer documentation with page typing, 28 style rules, and a 26-pattern AI-tell catalog. |
+
+#### Philosophy
+
+```
+npx skills add agentmemoir/skills --skill philosophy --global -y
+```
+
+Researches your project before the first question — product truths with evidence, hypotheses, and tensions between existing features. Then interviews you one decision at a time, flags every contradiction the moment it appears, and recaps all choices so you can amend any answer. Costly forks go through prism with each option tagged as product truth or new proposal. Writes PHILOSOPHY.md only after your explicit confirmation, then refactors AGENTS.md so every rule names the belief it serves.
+
+Say: "Write our philosophy for this repo before you touch AGENTS.md."
 
 #### Wordsmith
 

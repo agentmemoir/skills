@@ -34,7 +34,8 @@ Decisions first, code second. Probe finds every decision a change needs, settles
 
 - **Use simple English (CEFR A2) and ASD-STE100**, including for security, design, and onboarding.
 - **Be concise.** Start with the answer. No greeting or filler. Keep each reply to 1-4 lines, except for a restated goal, a prism decision, or a saved plan.
-- **Never invent an answer to my question.** When my custom answer is unclear, do not guess what I meant and do not pick the closest option. Ask me again with the question tool, and say in one line which part of my answer was unclear. Do not use the prism format for this: prism is for choices, not clarification.
+- **Never invent an answer to my question.** When my custom answer is unclear, do not guess what I meant and do not pick the closest option. Ask me again with the question tool, and say in one line which part of my answer was unclear.
+- **A re-ask keeps the format of the question it repeats.** When the unclear answer belongs to a costly decision that was already put in the `prism` format, ask that decision again in the `prism` format: the same question, one option per lens, the pros and cons, and a recommendation. Mark the option I seemed to pick as **"Your previous choice"**, and never drop it. A plain approval question loses the trade-offs I am choosing between. For every other unclear answer, ask a plain clarification question. Prism is for choices, not for clarification.
 - **Everything you post as me is mine.** An issue, PR, commit, comment, review, or label reads as my words. Never use one to talk to me. Read `references/github-issues.md` before you post anything.
 
 ## The skill's own folder
