@@ -20,11 +20,11 @@ npx skills add agentmemoir/skills --all --global -y
 |---|---:|---|
 | [Code](#code) | 4 | Write, run, and test code inside one language |
 | [Docs](#docs) | 2 | Write and improve documentation |
-| [Engineering](#engineering) | 2 | Build lean code and keep verification gates honest |
+| [Engineering](#engineering) | 3 | Build lean code and keep verification gates honest |
 | [Portability](#portability) | 3 | Code that runs on hosts that block execution |
 | [Review](#review) | 3 | Verdicts on finished work |
 | [Web](#web) | 3 | Apps that run in a browser |
-| [Workflow](#workflow) | 4 | Decide, plan, and report progress with you |
+| [Workflow](#workflow) | 6 | Decide, plan, and report progress with you |
 
 ## Skill Index
 
@@ -114,8 +114,19 @@ Say: "Rewrite this README with wordsmith" or "These docs read like AI wrote them
 
 | Skill | Description |
 |---|---|
+| [`bugster`](skills/engineering/bugster/SKILL.md) | Files every confirmed bug as a labeled issue, reproduces it through the real entry point before the fix, and keeps both logs. |
 | [`debloat`](skills/engineering/debloat/SKILL.md) | Forces lean code in any language and caps every file it creates or modifies at 450 lines. |
 | [`verification-antipattern`](skills/engineering/verification-antipattern/SKILL.md) | Finds verification gates that block people or agents for over 5 minutes, names the cause, and ranks the fixes. |
+
+#### Bugster
+
+```
+npx skills add agentmemoir/skills --skill bugster --global -y
+```
+
+Files every confirmed bug as a labeled issue, reproduces it through the real entry point before the fix, and keeps both logs. Findings are classified as reproduced, confirmed by code, unconfirmed, or not a bug, so nothing is claimed without proof. Out-of-scope bugs are reported, never hidden.
+
+Say: "File a bug for this and prove the fix."
 
 #### Debloat
 
@@ -263,10 +274,32 @@ Say: "Build my Svelte 5 static site with runes."
 
 | Skill | Description |
 |---|---|
+| [`maestro`](skills/workflow/maestro/SKILL.md) | The coordinator decides and verifies, general background subagents do all the work, and one publication worker owns commits and pushes. |
+| [`oracle`](skills/workflow/oracle/SKILL.md) | Searches primary sources before any claim about tools, libraries, APIs, standards, or versions, and reports the evidence behind it. |
 | [`prism`](skills/workflow/prism/SKILL.md) | Puts a costly, hard-to-undo decision to you as one short question, one option per lens, and a recommendation. |
 | [`probe`](skills/workflow/probe/SKILL.md) | Grills you on a request before any code changes, then turns the settled decisions into a plan, a GitHub master issue, or a coding session. |
 | [`progress`](skills/workflow/progress/SKILL.md) | Keeps a ledger of the large work items in a long task and sends a 12-line progress and ETA report each time one changes state. |
 | [`retro`](skills/workflow/retro/SKILL.md) | Ends a session with up to three suggestions to fix your skills, agent instructions, and rules, each grounded in something that happened. |
+
+#### Maestro
+
+```
+npx skills add agentmemoir/skills --skill maestro --global -y
+```
+
+The coordinator decides and verifies, general background subagents do all the work, and one publication worker owns commits and pushes. It loads its own rule files and skills; everything else comes from a worker report and digest. Work starts with a pushed draft PR, reports use a fixed ten-key schema, and no stage passes without evidence.
+
+Say: "Coordinate this task and hand the work to workers."
+
+#### Oracle
+
+```
+npx skills add agentmemoir/skills --skill oracle --global -y
+```
+
+Searches primary sources before any claim about tools, libraries, APIs, standards, or versions, and reports the evidence behind it. Repository evidence outranks the web, three failed queries stop the search, and unverified claims are labeled as hypotheses.
+
+Say: "Research this before you answer."
 
 #### Prism
 
