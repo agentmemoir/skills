@@ -22,7 +22,7 @@ npx skills add agentmemoir/skills --all --global -y
 | [Docs](#docs) | 2 | Write and improve documentation |
 | [Engineering](#engineering) | 3 | Build lean code and keep verification gates honest |
 | [Portability](#portability) | 3 | Code that runs on hosts that block execution |
-| [Review](#review) | 3 | Verdicts on finished work |
+| [Review](#review) | 4 | Verdicts on finished work |
 | [Web](#web) | 3 | Apps that run in a browser |
 | [Workflow](#workflow) | 6 | Decide, plan, and report progress with you |
 
@@ -195,6 +195,7 @@ Say: "cargo test fails with Permission denied on a temp target dir — fix the s
 | Skill | Description |
 |---|---|
 | [`autopsy`](skills/review/autopsy/SKILL.md) | Second pass on finished work: returns one HTML audit report and changes nothing until you pick fixes. |
+| [`modernizer`](skills/review/modernizer/SKILL.md) | Audits a codebase for outdated, unsupported, vulnerable, and abandoned technology, then plans and files the remediation. |
 | [`review`](skills/review/review/SKILL.md) | Three-pass bug hunt that keeps only the bugs that survive refutation. |
 | [`tracer`](skills/review/tracer/SKILL.md) | Evidence-based, read-only security audit with severity-rated findings. |
 
@@ -207,6 +208,16 @@ npx skills add agentmemoir/skills --skill autopsy --global -y
 Second pass on finished work: returns one HTML audit report and changes nothing until you pick fixes. Checks docs, plans, or code against what you asked for, verifies checkable claims with web search, and reports a verdict, missing requirements, and fixes ordered by priority.
 
 Say: "Run an autopsy on docs/plan.md and show me the report."
+
+#### Modernizer
+
+```
+npx skills add agentmemoir/skills --skill modernizer --global -y
+```
+
+Audits a codebase for outdated, unsupported, vulnerable, and abandoned technology, then plans and files the remediation. Four levels run in strict order: read-only audit, human review, deliberation, and authorized GitHub issues. Evidence, priority, and confidence survive every handoff, and the repository is never modified.
+
+Say: "Audit this codebase for outdated technology and plan the remediation."
 
 #### Review
 
