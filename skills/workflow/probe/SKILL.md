@@ -76,6 +76,7 @@ Never keep a record only in a CLI's own folder. Claude Code deletes `~/.claude/p
 ## Step 3: Probe before acting
 
 - Once I pick an avenue, probe me on every decision and branch. Find every decision that must be made before coding or refactoring.
+- Spend the probe on behaviour, not on code: edge cases, error paths, boundaries, and invariants. Do not spend it on speculative code.
 - Present one decision per message, and wait for my answer before the next one.
 - Give concise options, with trade-offs where useful.
 - When I must choose among real alternatives and the choice is costly to undo, use the `prism` skill format. If prism is not installed, use its gate anyway: only ask about costly choices.
@@ -94,6 +95,8 @@ My Step 1 answer may have changed. Ask me again with the question tool, and use 
 Do not offer "Not Decided Yet" here. The avenues are explored and the decisions are settled, so a plan, an issue, or code is the way to carry the work forward. If I refuse to pick, ask once more and say that the work cannot start without a decision.
 
 Then save my pick in `implementation-preference.md` for the current repository. The file holds one line: the option name and today's date, for example `Coding Session 2026-10-22`. If I pick a different option next time, update the file.
+
+Plan, phase, master-issue, and child-issue artifacts must contain no code blocks and no file-level implementation prescriptions. Express deliverables as Given-When-Then scenarios plus a tracer bullet, and defer all code guidance to implementation time.
 
 ### Implementation plan
 
@@ -145,8 +148,15 @@ Rules for every location:
 
 If the `retro` skill is installed, run it at the end of the session. If it is not installed, skip this step.
 
+## Anti-patterns
+
+- Embedding a code snippet in a plan, phase, or child-issue file.
+- Prescribing file paths to change.
+- Treating "code written" as done.
+
 ## Resources
 
 - `assets/plan.md`: implementation plan structure. Load it in Step 4 for a plan or a coding session.
 - `assets/github-master-issue.md` and `assets/github-child-issue.md`: issue body structures. Load them in Step 4 for a master issue.
 - `references/github-issues.md`: rules for posting as me, the repository, labels, and sub-issues. Load it before any `gh` write.
+- `references/executable-specs.md`: optional techniques for turning a deliverable into an executable specification. Load it when a step needs a testable scenario.
