@@ -18,7 +18,7 @@ say: "Coordinate this task and hand the work to workers."
 license: MIT
 metadata:
   author: agentmemoir
-  version: "1.0"
+  version: "1.1"
 ---
 
 # Maestro
@@ -71,6 +71,7 @@ Every assignment states:
 | Output | The result-file path and any named evidence digest. |
 | Acceptance | Concrete completion conditions and required checks. |
 | Deadline | An explicit checkpoint no more than 20 minutes after launch. |
+| Reporting | The coordinator learns of completion only from your turn end and the `STATUS:` line in §3; end every reply with that line, and never yield while assigned work is pending except when wrapping up under the directive. |
 | Boundary | Public or private classification, and publication permissions. |
 | Concurrency | That the workspace is shared and other workers' changes must be preserved. |
 
@@ -96,6 +97,14 @@ Keep the session ID each launch returns, and stay available for new decisions an
 
 **No polling.** Completion notices and short reports are the evidence channel. Do not inspect worker status or logs, query for progress, duplicate work, or take over execution.
 
+**A notice is a turn-end signal, not completion.** Background-subagent notices can be premature, can be missing, or may never be emitted at all, and delivery depends on the route used to prompt the child rather than on the state of the work. So:
+
+- A notice is terminal only when it reports a terminal status for the named result path and meets the §7 acceptance conditions.
+- Any other notice is interim: it starts the recovery ladder below, and no further notice should be expected for that dispatch. Pending-work wording — "waiting on", "running in background", "checks still running" — is not progress you can wait on.
+- Never wait for a later notice, and never infer completion from elapsed time or from the label the harness attached.
+
+Every worker reply ends with one status line, so the coordinator can classify a notice without reading artifacts: `STATUS: terminal <result path> written` or `STATUS: interim, pending <ids>`.
+
 A deadline is a checkpoint on uninterrupted work, not a limit on the whole task.
 
 Workers must:
@@ -103,6 +112,9 @@ Workers must:
 - run anything expected to take over a minute as a background process with its own log
 - keep working on independent assigned work while it runs
 - read their logs and collect results when it finishes
+- never end a turn while a background process they started is still pending, except when wrapping up under the directive after writing the partial result; when no independent assigned work remains, hold the turn open by re-reading the job's log between short waits, since worker-side waiting is allowed and only the coordinator may not poll
+- hold a turn open no longer than the dispatch deadline, then write a partial result
+- end every reply with the status line above, writing the terminal result before that line
 - stay reachable for session-control messages
 - start nothing new once told to wrap up or once the deadline arrives
 - write a valid result file even when incomplete, naming the unfinished work and running processes
@@ -116,6 +128,17 @@ Workers must:
 5. After the deadline, keep reminding until the worker concludes or is terminated.
 6. If it is still open one reminder at least five minutes after the deadline, interrupt it through the native session-control route.
 
+**Recovery ladder.** An interim notice starts the ladder; a terminal notice ends it.
+
+1. Send recovery checkpoint 1 to the same worker session through the native background-subagent continuation route that launched it — in OpenCode, the `subagent` tool with the child `sessionID` and `background: true`. Never send a checkpoint as a direct session prompt or through a plugin prompt path, because that route registers no completion notification and its answer can be silent. If the route is unavailable, the ladder is blocked: say which control is missing instead of waiting.
+
+   > Write your terminal result to <result path> and reply with the status line only. Do not reply with progress. If work is pending, hold this turn open until the result is written.
+
+2. If a terminal result has not arrived one reminder interval later, send recovery checkpoint 2 with the same text.
+3. When checkpoint 2 draws an interim reply or silence, follow the deadline rules above and interrupt through the native route at the point the reminder protocol allots; record the outcome as `terminated` and unverified (§7).
+
+Two recovery checkpoints per assignment is the ceiling, counted across the original dispatch and every checkpoint derived from it; ordinary progress checkpoints do not count. More would turn recovery into polling.
+
 The directive:
 
 > Wrap up now. Stop new work and start no new commands. Finish only what is already in hand, write your result file with accurate status and remaining work, then report. Existing background commands must not delay the report.
@@ -124,7 +147,7 @@ A worker that receives it stops at once. A background process it already started
 
 An unresolved background writer must be isolated, stopped safely, or accounted for before conflicting edits or publication.
 
-**Silence is never success.** Termination is not completion. After an interruption, record the truthful partial or terminated outcome; never present unverified work as finished.
+**Silence is never success.** Termination is not completion. Silence past one reminder interval is a stall, not a wait: run the recovery ladder. After an interruption, record the truthful partial or terminated outcome; never present unverified work as finished.
 
 If reminder scheduling or interruption is unavailable, say which control is missing and do not claim the lifecycle guarantee holds.
 
