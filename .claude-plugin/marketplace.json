@@ -23,6 +23,7 @@
         "./skills/portability/noexec-python",
         "./skills/portability/noexec-rust",
         "./skills/review/autopsy",
+        "./skills/review/modernizer",
         "./skills/review/review",
         "./skills/review/tracer",
         "./skills/web/paraglide-svelte5-best-practices",
