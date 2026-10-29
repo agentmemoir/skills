@@ -24,7 +24,7 @@ npx skills add agentmemoir/skills --all --global -y
 | [Portability](#portability) | 3 | Code that runs on hosts that block execution |
 | [Review](#review) | 4 | Verdicts on finished work |
 | [Web](#web) | 3 | Apps that run in a browser |
-| [Workflow](#workflow) | 6 | Decide, plan, and report progress with you |
+| [Workflow](#workflow) | 7 | Decide, plan, and report progress with you |
 
 ## Skill Index
 
@@ -296,12 +296,23 @@ Say: "Build my Svelte 5 static site with runes."
 
 | Skill | Description |
 |---|---|
+| [`blueprint`](skills/workflow/blueprint/SKILL.md) | Turns a product idea or scattered legacy docs into a Product Domain Specification: one bounded context per file, under the tidy contract. |
 | [`maestro`](skills/workflow/maestro/SKILL.md) | The coordinator decides and verifies, general background subagents do all the work, and one publication worker owns commits and pushes. |
 | [`oracle`](skills/workflow/oracle/SKILL.md) | Searches primary sources before any claim about tools, libraries, APIs, standards, or versions, and reports the evidence behind it. |
 | [`prism`](skills/workflow/prism/SKILL.md) | Puts a costly, hard-to-undo decision to you as one short question, one option per lens, and a recommendation. |
 | [`probe`](skills/workflow/probe/SKILL.md) | Grills you on a request before any code changes, then turns the settled decisions into a plan, a GitHub master issue, or a coding session. |
 | [`progress`](skills/workflow/progress/SKILL.md) | Keeps a ledger of the large work items in a long task and sends a 12-line progress and ETA report each time one changes state. |
 | [`retro`](skills/workflow/retro/SKILL.md) | Ends a session with up to three suggestions to fix your skills, agent instructions, and rules, each grounded in something that happened. |
+
+#### Blueprint
+
+```
+npx skills add agentmemoir/skills --skill blueprint --global -y
+```
+
+Turns a product idea or scattered legacy docs into a Product Domain Specification: one bounded context per file, under the tidy contract. Questions every decision that shapes the product, puts costly choices through prism, and records every amendment as a decision record so the suite grows across sessions.
+
+Say: "Blueprint a PDS for this" or "Extract the product spec from these docs."
 
 #### Maestro
 
