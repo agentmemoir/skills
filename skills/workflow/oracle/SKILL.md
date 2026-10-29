@@ -23,6 +23,12 @@ metadata:
 
 Confidence is not evidence. Search before you commit to an approach, not after, and say what the source actually established.
 
+## Tidy gate (run first)
+
+Before any work, load the `tidy` skill. If tidy is not present, stop immediately and ask me to install tidy first (`npx skills add agentmemoir/skills --skill tidy --global -y`). Do nothing else until tidy is installed.
+
+Once tidy is loaded, strictly adhere to it for the rest of the task. Oracle applies Tidy's single source of truth, relative-path integrity, and codebase grounding when researching technical topics, recording findings, and linking primary source citations: one canonical record per topic, every claim linked to the opened primary source or the repository path that supports it, all repository paths verified against the real codebase, and nothing duplicated across notes. Scope of the link gate: `check-tidy.py` verifies relative links only and cannot check external citations — oracle's own rule, never cite a page you did not open, is the only enforcement for URLs. Oracle reports in chat by default; when I ask to save research, write one file per topic with a dated slug, and once the notes folder holds three or more files, give it an index hub per Tidy's entry-point contract. Clarification follows session mode: interactive sessions stop and ask; autonomous sessions label assumptions as hypotheses in the report.
+
 ## 1. The rule
 
 Research first, reason from evidence, then act. A search is mandatory whenever a trigger below applies; it is never a judgment call. Familiarity, urgency, simplicity, and training data are not substitutes for verification.

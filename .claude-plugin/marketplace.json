@@ -15,6 +15,7 @@
         "./skills/code/rust-test-best-practices",
         "./skills/code/sql-guidelines",
         "./skills/docs/philosophy",
+        "./skills/docs/tidy",
         "./skills/docs/wordsmith",
         "./skills/engineering/bugster",
         "./skills/engineering/debloat",

@@ -1,12 +1,6 @@
 # {{command | module | class}} reference
 
-<!--
-  TEMPLATE: Reference. Rules applied: S7 (looking up), S17, S11.
-  Reference is neutral, complete, and structural: facts only, no narrative,
-  no opinions, no "this is useful because…". Structure mirrors the code
-  (module → class → method), so lookup is mechanical. Tables beat prose
-  for parameters. Delete every comment like this one before committing.
--->
+<!-- TEMPLATE: Reference. Rules applied: S7 (looking up), S17, S11. Reference is neutral, complete, and structural: facts only, no narrative, no opinions, no "this is useful because…". Structure mirrors the code (module → class → method), so lookup is mechanical. Tables beat prose for parameters. Delete every comment like this one before committing. -->
 
 {{One line: what this page covers. e.g. "All `kestrel build` options and exit codes."}}
 

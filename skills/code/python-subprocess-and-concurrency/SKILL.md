@@ -219,7 +219,7 @@ A hang is a missing timeout, a full pipe, or a lock. In that order.
 - `threading.enumerate()` lists thread objects that are still alive; `multiprocessing.active_children()` does the same for children.
 - Orphans and zombies point at the opposite mistakes: a child outliving its parent means the wrong thing was killed (`sp-kill-the-process-tree`), and an unreaped child means nobody joined it (`thread-own-and-join`, `proc-main-guard`).
 
-Commands and diagnosis order: `references/debugging-hangs.md`.
+Commands and diagnosis order: [references/debugging-hangs.md](references/debugging-hangs.md).
 
 ## Review checklist
 
@@ -247,12 +247,12 @@ Commands and diagnosis order: `references/debugging-hangs.md`.
 
 ## References
 
-- `references/subprocess.md` — the `sp-` rules with failure modes, code, and platform notes.
-- `references/threads.md` — the `thread-` rules: GIL, free-threading, ownership, locks, pool behavior.
-- `references/processes.md` — the `proc-` rules: start methods, pickling, IPC, pool lifecycle.
-- `references/debugging-hangs.md` — hang, deadlock, orphan, and zombie diagnosis with commands.
+- [references/subprocess.md](references/subprocess.md) — the `sp-` rules with failure modes, code, and platform notes.
+- [references/threads.md](references/threads.md) — the `thread-` rules: GIL, free-threading, ownership, locks, pool behavior.
+- [references/processes.md](references/processes.md) — the `proc-` rules: start methods, pickling, IPC, pool lifecycle.
+- [references/debugging-hangs.md](references/debugging-hangs.md) — hang, deadlock, orphan, and zombie diagnosis with commands.
 
-Run `scripts/verify-recipes.py` to re-check this skill's recipes and version claims on the interpreter you have (repo tooling, wired into `npm test`; execute it, do not read it into context). It prints one line per check naming the rule it backs, skips POSIX-only checks off POSIX, and asserts the documented API floor for your Python version.
+Run [scripts/verify-recipes.py](scripts/verify-recipes.py) to re-check this skill's recipes and version claims on the interpreter you have (repo tooling, wired into `npm test`; execute it, do not read it into context). It prints one line per check naming the rule it backs, skips POSIX-only checks off POSIX, and asserts the documented API floor for your Python version.
 
 Standards this follows: [PEP 324](https://peps.python.org/pep-0324/) (subprocess), [PEP 703](https://peps.python.org/pep-0703/) and [PEP 779](https://peps.python.org/pep-0779/) (free-threading; officially supported in 3.14), [PEP 3148](https://peps.python.org/pep-3148/) (`concurrent.futures`), [PEP 734](https://peps.python.org/pep-0734/) (interpreters). Cross-skill: `python-async-best-practices`, `python-best-practices`, `python-pytest`.
 

@@ -1,6 +1,6 @@
 # COVERAGE
 
-The *what to write* half of the kit. [`STYLE_GUIDE.md`](STYLE_GUIDE.md) governs **how** every page is written; this governs **which pages must exist**. The two are independent: a complete topic map full of badly written pages fails, and so does a beautifully written docs set that never covers the flag users actually need.
+The *what to write* half of the kit. [`style-guide.md`](style-guide.md) governs **how** every page is written; this governs **which pages must exist**. The two are independent: a complete topic map full of badly written pages fails, and so does a beautifully written docs set that never covers the flag users actually need.
 
 Industry standards (Diátaxis, Google, Microsoft) deliberately stop short of dictating topics — a topic list is product-specific. But the *procedure* for deriving one is standard practice. It has three sources, one contract, one matrix, and one negative list.
 

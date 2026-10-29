@@ -47,11 +47,10 @@ If the gate is not met, decide, act, and tell me in one line. Or ask for simple 
 
 ## Part 1: Question
 
-One or two sentences, 24 words max, CEFR A2 English. State the problem.
-Add why we must decide now only if there is a real deadline or cost of waiting.
+One or two sentences, 24 words max, CEFR A2 English. State the problem. Add why we must decide now only if there is a real deadline or cost of waiting.
 
-Bad: "Given the current architecture, should we consider refactoring the module to improve maintainability?"
-Good: "The cache holds stale data after a write. Pick a fix now, or the release ships wrong data."
+- Bad: "Given the current architecture, should we consider refactoring the module to improve maintainability?"
+- Good: "The cache holds stale data after a write. Pick a fix now, or the release ships wrong data."
 
 ## Part 2: Options
 

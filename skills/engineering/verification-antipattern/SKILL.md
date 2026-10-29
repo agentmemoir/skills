@@ -40,7 +40,7 @@ This skill fires after a gate already passed 5 minutes. Do not sit and watch it.
 - **10 minutes** is the published ceiling. Fowler/XP: "the XP guideline of a ten minute build". DORA: developers should "get feedback from automated tests in less than ten minutes". It was also the most common maximum acceptable build time among 523 developers (Hilton et al. 2017).
 - Blocking me or an agent for over 5 minutes is a finding. Blocking for over 10 minutes is urgent: it exceeds every major published guideline.
 - Duration alone does not make an off-path gate hostile. A nightly, post-submit, release, or security gate may run long. Judge blocking position first, then duration. An off-path gate is still hostile when it has no owner, no deadline, or a result nobody acts on.
-- Never claim that 5 minutes is where people disengage. Quotes, counter-evidence, and caveats: `references/evidence.md`.
+- Never claim that 5 minutes is where people disengage. Quotes, counter-evidence, and caveats: [references/evidence.md](references/evidence.md).
 
 ## Procedure
 
@@ -98,7 +98,7 @@ Completion: one verdict per gate, with the reason in one sentence.
 
 Completion: every hostile gate has at least one named cause tied to evidence from the repo.
 
-Detection signals, fixes, and trade-offs: `references/antipatterns.md`.
+Detection signals, fixes, and trade-offs: [references/antipatterns.md](references/antipatterns.md).
 
 ### 5. Rank the fixes
 
@@ -159,6 +159,6 @@ An added check can be useful, but it must be priced before it is placed.
 
 ## References
 
-- `references/antipatterns.md`: the eleven antipatterns with detection signals, fixes, risks, and sources.
-- `references/playbook.md`: recipes to measure gates and to apply each fix, with failure modes.
-- `references/evidence.md`: published thresholds, quotes, counter-evidence, and verified tool facts.
+- [references/antipatterns.md](references/antipatterns.md): the eleven antipatterns with detection signals, fixes, risks, and sources.
+- [references/playbook.md](references/playbook.md): recipes to measure gates and to apply each fix, with failure modes.
+- [references/evidence.md](references/evidence.md): published thresholds, quotes, counter-evidence, and verified tool facts.

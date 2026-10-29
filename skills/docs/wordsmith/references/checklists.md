@@ -1,6 +1,6 @@
 # CHECKLIST
 
-Publish gates per doc type, plus a repo-level health check. Rules referenced by number point to [`STYLE_GUIDE.md`](STYLE_GUIDE.md), H-numbers to [`voice-and-tells.md`](voice-and-tells.md). Every type's gate ends with the voice gate. If a gate fails, the page isn't late — it's not finished.
+Publish gates per doc type, plus a repo-level health check. Rules referenced by number point to [`style-guide.md`](style-guide.md), H-numbers to [`voice-and-tells.md`](voice-and-tells.md). Every type's gate ends with the voice gate. If a gate fails, the page isn't late — it's not finished.
 
 ## README gate
 

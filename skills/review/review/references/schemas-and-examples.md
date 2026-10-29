@@ -62,7 +62,7 @@ Examples:
 
 ## Example: well-written bug report entry
 
-```markdown
+````markdown
 ## BUG-007 — Unsanitized user input in search query
 
 **Location:** `src/api/search.py:43`  
@@ -89,13 +89,13 @@ cursor.execute(sql, (f"%{query}%",))
 ```
 
 **Impact:** Full database access for any authenticated user.
-```
+````
 
 ---
 
 ## Example: well-written disproval entry
 
-```markdown
+````markdown
 ## BUG-007 — Unsanitized user input in search query
 **Original severity/points:** Critical / 10  
 
@@ -114,13 +114,13 @@ full DB access via the admin UI.
 
 *Note: Even with the admin restriction, the unsafe pattern should be fixed 
 to prevent privilege escalation if auth is ever bypassed.*
-```
+````
 
 ---
 
 ## Example: well-written arbiter verdict
 
-```markdown
+````markdown
 ## BUG-007 — Unsanitized user input in search query
 
 **Severity:** Critical  
@@ -141,4 +141,4 @@ misconfigured. The risk is real even if the attack surface is narrowed.
 **Confidence:** High  
 **Action required:** Replace string interpolation with parameterized query. 
 Estimated fix: 5 minutes. No excuse to leave this unfixed.
-```
+````

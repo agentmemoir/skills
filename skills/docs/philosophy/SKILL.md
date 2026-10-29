@@ -87,7 +87,7 @@ Rules of the interview:
 5. When nothing is left to amend, move on. Update the belief list with every change.
 
 ## Step 5: Draft and display
-1. Assemble `PHILOSOPHY.md` from `assets/philosophy-template.md`, filled with my answers. Keep it short: every belief earns its place by deciding a real disagreement.
+1. Assemble `PHILOSOPHY.md` from [assets/philosophy-template.md](assets/philosophy-template.md), filled with my answers. Keep it short: every belief earns its place by deciding a real disagreement.
 2. Resolve every tension from research inside the draft: as a belief, a hard line, a boundary, or an explicit precedence. If one is still open, settle it before drafting.
 3. Show the full document in the conversation. Write no file yet.
 4. Ask me to mark every line that is wrong, soft, or missing. Fix, re-show, and repeat until I say it reads right.
@@ -99,7 +99,7 @@ Rules of the interview:
 4. If I abandon, stop. Write nothing, and do not touch `AGENTS.md`.
 
 ## Step 7: Refactor AGENTS.md
-1. Read `AGENTS.md` if it exists. If not, plan to create it from `assets/agents-template.md`.
+1. Read `AGENTS.md` if it exists. If not, plan to create it from [assets/agents-template.md](assets/agents-template.md).
 2. Rewrite it so it enforces the philosophy:
    * Start with one line of authority: "When this file and PHILOSOPHY.md disagree, PHILOSOPHY.md wins."
    * Every product-decision rule names the belief it serves, for example: "Recover before reporting (Philosophy 3)."
@@ -141,5 +141,5 @@ You: Option 1 (Speed): admit everything, curate at read. [New]
 ```
 
 ## Resources
-* `assets/philosophy-template.md`: the PHILOSOPHY.md structure. Load it in Step 5.
-* `assets/agents-template.md`: the AGENTS.md structure. Load it in Step 7.
+* [assets/philosophy-template.md](assets/philosophy-template.md): the PHILOSOPHY.md structure. Load it in Step 5.
+* [assets/agents-template.md](assets/agents-template.md): the AGENTS.md structure. Load it in Step 7.

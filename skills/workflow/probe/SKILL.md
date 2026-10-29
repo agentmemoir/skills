@@ -30,11 +30,18 @@ metadata:
 
 Decisions first, code second. Probe finds every decision a change needs, settles each one with me, and saves the result where the next session and every worker can read it.
 
+## Tidy gate (run first)
+
+Before any work, load the `tidy` skill. If tidy is not present, stop immediately and ask me to install tidy first (`npx skills add agentmemoir/skills --skill tidy --global -y`). Do nothing else until tidy is installed.
+
+Once tidy is loaded, strictly adhere to it for the rest of the task. Probe applies Tidy's domain decomposition and entry-point navigation when planning new features, breaking down complex epics, and authoring implementation plans or master tracking issues: one topic per file or per issue, a navigation hub with reading paths at the entry point, and relative links between artifacts instead of duplicated content. Settled decisions are preserved 100% — never silently dropped between plan, master issue, and children.
+
 ## How you communicate with me
 
 - **Use simple English (CEFR A2) and ASD-STE100**, including for security, design, and onboarding.
 - **Be concise.** Start with the answer. No greeting or filler. Keep each reply to 1-4 lines, except for a restated goal, a prism decision, or a saved plan.
 - **Never invent an answer to my question.** When my custom answer is unclear, do not guess what I meant and do not pick the closest option. Ask me again with the question tool, and say in one line which part of my answer was unclear.
+- **Adapt to custom answers.** When my custom answer is clear but matches no listed option, treat it as the instruction: restate what you will do in one line, then follow it. Reworking an artifact I name is valid work. Never treat an unmappable answer as a coding session — start writing code only when the session is clearly a coding session, and ask when you cannot establish that.
 - **A re-ask keeps the format of the question it repeats.** When the unclear answer belongs to a costly decision that was already put in the `prism` format, ask that decision again in the `prism` format: the same question, one option per lens, the pros and cons, and a recommendation. Mark the option I seemed to pick as **"Your previous choice"**, and never drop it. A plain approval question loses the trade-offs I am choosing between. For every other unclear answer, ask a plain clarification question. Prism is for choices, not for clarification.
 - **Everything you post as me is mine.** An issue, PR, commit, comment, review, or label reads as my words. Never use one to talk to me. Read `references/github-issues.md` before you post anything.
 
@@ -47,6 +54,7 @@ Read the owner and the repository name from `git remote -v`. For `github.com/age
 | File | Holds |
 |---|---|
 | `~/.agentmemoir/<owner>/<repo>/plans/` | Plan files and saved master issue bodies. |
+| `~/.agentmemoir/<owner>/<repo>/plans/index.md` | One line per plan. The hub that keeps plans findable. |
 | `~/.agentmemoir/<owner>/<repo>/implementation-preference.md` | The ending chosen in Step 4. |
 | `~/.agentmemoir/<owner>/<repo>/github.md` | Issue routing and the label mapping. See `references/github-issues.md`. |
 | `~/.agentmemoir/progress-installation.md` | The record that I declined the progress skill. |
@@ -66,6 +74,8 @@ Never keep a record only in a CLI's own folder. Claude Code deletes `~/.claude/p
    - Not Decided Yet
 
 "Not Decided Yet" is a normal answer here. Do not press me. My answer sets how deep you probe. It does not lock the ending: I choose again in Step 4.
+
+The options are common paths, not a closed set. When my prompt or my answer clearly names another ending — reworking an existing implementation plan, editing an existing GitHub issue, or new territory I name — accept that instruction as the ending. Restate it in one line and follow it. Never force a clear instruction into a listed option.
 
 ## Step 2: Explore avenues
 
@@ -94,9 +104,11 @@ My Step 1 answer may have changed. Ask me again with the question tool, and use 
 
 Do not offer "Not Decided Yet" here. The avenues are explored and the decisions are settled, so a plan, an issue, or code is the way to carry the work forward. If I refuse to pick, ask once more and say that the work cannot start without a decision.
 
+The options are defaults, not a fence. When my prompt or my answer clearly names an operation on an existing artifact — refactor or improvise an existing implementation plan, edit an existing GitHub master issue — that operation is the decision. Accept it, restate it in one line, and carry the work forward that way. Never convert a clear instruction into a listed option. If you cannot establish that the session is a coding session, do not start writing code; ask.
+
 Then save my pick in `implementation-preference.md` for the current repository. The file holds one line: the option name and today's date, for example `Coding Session 2026-10-22`. If I pick a different option next time, update the file.
 
-Plan, phase, master-issue, and child-issue artifacts must contain no code blocks and no file-level implementation prescriptions. Express deliverables as Given-When-Then scenarios plus a tracer bullet, and defer all code guidance to implementation time.
+Plan, phase, master-issue, and child-issue artifacts must contain no code blocks and no file-level implementation prescriptions. Express deliverables as Given-When-Then scenarios plus a tracer bullet, and defer all code guidance to implementation time. Artifacts follow Tidy's one-paragraph-per-line rule.
 
 ### Implementation plan
 
@@ -108,7 +120,8 @@ Plan, phase, master-issue, and child-issue artifacts must contain no code blocks
 
 - If I have a convention for master issues, follow it.
 - If not, use `assets/github-master-issue.md` for the master and `assets/github-child-issue.md` for every child.
-- Save a copy of the master body as *Where the plan file lives* says.
+- Save a copy of the master body as *Where the plan file lives* says. GitHub is the working copy and the local file mirrors it: when either side changes, rewrite the other in the same step and stamp it with the new date, so both stay current and the newest stamp is the one to trust.
+- When my instruction is to edit an existing master issue, edit that issue in place instead of creating a new one, and mirror the change to the local copy the same way.
 - The master holds the goal, the settled decisions, and the order of the work. The children hold the work.
 - Follow `references/github-issues.md` for the repository, the labels, the sub-issue links, and the order of creation.
 
@@ -140,6 +153,8 @@ Use the first rule that applies:
 Rules for every location:
 
 - Name the file `<yyyy-mm-dd>-<short-slug>.md`, so the date and the subject stay visible.
+- Keep `index.md` in the plans folder current: one line per plan — date, slug, one-sentence summary — with a relative link to the file. Update it when you save, move, rework, or delete a plan.
+- When I ask you to rework an existing plan, do what I asked: overwrite it, revise it in place, or save a new copy, as I said. When I did not say what happens to the original and the choice is not obvious, ask me in the prism format before you change the file. Update `index.md` either way.
 - If you write into a project folder, run `git check-ignore -q <path>` first. If it fails, the file would be staged, so use rule 2 instead.
 - Do not keep the full plan in the conversation. Give the path to each worker that needs it, and read the file again when you need the plan.
 - At the end of the session, ask me whether to move the plan into the project folder, keep it, or delete it.
@@ -156,7 +171,7 @@ If the `retro` skill is installed, run it at the end of the session. If it is no
 
 ## Resources
 
-- `assets/plan.md`: implementation plan structure. Load it in Step 4 for a plan or a coding session.
-- `assets/github-master-issue.md` and `assets/github-child-issue.md`: issue body structures. Load them in Step 4 for a master issue.
-- `references/github-issues.md`: rules for posting as me, the repository, labels, and sub-issues. Load it before any `gh` write.
-- `references/executable-specs.md`: optional techniques for turning a deliverable into an executable specification. Load it when a step needs a testable scenario.
+- [assets/plan.md](assets/plan.md): implementation plan structure. Load it in Step 4 for a plan or a coding session.
+- [assets/github-master-issue.md](assets/github-master-issue.md) and [assets/github-child-issue.md](assets/github-child-issue.md): issue body structures. Load them in Step 4 for a master issue.
+- [references/github-issues.md](references/github-issues.md): rules for posting as me, the repository, labels, and sub-issues. Load it before any `gh` write.
+- [references/executable-specs.md](references/executable-specs.md): optional techniques for turning a deliverable into an executable specification. Load it when a step needs a testable scenario.
