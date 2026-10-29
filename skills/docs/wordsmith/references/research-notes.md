@@ -2,7 +2,7 @@
 
 A survey of the established, citable standards for writing developer documentation, focused on one question: **how do you write docs that deliver value fast, across a growing number of projects, without wasting the reader's time?**
 
-Each section says what the standard is, what it actually prescribes, and what is worth stealing. Sources are listed at the end. The converged conclusions become the rules in [`STYLE_GUIDE.md`](STYLE_GUIDE.md).
+Each section says what the standard is, what it actually prescribes, and what is worth stealing. Sources are listed at the end. The converged conclusions become the rules in [`style-guide.md`](style-guide.md).
 
 ---
 

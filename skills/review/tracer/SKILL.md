@@ -34,31 +34,31 @@ Work the phases in order. On a small repo, one pass covers several; on a large r
 
 ### Phase 1 — Initialize and detect capabilities
 
-Record audit id, target path, mode, available vs. missing tools (shell, tests, analyzers, package managers, advisory DBs, git history, containers, network), and known limits. Gracefully degrade when tools are missing. See `references/configuration.yaml` for defaults.
+Record audit id, target path, mode, available vs. missing tools (shell, tests, analyzers, package managers, advisory DBs, git history, containers, network), and known limits. Gracefully degrade when tools are missing. See [references/configuration.yaml](references/configuration.yaml) for defaults.
 
 ### Phase 2 — Reconnaissance
 
-**Read:** `agents/reconnaissance.md`. Map languages, frameworks, entry points, public vs. internal interfaces, authN/authZ controls, input/output boundaries, data stores, crypto, file/process/network operations, dependency manifests and lockfiles, test setup, and trust boundaries. Output the repository map (shape in the agent file). Distinguish verified facts from inferences.
+**Read:** [agents/reconnaissance.md](agents/reconnaissance.md). Map languages, frameworks, entry points, public vs. internal interfaces, authN/authZ controls, input/output boundaries, data stores, crypto, file/process/network operations, dependency manifests and lockfiles, test setup, and trust boundaries. Output the repository map (shape in the agent file). Distinguish verified facts from inferences.
 
 ### Phase 3 — Threat modeling
 
-**Read:** `agents/threat-modeling.md`. Identify assets, actors (unauthenticated, authenticated, cross-tenant, low-privilege, admin, services, workers), trust and privilege boundaries, data flows, sensitive operations, assumptions, controls, abuse cases, and failure modes. Prioritize reachable attack paths over generic checklists. Update the model as evidence arrives.
+**Read:** [agents/threat-modeling.md](agents/threat-modeling.md). Identify assets, actors (unauthenticated, authenticated, cross-tenant, low-privilege, admin, services, workers), trust and privilege boundaries, data flows, sensitive operations, assumptions, controls, abuse cases, and failure modes. Prioritize reachable attack paths over generic checklists. Update the model as evidence arrives.
 
 ### Phase 4 — Plan and discover
 
-Split the repo into investigation units covering all 14 categories in `references/investigation-categories.md` (authentication, authorization, injection, input validation, file/path handling, secrets, cryptography, data protection, serialization/parsing, dependencies, configuration/infrastructure, business logic, concurrency/resources, error handling/observability) and assign per risk, not per category — small repos get fewer, broader units. Each unit states scope, files, threat assumptions, questions, tools, budget, output format, and prohibitions. **Read:** `agents/security-specialist.md`. Category checklists live in `references/investigation-categories.md`. Every hypothesis records root cause, code path, boundary, preconditions, impact, evidence have/need, and a safe reproduction plan.
+Split the repo into investigation units covering all 14 categories in [references/investigation-categories.md](references/investigation-categories.md) (authentication, authorization, injection, input validation, file/path handling, secrets, cryptography, data protection, serialization/parsing, dependencies, configuration/infrastructure, business logic, concurrency/resources, error handling/observability) and assign per risk, not per category — small repos get fewer, broader units. Each unit states scope, files, threat assumptions, questions, tools, budget, output format, and prohibitions. **Read:** [agents/security-specialist.md](agents/security-specialist.md). Category checklists live in [references/investigation-categories.md](references/investigation-categories.md). Every hypothesis records root cause, code path, boundary, preconditions, impact, evidence have/need, and a safe reproduction plan.
 
 ### Phase 5 — Reproduce safely
 
-**Read:** `agents/bug-case-writer.md`. Convert each hypothesis into a minimal case using the repo's own test framework and fixtures (standalone script or harness only if none exists). Each case states the security property, preconditions, setup, trigger, expected vs. actual result, impact, cleanup, temp/permanent status, and execution result. `created_not_executed` is never proof.
+**Read:** [agents/bug-case-writer.md](agents/bug-case-writer.md). Convert each hypothesis into a minimal case using the repo's own test framework and fixtures (standalone script or harness only if none exists). Each case states the security property, preconditions, setup, trigger, expected vs. actual result, impact, cleanup, temp/permanent status, and execution result. `created_not_executed` is never proof.
 
 ### Phase 6 — Validate independently
 
-**Read:** `agents/validator.md`. A fresh pass challenges every hypothesis: is the code reachable, the input attacker-controlled, the boundary crossed, a mitigation present elsewhere, the behavior intentional, the severity justified, the bug a duplicate? Critical findings pause lower-priority work until validated or blocked. Confidence follows the evidence standard below.
+**Read:** [agents/validator.md](agents/validator.md). A fresh pass challenges every hypothesis: is the code reachable, the input attacker-controlled, the boundary crossed, a mitigation present elsewhere, the behavior intentional, the severity justified, the bug a duplicate? Critical findings pause lower-priority work until validated or blocked. Confidence follows the evidence standard below.
 
 ### Phase 7 — Report, then stop
 
-Write the Markdown report plus one JSON finding per `references/finding.schema.json` (template: `references/audit-report.md`). Run the quality checks (evidence, validation, boundaries, coverage, output integrity) and state completion or blocked-partial explicitly — never present partial work as complete. Patches are suggestions only, generated on request: **Read:** `agents/patch-agent.md`. Then stop and wait for my instructions.
+Write the Markdown report plus one JSON finding per [references/finding.schema.json](references/finding.schema.json) (template: [references/audit-report.md](references/audit-report.md)). Run the quality checks (evidence, validation, boundaries, coverage, output integrity) and state completion or blocked-partial explicitly — never present partial work as complete. Patches are suggestions only, generated on request: **Read:** [agents/patch-agent.md](agents/patch-agent.md). Then stop and wait for my instructions.
 
 ## Scoring and confidence
 
@@ -77,14 +77,14 @@ Score is internal prioritization, not CVSS. Base severity on impact, exploitabil
 | Suspected | Suspicious pattern, plausible impact, reachability or mitigations unknown |
 | Rejected | Absent, mitigated, unreachable, wrong assumption, or intentional without property violation |
 
-Lifecycle: `discovered → triaged → investigating → validated → reported`, with `partially_validated` or `rejected` exits from investigating, and `patch_requested → patch_generated → patch_validated|patch_unvalidated` after reporting. The coordinator (`agents/coordinator.md`) owns state, dedup (`SEC-001…` by root cause and remediation, never by file alone), and escalation.
+Lifecycle: `discovered → triaged → investigating → validated → reported`, with `partially_validated` or `rejected` exits from investigating, and `patch_requested → patch_generated → patch_validated|patch_unvalidated` after reporting. The coordinator ([agents/coordinator.md](agents/coordinator.md)) owns state, dedup (`SEC-001…` by root cause and remediation, never by file alone), and escalation.
 
 ## Outputs and references
 
-- `agents/` — coordinator, reconnaissance, threat-modeling, security-specialist, bug-case-writer, validator, patch-agent prompts.
-- `references/configuration.yaml` — audit defaults (mode, targets, validation, bug cases, patches, dependencies, secrets, output).
-- `references/finding.schema.json` — final finding contract (`score` matches severity: 1/5/10; `null` for unknowns, never guesses).
-- `references/handoff.schema.json` — agent handoff, evidence, and hypothesis shapes.
-- `references/investigation-categories.md` — the 14 category checklists (auth through error handling).
-- `references/audit-report.md` — report structure, quality checks, completion criteria.
-- `references/examples/` — confirmed, suspected, and rejected finding examples.
+- [agents/](agents/) — coordinator, reconnaissance, threat-modeling, security-specialist, bug-case-writer, validator, patch-agent prompts.
+- [references/configuration.yaml](references/configuration.yaml) — audit defaults (mode, targets, validation, bug cases, patches, dependencies, secrets, output).
+- [references/finding.schema.json](references/finding.schema.json) — final finding contract (`score` matches severity: 1/5/10; `null` for unknowns, never guesses).
+- [references/handoff.schema.json](references/handoff.schema.json) — agent handoff, evidence, and hypothesis shapes.
+- [references/investigation-categories.md](references/investigation-categories.md) — the 14 category checklists (auth through error handling).
+- [references/audit-report.md](references/audit-report.md) — report structure, quality checks, completion criteria.
+- [references/examples/](references/examples/) — confirmed, suspected, and rejected finding examples.

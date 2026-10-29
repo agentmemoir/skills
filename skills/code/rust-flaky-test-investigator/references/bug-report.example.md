@@ -8,11 +8,11 @@ This is the example the adversarial review asked for: the report shape is easy t
 
 # [FLAKY-001] object_put_converges_on_remote_target fails ~8% of runs with EADDRINUSE: fake target binds a hardcoded port
 
-**Severity:** high
-**Confidence:** confirmed
-**Cause basis:** measured — the two-direction experiment below ran locally
-**Flake rate:** 4 failures in 50 iterations (8%)
-**Layer:** e2e
+- **Severity:** high
+- **Confidence:** confirmed
+- **Cause basis:** measured — the two-direction experiment below ran locally
+- **Flake rate:** 4 failures in 50 iterations (8%)
+- **Layer:** e2e
 
 ## Summary
 

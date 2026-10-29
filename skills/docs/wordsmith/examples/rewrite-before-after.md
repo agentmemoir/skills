@@ -26,7 +26,7 @@ which you will be able to begin exploring its extensive feature set...
 
 ## After
 
-```markdown
+````markdown
 ## Introduction
 
 Deployer runs your deployment workflow: build, migrate, ship, roll back.
@@ -41,7 +41,7 @@ deployer run      # executes the pipeline
 ```
 
 Full docs: [quickstart](…) · [how-to guides](…) · [CLI reference](…)
-```
+````
 
 ## What changed, and which rule did it
 

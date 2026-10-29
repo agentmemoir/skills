@@ -94,9 +94,9 @@ End with:
 
 ## Anti-patterns to avoid
 
-❌ "This would require an attacker to..." — yes, that's how attacks work  
-❌ "This is unlikely in production" — likelihood ≠ impossibility  
-❌ "The developer probably intended this" — intention doesn't fix buggy code  
-✅ "The ORM library used here automatically parameterizes queries"  
-✅ "This endpoint is only accessible from localhost per the nginx config"  
-✅ "Line 47 validates this input before it reaches line 89"
+- ❌ "This would require an attacker to..." — yes, that's how attacks work
+- ❌ "This is unlikely in production" — likelihood ≠ impossibility
+- ❌ "The developer probably intended this" — intention doesn't fix buggy code
+- ✅ "The ORM library used here automatically parameterizes queries"
+- ✅ "This endpoint is only accessible from localhost per the nginx config"
+- ✅ "Line 47 validates this input before it reaches line 89"

@@ -11,6 +11,22 @@
 
 **Out of scope:** [What this plan does not change.]
 
+## Artifacts and links
+
+Catalog every companion artifact this plan points to: child issues, companion files, and references. One bullet each: the link, then a one-sentence summary of what it holds. Delete this section when the plan has none.
+
+- [Link or #issue] — [What it holds, in one sentence.]
+
+## Reading paths
+
+One ordered line per reader goal, naming the sections and artifacts that reader needs.
+
+- Implementer: [Sections and artifacts, in reading order.]
+- Reviewer: [Sections and artifacts, in reading order.]
+- Operator: [Sections and artifacts, in reading order.]
+
+Delete the lines that do not apply to this plan.
+
 ## Steps
 
 1. [Step name]

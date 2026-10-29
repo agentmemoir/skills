@@ -30,19 +30,27 @@ say: >-
 
 **The one principle: every page has one job. Cut everything that doesn't do that job.**
 
-This method is distilled from the established documentation standards: Diátaxis (page types), the Google and Microsoft style guides (prose), Carroll's minimalism and Every Page Is Page One (what to cut), and community specs like standard-readme and the Good Docs Project (artifacts). The evidence behind every rule, with sources, is in `references/research-notes.md` — read it when I ask *why* a rule exists, not by default.
+This method is distilled from the established documentation standards: Diátaxis (page types), the Google and Microsoft style guides (prose), Carroll's minimalism and Every Page Is Page One (what to cut), and community specs like standard-readme and the Good Docs Project (artifacts). The evidence behind every rule, with sources, is in [references/research-notes.md](references/research-notes.md) — read it when I ask *why* a rule exists, not by default.
 
 The method has three parts, and all of them matter:
 
-- **WHAT to write** (`references/coverage.md`) — which pages a product needs, derived from its surface, its users' journey, and their question log
-- **HOW to write it** (`references/style-guide.md`) — 28 numbered rules (S1–S28) that keep every page short, findable, and trustworthy
-- **HOW IT MUST NOT READ** (`references/voice-and-tells.md`) — 26 AI-tell patterns (H1–H26, vendored verbatim from [blader/humanizer](https://github.com/blader/humanizer), plus the docs exemptions that override them)
+- **WHAT to write** ([references/coverage.md](references/coverage.md)) — which pages a product needs, derived from its surface, its users' journey, and their question log
+- **HOW to write it** ([references/style-guide.md](references/style-guide.md)) — 28 numbered rules (S1–S28) that keep every page short, findable, and trustworthy
+- **HOW IT MUST NOT READ** ([references/voice-and-tells.md](references/voice-and-tells.md)) — 26 AI-tell patterns (H1–H26, vendored verbatim from [blader/humanizer](https://github.com/blader/humanizer), plus the docs exemptions that override them)
 
 Routing and classification live in this file; the rules live in the references. Run the S audit before the H pass — a page of the wrong type is a restructuring job, and humanizing it first wastes the work.
 
+## Tidy gate (run first)
+
+Before any work, load the `tidy` skill. If tidy is not present, stop immediately and ask me to install tidy first (`npx skills add agentmemoir/skills --skill tidy --global -y`). Do nothing else until tidy is installed.
+
+Once tidy is loaded, strictly adhere to it for the rest of the task. Wordsmith respects Diátaxis documentation modes (tutorials, how-to guides, reference, explanation) and core writing standards S18–S21, and it applies Tidy's one-topic-per-file and single-source-of-truth rules to keep multi-page documentation suites clean, navigable, and free from duplication: each topic lives in one canonical page, repeated content becomes a relative link (S20 says the same thing — link, never duplicate), and the suite entry point is a navigation hub, not a content dump.
+
+Layer ownership: for any multi-page suite, Tidy's entry-point contract is the required floor, and wordsmith's Diátaxis skeletons fill the pages inside it. Route B still owns which pages a product needs; Tidy owns how they are organized on disk. Preservation and cutting split by page type: reference and spec pages follow Tidy's 100% preservation invariant, while tutorial, how-to, and explanation pages follow wordsmith's cutting rules S22–S24. Clarification follows session mode: interactive sessions stop and ask; autonomous sessions record assumptions explicitly instead of guessing.
+
 ## The 28 rules (compact form)
 
-The full rules with rationale and examples live in `references/style-guide.md`. This index is enough to route work; quote rule numbers when you apply them. Read the full file before writing or rewriting prose — the one-line versions below are reminders, not replacements.
+The full rules with rationale and examples live in [references/style-guide.md](references/style-guide.md). This index is enough to route work; quote rule numbers when you apply them. Read the full file before writing or rewriting prose — the one-line versions below are reminders, not replacements.
 
 **Voice and prose**
 - **S1** Second person, active voice, present tense — tense drift marks stale docs
@@ -89,35 +97,35 @@ The full rules with rationale and examples live in `references/style-guide.md`. 
 ### Route A: "Rewrite / improve / fix this page"
 
 1. Read the page. Classify it per S7 first: is it teaching, doing, looking up, or understanding? The correct type is usually kept — the fix is form-mixing and prose, not restructuring.
-2. Audit against `references/style-guide.md`. **Start with what the page already does well** and say so — rewrites that churn compliant sections destroy contributor trust and prove the method is stylistic churn.
+2. Audit against [references/style-guide.md](references/style-guide.md). **Start with what the page already does well** and say so — rewrites that churn compliant sections destroy contributor trust and prove the method is stylistic churn.
 3. Rewrite. Keep passing content verbatim (a typical page keeps ~4 of 7 sections nearly intact). Move mixed-form content to the page type that owns it and *say where it went* — S7 means reroute, not delete. Target the reader's time, not a word count: the win condition is "~N words fewer, zero concepts lost."
 4. Never invent or "improve" product facts. Every number, flag, and claim is verbatim from the source or explicitly flagged for verification.
-5. Deliver: before (verbatim, nav artifacts stripped) → after (clean markdown, `{{url}}` placeholders for unknown links) → change-log table mapping each change to a rule number → a "what was deliberately NOT done" section listing kept-strengths, moved-not-deleted items, and anything the product team must verify. See `examples/rewrite-before-after.md` for the exact shape and register.
+5. Deliver: before (verbatim, nav artifacts stripped) → after (clean markdown, `{{url}}` placeholders for unknown links) → change-log table mapping each change to a rule number → a "what was deliberately NOT done" section listing kept-strengths, moved-not-deleted items, and anything the product team must verify. See [examples/rewrite-before-after.md](examples/rewrite-before-after.md) for the exact shape and register.
 
 ### Route B: "What docs do I need?" / docs planning
 
-1. Read `references/coverage.md` and follow its three topic sources in order: surface inventory (every command/flag/error is reference-covered — the one place completeness beats minimality), user journey (stage → page type), question log (2nd occurrence = doc candidate, 3rd = must write).
+1. Read [references/coverage.md](references/coverage.md) and follow its three topic sources in order: surface inventory (every command/flag/error is reference-covered — the one place completeness beats minimality), user journey (stage → page type), question log (2nd occurrence = doc candidate, 3rd = must write).
 2. Ask what I already have (GitHub docs, site, support channels) before recommending anything — the gap analysis matters more than the generic ideal.
 3. Deliver: minimum coverage contract (checked against what exists), coverage matrix with empty core cells marked as backlog, and GitHub-vs-site placement per S19. Under time pressure, sequence by the journey: README → quickstart → reference → top-3 how-tos → troubleshooting.
 
 ### Route C: "Write a new page"
 
-1. Classify the job (S7), then copy the matching skeleton from `templates/` — `README`, `quickstart`, `how-to`, `reference`, or `explanation`. Keep the HTML guidance comments while drafting; delete them before delivering.
+1. Classify the job (S7), then copy the matching skeleton from [templates/](templates/) — `README`, `quickstart`, `how-to`, `reference`, or `explanation`. Keep the HTML guidance comments while drafting; delete them before delivering.
 2. Fill every section the skeleton requires; a missing section is a gap, not a style choice.
-3. Run that type's publish gate from `references/checklists.md` before delivering, and state the gate result in the delivery.
+3. Run that type's publish gate from [references/checklists.md](references/checklists.md) before delivering, and state the gate result in the delivery.
 
 ### Route D: "Set up a docs standard for my project/team"
 
-1. Deliver a tailored kit: `references/style-guide.md` + `references/coverage.md` + `references/checklists.md`, customized to their project type and stack (edit rules they disagree with — the numbers are what make reviews cheap: "violates S4" is a complete review comment).
+1. Deliver a tailored kit: [references/style-guide.md](references/style-guide.md) + [references/coverage.md](references/coverage.md) + [references/checklists.md](references/checklists.md), customized to their project type and stack (edit rules they disagree with — the numbers are what make reviews cheap: "violates S4" is a complete review comment).
 2. Include the adoption sequence: adopt the guide → replace the worst README → wire markdownlint + Vale (S26) → add gates to the PR template (S27).
 
 ### Route E: "This reads like AI wrote it" / de-slop
 
 1. Classify first (S7). A page mixing jobs is a type problem; fixing the type usually deletes most tells on its own, so do that before the voice pass.
-2. Read `references/voice-and-tells.md` — the catalog there is generated from the pin, so it is always current. Mark the tells strongest first: H1, H2, H6, H8, and H19 justify an edit on a single sighting.
+2. Read [references/voice-and-tells.md](references/voice-and-tells.md) — the catalog there is generated from the pin, so it is always current. Mark the tells strongest first: H1, H2, H6, H8, and H19 justify an edit on a single sighting.
 3. Rewrite from the whole paragraph, not phrase by phrase. Keep every claim: no fact, name, number, date, or citation may appear or vanish (fiction is the only exemption from this rule, and documentation is never fiction).
 4. Apply the **docs exemptions** before flagging anything: the S9 outcome sentence, the S12 exit ramp, reference neutrality (S17), code samples (S13–S16), and section roadmaps stay exactly as they are. A tell that is doing the page's job is not a tell.
-5. Run the voice gate from `references/checklists.md`, then deliver as usual: before → after → change-log citing H-numbers (plus the S rule where one owns the fix) → "what was deliberately NOT done", naming any tell you kept on purpose and why.
+5. Run the voice gate from [references/checklists.md](references/checklists.md), then deliver as usual: before → after → change-log citing H-numbers (plus the S rule where one owns the fix) → "what was deliberately NOT done", naming any tell you kept on purpose and why.
 
 ## Non-negotiables (these protect the reader and my trust)
 

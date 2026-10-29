@@ -186,6 +186,28 @@ if errors:
     sys.exit(1)
 print(f"OK {target}")
 PY
+
+  # Tidy floor: information-architecture gate per skill. A `.tidy-skip` file
+  # opts out entirely when empty, or lists target-relative path substrings to
+  # exclude (vendored content) when non-empty.
+  skip_file="$dir/.tidy-skip"
+  if [ -f "$skip_file" ] && [ ! -s "$skip_file" ]; then
+    echo "SKIP $target (tidy floor: .tidy-skip)"
+    continue
+  fi
+  EXCLUDES=()
+  if [ -f "$skip_file" ]; then
+    while IFS= read -r pattern; do
+      [ -n "$pattern" ] && EXCLUDES+=(--exclude "$pattern")
+    done < "$skip_file"
+  fi
+  if floor_out=$(python3 "$ROOT/skills/docs/tidy/scripts/check-tidy.py" "$dir" "${EXCLUDES[@]}" 2>&1); then
+    echo "OK $target (tidy floor)"
+  else
+    echo "FAIL $target: tidy floor"
+    echo "$floor_out"
+    fail=1
+  fi
 done
 
 if [ "$#" -eq 0 ]; then

@@ -83,7 +83,7 @@ An audit you cannot trace is an opinion. An upgrade you cannot undo is a risk. M
 
 Begin without asking for permission when the repository is accessible. If it is not accessible, say what is unavailable and produce the strongest partial report possible.
 
-Read `references/audit.md` and follow it exactly. It holds the full read-only constraints, discovery coverage, methodology, evidence rules, severity model, required finding fields, and report structure.
+Read [references/audit.md](references/audit.md) and follow it exactly. It holds the full read-only constraints, discovery coverage, methodology, evidence rules, severity model, required finding fields, and report structure.
 
 Key boundaries:
 
@@ -176,7 +176,7 @@ Map every finding ID to its alternatives, recommended choice, Prism or "Decide a
 
 ### F. Write the remediation plan
 
-Write the plan only after every finding has been worked through. Use `assets/remediation-plan.md` as the structure and save it to the plan path in **Where files live**. The plan must contain:
+Write the plan only after every finding has been worked through. Use [assets/remediation-plan.md](assets/remediation-plan.md) as the structure and save it to the plan path in **Where files live**. The plan must contain:
 
 1. Executive decision summary.
 2. Audit traceability.
@@ -254,5 +254,5 @@ Before you call any level complete:
 
 ## Resources
 
-- `references/audit.md`: the full Level 1 audit specification. Read it before starting any audit.
-- `assets/remediation-plan.md`: the Level 3 plan structure. Load it when writing the plan.
+- [references/audit.md](references/audit.md): the full Level 1 audit specification. Read it before starting any audit.
+- [assets/remediation-plan.md](assets/remediation-plan.md): the Level 3 plan structure. Load it when writing the plan.

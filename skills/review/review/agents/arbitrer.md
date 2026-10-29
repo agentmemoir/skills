@@ -43,8 +43,8 @@ Only accept a disproval if it's technically substantiated.
 
 ### Step 5: Make a clean verdict
 
-**REAL BUG** — The issue exists and poses a genuine risk given the codebase context.  
-**NOT A BUG** — The issue is a false positive, the risk is mitigated, or the Adversary's disproval holds up.
+- **REAL BUG** — The issue exists and poses a genuine risk given the codebase context.
+- **NOT A BUG** — The issue is a false positive, the risk is mitigated, or the Adversary's disproval holds up.
 
 ## Handling Edge Cases
 

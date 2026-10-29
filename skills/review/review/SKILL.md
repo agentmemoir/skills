@@ -47,10 +47,10 @@ If I have not specified a codebase path, ask me which directory or files to anal
 
 **Goal:** Maximize bug discovery. Cast a wide net. False positives are acceptable; missed bugs are not.
 
-**Read:** `agents/bug-finder.md`
+**Read:** [agents/bug-finder.md](agents/bug-finder.md)
 
-**Inputs:** Codebase files (read recursively from target directory)  
-**Output:** `./issues/YYYY-MM-DD-report.md`
+- **Inputs:** Codebase files (read recursively from target directory)
+- **Output:** `./issues/YYYY-MM-DD-report.md`
 
 ### Scoring
 | Severity | Points | Examples |
@@ -107,10 +107,10 @@ How to resolve it.
 
 **Goal:** Eliminate false positives by challenging every reported bug.
 
-**Read:** `agents/bug-adversary.md`
+**Read:** [agents/bug-adversary.md](agents/bug-adversary.md)
 
-**Inputs:** `./issues/YYYY-MM-DD-report.md` + the codebase  
-**Output:** `./issues/YYYY-MM-DD-refutation.md`
+- **Inputs:** `./issues/YYYY-MM-DD-report.md` + the codebase
+- **Output:** `./issues/YYYY-MM-DD-refutation.md`
 
 ### Scoring
 | Outcome | Points |
@@ -169,8 +169,8 @@ Why this is NOT a bug (or why the risk is negligible).
 
 **Read:** `agents/arbiter.md`
 
-**Inputs:** Both previous reports + the codebase  
-**Output:** `./issues/YYYY-MM-DD-final.md`
+- **Inputs:** Both previous reports + the codebase
+- **Output:** `./issues/YYYY-MM-DD-final.md`
 
 ### Arbitration approach
 For each bug, weigh:
@@ -250,4 +250,4 @@ Tell me upfront that the pipeline has three phases and give status updates as ea
 - **Track bug IDs consistently** across all three reports (BUG-001, BUG-002, etc.)
 - **Don't merge bugs** — if two related issues have distinct root causes, report them separately
 
-For agent-specific instructions and scoring details, see the `agents/` directory.
+For agent-specific instructions and scoring details, see the [agents/](agents/) directory.

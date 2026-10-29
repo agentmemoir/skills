@@ -51,7 +51,7 @@ Answer these from the diff.
 
 ## Quick Reference
 
-Measured on a Linux host with `/tmp` mounted `noexec`.
+Measured on a Linux host with [/tmp](/tmp) mounted `noexec`.
 
 | Action | Result | Use it? |
 | --- | --- | --- |
@@ -84,11 +84,11 @@ def can_run(directory):
         os.unlink(path)
 ```
 
-That returns one boolean: enough to pick the next candidate, not to say why a path failed. Use `probe()` in `references/exec_dir.py` for the three states.
+That returns one boolean: enough to pick the next candidate, not to say why a path failed. Use `probe()` in [references/exec_dir.py](references/exec_dir.py) for the three states.
 
 ### Where scratch comes from
 
-`tempfile.gettempdir()` takes the first usable entry from `TMPDIR`, `TEMP`, `TMP`, then `/tmp`. `TemporaryDirectory()`, `mkdtemp()`, `NamedTemporaryFile()`, pytest `tmp_path` / `tmpdir` / `--basetemp`, and the `multiprocessing` bootstrap files follow it. All are right for data and wrong for programs.
+`tempfile.gettempdir()` takes the first usable entry from `TMPDIR`, `TEMP`, `TMP`, then [/tmp](/tmp). `TemporaryDirectory()`, `mkdtemp()`, `NamedTemporaryFile()`, pytest `tmp_path` / `tmpdir` / `--basetemp`, and the `multiprocessing` bootstrap files follow it. All are right for data and wrong for programs.
 
 ```python
 data_dir = Path(tempfile.mkdtemp())       # fixtures, logs, output files
@@ -184,9 +184,9 @@ except NoExecDirectory as exc:
                      "Set EXEC_DIR to a directory on an executable mount.") from exc
 ```
 
-Copy `references/exec_dir.py` into the project first, beside the module that imports it. The example assumes it is importable on `sys.path`.
+Copy [references/exec_dir.py](references/exec_dir.py) into the project first, beside the module that imports it. The example assumes it is importable on `sys.path`.
 
-`exec_dir` lists each candidate and its state in the message. Full helper: `references/exec_dir.py`.
+`exec_dir` lists each candidate and its state in the message. Full helper: [references/exec_dir.py](references/exec_dir.py).
 
 ## Security
 
@@ -196,9 +196,9 @@ Do not remount, bind-mount, or raise privileges to make a check pass. That needs
 
 ## Reference Files
 
-- `references/exec_dir.py` — the probe, the resolver, and `run_script`. Standard library only. Tested.
-- `references/test_exec_dir.py` — twelve tests, all passing on an exec host. The refused branch was measured on a `noexec` tmpfs.
-- `references/workflows.md` — a local proof without a container, pytest setup, and a migration checklist.
+- [references/exec_dir.py](references/exec_dir.py) — the probe, the resolver, and `run_script`. Standard library only. Tested.
+- [references/test_exec_dir.py](references/test_exec_dir.py) — twelve tests, all passing on an exec host. The refused branch was measured on a `noexec` tmpfs.
+- [references/workflows.md](references/workflows.md) — a local proof without a container, pytest setup, and a migration checklist.
 
 The `noexec-coding` skill covers the mount rules and the three-way probe.
 

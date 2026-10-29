@@ -8,10 +8,10 @@ Write reports to `./flaky-reports/` unless I name a different directory.
 
 # [FLAKY-001] <test identifier> fails intermittently
 
-**Severity:** high / medium / low
-**Confidence:** confirmed / probable / hypothesis
-**Flake rate:** N failures in M iterations (P%)
-**Layer:** unit / crate integration / e2e / conformance / fuzz
+- **Severity:** high / medium / low
+- **Confidence:** confirmed / probable / hypothesis
+- **Flake rate:** N failures in M iterations (P%)
+- **Layer:** unit / crate integration / e2e / conformance / fuzz
 
 ## Summary
 

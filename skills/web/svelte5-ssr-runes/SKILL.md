@@ -48,7 +48,7 @@ Those three failures account for most SSR bugs in runes code, and each has a sma
 
 Do not set `export const ssr = false` to "fix" an SSR bug — that turns the route into a client-rendered shell (an SPA), losing SEO and first paint. It is legitimate only for pages that genuinely cannot render without browser globals. `csr = false` is the opposite switch: server HTML with no hydration, for pages that need no interactivity.
 
-Setup steps for both paths, plus adapters and page options, are in `references/ssr-build.md`. Read it before generating `svelte.config.js` / `vite.config.js`, because option names and adapter behavior differ across versions and are easy to get subtly wrong.
+Setup steps for both paths, plus adapters and page options, are in [references/ssr-build.md](references/ssr-build.md). Read it before generating `svelte.config.js` / `vite.config.js`, because option names and adapter behavior differ across versions and are easy to get subtly wrong.
 
 ## Step 2 — Know which runes run on the server
 
@@ -80,7 +80,7 @@ The classic SSR bug this table prevents:
 
 The fix is almost always the same: compute SSR-visible values in `$derived`, or fetch them in `load` and pass them as props. Keep `$effect` for things that only exist in the browser (canvas, observers, analytics, storage sync).
 
-Read `references/runes-ssr.md` for the full rune-by-rune server behavior, hydration-safe value patterns, and the experimental async SSR status.
+Read [references/runes-ssr.md](references/runes-ssr.md) for the full rune-by-rune server behavior, hydration-safe value patterns, and the experimental async SSR status.
 
 ## Step 3 — Keep state per-request, never module-global
 
@@ -145,7 +145,7 @@ In plain Svelte SSR (no SvelteKit), `$app/environment` is unavailable — use `t
 - Use `event.fetch` inside `load`: it inherits request cookies and inlines responses for hydration instead of refetching.
 - After navigation, `data` updates without recreating the component: derive from it (`$derived`) instead of copying it into non-reactive locals.
 
-Async SSR (`await` in components) and remote functions are still experimental as of Svelte 5.57 / SvelteKit 2.7x (September 2026). Do not enable `compilerOptions.experimental.async` in production code unless I explicitly ask; the exact status and opt-in are in `references/runes-ssr.md`.
+Async SSR (`await` in components) and remote functions are still experimental as of Svelte 5.57 / SvelteKit 2.7x (September 2026). Do not enable `compilerOptions.experimental.async` in production code unless I explicitly ask; the exact status and opt-in are in [references/runes-ssr.md](references/runes-ssr.md).
 
 ## Step 6 — Apply the SSR security rules
 
@@ -158,16 +158,16 @@ Async SSR (`await` in components) and remote functions are still experimental as
 7. **Session cookies:** `httpOnly`, `secure` in production, `sameSite: 'lax'` at minimum.
 8. **Server-side `fetch` of user-supplied URLs is SSRF.** Allowlist hosts; block private IPs and cloud metadata endpoints.
 
-Full checklist and code: `references/security.md`.
+Full checklist and code: [references/security.md](references/security.md).
 
 ## Reviewing an existing app
 
-When the task is auditing or debugging rather than building, work through `references/ssr-review.md`: rendering-mode checks, server-invisible runes, hydration hazards, request-scoped state, payload exposure, security greps, and failure drills. Report findings as file:line with the production failure each one causes.
+When the task is auditing or debugging rather than building, work through [references/ssr-review.md](references/ssr-review.md): rendering-mode checks, server-invisible runes, hydration hazards, request-scoped state, payload exposure, security greps, and failure drills. Report findings as file:line with the production failure each one causes.
 
 ## Reference files
 
-- `references/runes-ssr.md` — rune-by-rune server behavior, hydration-safety patterns, request-scoped state, plain `svelte/server` render + `hydrate`, and the experimental async SSR / remote functions status.
-- `references/ssr-build.md` — SvelteKit setup and adapters, page options (`ssr`/`csr`/`prerender`), hooks, form actions, streaming, plain Vite SSR, and deployment notes.
-- `references/ssr-review.md` — audit checklist for existing SSR apps: rendering modes, server-invisible runes, hydration hazards, state scoping, payload exposure, security greps, and failure drills.
-- `references/security.md` — secrets and env vars, CSP nonces, XSS, CSRF, auth/session handling, SSRF, error leakage, and a pre-ship checklist.
-- `assets/` — copyable starter files: `svelte.config.js` (SvelteKit with CSP), `hooks.server.ts` (auth plus security headers), and `index.html` / `entry-server.js` / `entry-client.js` for plain Vite SSR (the trio is built in CI by `tests/plain-ssr`).
+- [references/runes-ssr.md](references/runes-ssr.md) — rune-by-rune server behavior, hydration-safety patterns, request-scoped state, plain `svelte/server` render + `hydrate`, and the experimental async SSR / remote functions status.
+- [references/ssr-build.md](references/ssr-build.md) — SvelteKit setup and adapters, page options (`ssr`/`csr`/`prerender`), hooks, form actions, streaming, plain Vite SSR, and deployment notes.
+- [references/ssr-review.md](references/ssr-review.md) — audit checklist for existing SSR apps: rendering modes, server-invisible runes, hydration hazards, state scoping, payload exposure, security greps, and failure drills.
+- [references/security.md](references/security.md) — secrets and env vars, CSP nonces, XSS, CSRF, auth/session handling, SSRF, error leakage, and a pre-ship checklist.
+- [assets/](assets/) — copyable starter files: `svelte.config.js` (SvelteKit with CSP), `hooks.server.ts` (auth plus security headers), and `index.html` / `entry-server.js` / `entry-client.js` for plain Vite SSR (the trio is built in CI by `tests/plain-ssr`).

@@ -426,7 +426,7 @@ Run through this before calling a test done.
 
 ## References
 
-- `references/async-tests.md` — Tokio runtime choice, paused time, blocking the executor, cancellation safety, and orphan tasks in depth.
-- `references/isolation-and-resources.md` — ports, temp dirs, environment, processes, draining child output, reading an embedded database a child process writes, filesystem semantics, and cleanup patterns.
-- `references/determinism.md` — clocks, RNG, hash and directory ordering, floating-point comparison, and making failures replayable.
-- `references/nextest-config.md` — annotated `nextest.toml` reference, test groups, quarantine, and CI wiring.
+- [references/async-tests.md](references/async-tests.md) — Tokio runtime choice, paused time, blocking the executor, cancellation safety, and orphan tasks in depth.
+- [references/isolation-and-resources.md](references/isolation-and-resources.md) — ports, temp dirs, environment, processes, draining child output, reading an embedded database a child process writes, filesystem semantics, and cleanup patterns.
+- [references/determinism.md](references/determinism.md) — clocks, RNG, hash and directory ordering, floating-point comparison, and making failures replayable.
+- [references/nextest-config.md](references/nextest-config.md) — annotated `nextest.toml` reference, test groups, quarantine, and CI wiring.

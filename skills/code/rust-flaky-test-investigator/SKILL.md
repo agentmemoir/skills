@@ -44,7 +44,7 @@ This is a hard gate. If you did not execute it, you do not know it. A plausible-
 
 ## The mirror of that rule
 
-**The error's own payload is data, and it is often the whole answer.** You cannot diagnose from source alone — and you cannot diagnose from the *shape* of the failure alone either. The failing run already printed a code, a status, a signal, or a value that names the mechanism, and one lookup against that library's documentation ends the investigation. Decode it before you generate a hypothesis, and before you read a single file of the code under test. See `references/error-triage.md`.
+**The error's own payload is data, and it is often the whole answer.** You cannot diagnose from source alone — and you cannot diagnose from the *shape* of the failure alone either. The failing run already printed a code, a status, a signal, or a value that names the mechanism, and one lookup against that library's documentation ends the investigation. Decode it before you generate a hypothesis, and before you read a single file of the code under test. See [references/error-triage.md](references/error-triage.md).
 
 Both halves fail the same way. Three wrong mechanisms in one investigation came from reading code and ignoring the panic; the right one came from decoding it.
 
@@ -69,7 +69,7 @@ The failing run already printed the mechanism. Read it before reading code, beca
 
 Take the first line that names an error and enumerate every value it carries: primary and extended codes, `errno`, HTTP or gRPC status, SQLSTATE, exit signal, and the asserted values. Resolve each one against that library's own documentation, then read the code path that emits it. A resolved code is a named hypothesis; confirm it against the emitting branch before you build anything on it.
 
-Details, the code tables, and a worked example are in `references/error-triage.md`. Do this even when the failure looks like a plain timeout: the code under the timeout is usually more specific than the symptom.
+Details, the code tables, and a worked example are in [references/error-triage.md](references/error-triage.md). Do this even when the failure looks like a plain timeout: the code under the timeout is usually more specific than the symptom.
 
 ### Phase 1 — Intake and repo policy
 
@@ -126,7 +126,7 @@ Record the exact command, iteration count, failure count, and the failing run's 
 
 This is the highest-value phase. Each axis is a controlled experiment that eliminates a whole family of causes. Run them in this order; stop as soon as one axis isolates the failure.
 
-For the full command set and axis-by-axis interpretation, read `references/reproduction-playbook.md`.
+For the full command set and axis-by-axis interpretation, read [references/reproduction-playbook.md](references/reproduction-playbook.md).
 
 | # | Axis | Vary | If the failure vanishes | Implicates |
 |---|------|------|-------------------------|-----------|
@@ -156,7 +156,7 @@ Every family in the taxonomy has at least one decisive experiment, though three 
 
 ### Phase 4 — Localize to a cause family
 
-With the matrix results in hand, read `references/flaky-taxonomy.md` and match the failure signature to one of the nineteen cause families. Each family in that file lists its signature, the experiment that confirms it, and the fix direction. Families 1 to 10 cover async and storage-shaped codebases; 11 to 14 cover memory pressure, runner misconfiguration, DNS/hostname identity, and environment-derived test data, which the async-service literature tends to under-document; 15 to 19 cover the mechanisms that arrive from real Rust investigations — a test that corrupts the state it reads, the two deadlocks that hang instead of fail, floating-point comparison, and platform filesystem semantics.
+With the matrix results in hand, read [references/flaky-taxonomy.md](references/flaky-taxonomy.md) and match the failure signature to one of the nineteen cause families. Each family in that file lists its signature, the experiment that confirms it, and the fix direction. Families 1 to 10 cover async and storage-shaped codebases; 11 to 14 cover memory pressure, runner misconfiguration, DNS/hostname identity, and environment-derived test data, which the async-service literature tends to under-document; 15 to 19 cover the mechanisms that arrive from real Rust investigations — a test that corrupts the state it reads, the two deadlocks that hang instead of fail, floating-point comparison, and platform filesystem semantics.
 
 Match on the decoded values from Step 0, not on the shape alone. A signature like "fails with a read-only error after a child exits" is a family; a family like self-inflicted resource damage has a one-line confirming experiment that nobody would think of from the symptom alone.
 
@@ -187,10 +187,10 @@ Instrumentation, cheapest first:
 
 Write the report to the output directory (default `./flaky-reports/`), one file per finding:
 
-- `flaky-report.md` — the human-readable bug report, from `references/bug-report-template.md`.
-- `flaky-findings.json` — the same findings, validated against `references/flaky-finding.schema.json`.
+- `flaky-report.md` — the human-readable bug report, from [references/bug-report-template.md](references/bug-report-template.md).
+- `flaky-findings.json` — the same findings, validated against [references/flaky-finding.schema.json](references/flaky-finding.schema.json).
 
-`references/bug-report.example.md` and `references/flaky-finding.example.json` are the same finding in both output shapes — a confirmed port collision with a filled discrimination matrix, a two-direction confirming experiment, rejected alternatives, and a non-empty `not_verified` list. Read them before writing your first report; the optional blocks are easy to get wrong or omit.
+[references/bug-report.example.md](references/bug-report.example.md) and [references/flaky-finding.example.json](references/flaky-finding.example.json) are the same finding in both output shapes — a confirmed port collision with a filled discrimination matrix, a two-direction confirming experiment, rejected alternatives, and a non-empty `not_verified` list. Read them before writing your first report; the optional blocks are easy to get wrong or omit.
 
 Validate the JSON against the schema before declaring done. Then present the findings in chat, ranked by flake rate and blast radius, and stop. Do not apply fixes unless asked.
 
@@ -209,15 +209,15 @@ When asked which tests in a suite are unreliable, or when a single flake is susp
 
 ## References
 
-- `references/error-triage.md` — decode the codes, statuses, signals, and asserted values in a failing run before forming a hypothesis. Step 0 reads this first.
-- `references/flaky-taxonomy.md` — nineteen root-cause families with signature, confirming experiment, and fix direction.
-- `references/reproduction-playbook.md` — verified command cookbook for nextest, cargo test, stress load, and CI reproduction.
-- `references/repo-test-policy.md` — how to read a Rust project's testing conventions, profiles, test groups, quarantine, and the `#[serial]` trap.
-- `references/bug-report-template.md` — the report format.
-- `references/bug-report.example.md` — a complete worked report, showing what fully filled looks like. Read it before writing your first one.
-- `references/flaky-finding.schema.json` — machine-readable finding schema.
-- `references/flaky-finding.example.json` — the same finding as valid JSON.
-- `scripts/flake-loop.sh` — bounded stress loop that works with or without cargo-nextest, records per-iteration logs, and prints a flake rate parsed from nextest's summary rather than its exit code.
+- [references/error-triage.md](references/error-triage.md) — decode the codes, statuses, signals, and asserted values in a failing run before forming a hypothesis. Step 0 reads this first.
+- [references/flaky-taxonomy.md](references/flaky-taxonomy.md) — nineteen root-cause families with signature, confirming experiment, and fix direction.
+- [references/reproduction-playbook.md](references/reproduction-playbook.md) — verified command cookbook for nextest, cargo test, stress load, and CI reproduction.
+- [references/repo-test-policy.md](references/repo-test-policy.md) — how to read a Rust project's testing conventions, profiles, test groups, quarantine, and the `#[serial]` trap.
+- [references/bug-report-template.md](references/bug-report-template.md) — the report format.
+- [references/bug-report.example.md](references/bug-report.example.md) — a complete worked report, showing what fully filled looks like. Read it before writing your first one.
+- [references/flaky-finding.schema.json](references/flaky-finding.schema.json) — machine-readable finding schema.
+- [references/flaky-finding.example.json](references/flaky-finding.example.json) — the same finding as valid JSON.
+- [scripts/flake-loop.sh](scripts/flake-loop.sh) — bounded stress loop that works with or without cargo-nextest, records per-iteration logs, and prints a flake rate parsed from nextest's summary rather than its exit code.
 
 ## Out of scope
 
