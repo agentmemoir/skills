@@ -7,22 +7,29 @@ description: >-
   domain spec, when I ask to define product domains, capabilities, rules, or bounded contexts, when
   I point at legacy documentation, PRDs, plans, or scattered notes and want a product spec extracted
   from them, or when I extend, amend, or continue an existing PDS. Also use it when a product idea
-  needs shape before any PRD or code exists.
+  needs shape before any PRD or code exists, when I want the suite mirrored to a project-local
+  folder, when a fresh clone must restore a missing central suite, or when I migrate a very large
+  legacy doc set across sessions with a saved next-session scope.
 category: workflow
 title: Blueprint
 summary: >-
   Turns a product idea or scattered legacy docs into a Product Domain Specification: one bounded
   context per file, under the tidy contract. Questions every decision that shapes the product,
   puts costly choices through prism, and records every amendment as a decision record so the suite
-  grows across sessions.
+  grows across sessions. Keeps the suite central, mirrors it to an optional project folder, restores
+  it from a clone when the central copy is missing, and migrates large legacy sets one session scope
+  at a time.
 say: >-
-  "Blueprint a PDS for this" or "Extract the product spec from these docs."
+  "Blueprint a PDS for this", "Extract the product spec from these docs", or "Migrate this legacy
+  folder into blueprints."
 license: MIT
 compatibility: >-
-  Needs a question tool for picks. Requires the tidy skill. Works best with the prism skill installed.
+  Needs a question tool for picks and git for the owner and repo. Requires the tidy skill. Writes
+  under ~/.agentmemoir and to an optional project-local mirror. Works best with the prism skill
+  installed.
 metadata:
   author: agentmemoir
-  version: "1.0"
+  version: "1.1"
 ---
 # Blueprint
 
@@ -53,7 +60,7 @@ The PDS speaks Domain-Driven Design. Every suite follows these rules:
 - **Ubiquitous language.** Every term has one meaning and one home: the domain file that owns it holds the full definition, and `glossary.md` indexes every term with a short gloss and a link. No definition lives twice.
 - **Bounded contexts.** Each domain file is one bounded context. It owns its terms, its model, and its rules. What crosses a context boundary is named explicitly.
 - **Subdomain classes.** Every domain is classified as core, supporting, or generic. Core domains get the most detail; generic ones get the least.
-- **Context map.** `index.md` holds the map: every context, its class, and its relationships to the others, using the DDD context-map patterns. The map is the single home of classes and relationship natures.
+- **Context map.** The suite entry point (`README.md`, or a legacy `index.md`) holds the map: every context, its class, and its relationships to the others, using the DDD context-map patterns. The map is the single home of classes and relationship natures.
 - **Tactical model in business terms.** Name entities, value objects, aggregates, domain events, and invariants, and give core domains the most of them. An aggregate states what it owns and what must stay consistent inside it. A domain event states what happened in business words. No repositories, services, or code patterns.
 - **Rules and invariants.** Every domain file states what is permitted, required, prohibited, and always true.
 
@@ -69,18 +76,41 @@ The PDS speaks Domain-Driven Design. Every suite follows these rules:
 
 ## Where a PDS lives
 
-A suite lives at `~/.agentmemoir/<owner>/<repo>/blueprints/<product>/`. Read `<owner>` and `<repo>` from `git remote -v`; `<product>` is a short slug for the product, and the repo name is the slug when the repo is the product. The folder sits outside every CLI's data folder, so session cleanup cannot delete it. One subfolder per product suite. When I name a target folder, use it. When the owner, repo, or product name is unclear — no git remote, several candidates, or an empty request — ask me one question before writing anything; with no git remote, ask me for the owner and repo and use my answers verbatim. Legacy source documents are never moved, edited, or deleted. Extraction writes only into the suite folder.
+A suite lives at `~/.agentmemoir/<owner>/<repo>/blueprints/<product>/`. Read `<owner>` and `<repo>` from `git remote -v`; `<product>` is a short slug for the product, and the repo name is the slug when the repo is the product. The folder sits outside every CLI's data folder, so session cleanup cannot delete it. One subfolder per product suite. The central suite is the only source of truth; a project-local folder is a mirror of it, never a second source.
 
-## The three modes
+Every suite holds `blueprint.json`, which records the sync choice and the mirror path. When I name a target folder, that folder is the mirror and the setting is saved. Mirror paths are relative to the repo root; refuse an absolute path and ask for a relative one. When the owner, repo, or product name is unclear — no git remote, several candidates, or an empty request — ask me one question before writing anything; with no git remote, ask me for the owner and repo and use my answers verbatim. Legacy source documents are never moved, edited, or deleted. Writes go into the suite folder, plus a repo-root `PHILOSOPHY.md` when a Migrate philosophy work unit calls for it.
 
-Detect the mode from my request. If it is unclear, ask one question before anything else. A request that touches an existing suite is always Amend, even when I call it a new feature.
+## Session start
+
+Run these steps in order before any other work.
+
+1. Load `tidy` per the gate above.
+2. Resolve `<owner>`, `<repo>`, and `<product>`. When the central suite has no entry point (`README.md`, or a legacy `index.md`) — the folder is absent or holds only settings — and a local suite exists, restore it and report the count, per [references/sync-and-restore.md](references/sync-and-restore.md).
+3. Read `blueprint.json`. When it is absent, ask the two configuration questions together and write the file immediately. When it is unreadable or incomplete, stop and ask; never guess a setting.
+4. State one line: the central suite path, the mirror path, and the sync state.
+5. When sync is off and a stale local copy exists, ask once whether to delete it.
+
+## Session end
+
+The session ends after the final writing pass and its tidy check.
+
+1. The mode's final tidy check is the gate. When it failed and cannot be fixed, report it and do not mirror.
+2. When sync is on, mirror the whole suite to the local folder, delete local files that central does not have, and report the overwritten, deleted, and new counts. The first mirror into a non-empty folder that is not a suite stops and asks.
+3. When sync is custom, follow the stored instruction within the core rules. When it conflicts with central-canonical or the mirror rule, apply the compatible part, stop, and ask.
+4. When sync is off, do nothing.
+
+A settings-only change mirrors that file immediately when sync is on, because it is not PDS content.
+
+## The four modes
+
+Detect the mode from my request. If it is unclear, ask one question before anything else. A request that touches an existing suite is always Amend, even when I call it a new feature. A request to migrate a large legacy set across sessions is Migrate.
 
 ### Author — start from nothing
 
 1. Restate my goal in your own words: the product, who it serves, and the intent behind it. Wait for my confirmation.
 2. Grill me on every decision that shapes the product: the core domain, the bounded contexts and their seams, the ubiquitous language, the capabilities, the rules, and the events that cross boundaries. One decision per message, and wait. Research what a decision needs so its options are honest, and reuse research across questions.
 3. When a choice is costly to undo and no option is clearly best, use the prism format. When one answer is clearly right, or the choice is cheap to undo, decide and tell me in one line.
-4. Before writing files, present the proposed topology: suite path, domain files, glossary, and index layout. Wait for my approval. This is tidy's user alignment checkpoint.
+4. Before writing files, present the proposed topology: central suite path, mirror path, domain files, glossary, and entry-point layout. Wait for my approval. This is tidy's user alignment checkpoint.
 5. Write the suite per `references/pds-anatomy.md`: skeleton first, then every settled decision in its file as it settles, with unfinished domains at `Status: draft` and unsettled decisions as explicit `Open:` points. Never hold a settled decision only in the conversation, and never fill an open point with an invention.
 6. Wire the entry hub and the links. Run tidy's checker (`python3 <tidy-skill-folder>/scripts/check-tidy.py <suite-folder>`) and fix what it reports. If you cannot locate tidy's folder, ask me for the path, and never skip the check in silence.
 
@@ -94,15 +124,28 @@ Detect the mode from my request. If it is unclear, ask one question before anyth
 
 ### Amend — extend an existing suite
 
-1. Read the suite `index.md`, `glossary.md`, and every domain file the request touches. When the amendment distills new material from legacy sources, read every source file first and follow Extract steps 2 and 5 for distilling and the drop report; never copy their prose. Restate what I asked for and how it fits the current model. Wait for my confirmation.
+1. Read the suite entry point (`README.md`, or a legacy `index.md`), `glossary.md`, and every domain file the request touches. When the amendment distills new material from legacy sources, read every source file first and follow Extract steps 2 and 5 for distilling and the drop report; never copy their prose. Restate what I asked for and how it fits the current model. Wait for my confirmation.
 2. Grill me on the new decisions the same way as in Author mode. A new capability, a new rule, a changed boundary, or a new term is settled before any edit.
 3. Preserve 100 percent of existing invariants. When the change conflicts with one, surface the conflict and settle it with me before touching anything, through prism when the conflict is costly to undo.
 4. Apply the change. Flip affected `Status: draft` markers, resolve `Open:` points I settled, and record every amendment as a decision record in `decisions/` per `references/pds-anatomy.md`.
-5. Link the record from every file it changed, update the index and glossary, and run tidy's checker on the suite.
+5. Link the record from every file it changed, update the entry point and glossary, and run tidy's checker on the suite.
+
+### Migrate — distill a very large legacy set across sessions
+
+1. Resolve the legacy root from my request; ask for it when it is missing. Resolve the migration working directory from my request, then `blueprint.json`, then the default `./agent-files/blueprint-migration/`; save a directory I name when it differs.
+2. Read `next.json` when it exists. Treat it as the session scope. When its shape is not migration scope — for example, it names build or implementation work — stop and ask. Move the consumed file to `~/.agentmemoir/<owner>/<repo>/migration-consumed/<date>-next.json` before starting. When no file exists, choose a reasonable subset of work units and present it to me for approval.
+3. Read the suite and every work file in the working directory. Report which work units are already `migrated` or `verified`, and never repeat them.
+4. For each work unit in scope, read every source, distill by Extract's rules, and settle every open decision one message at a time. Write the unit's targets and update its work file.
+5. Write a decision record for every decision the legacy sources settle, per `references/pds-anatomy.md`.
+6. Finish exactly the scope. Carry every unfinished unit into the new `next.json` with its status and reason.
+7. Write the new `next.json` for the next session, in the shape `references/legacy-migration.md` defines.
+8. Run tidy's checker, then follow *Session end*.
+
+Migrate writes the PDS core and, for a philosophy unit, the repo-root `PHILOSOPHY.md`. It never authors another file. The full boundary, the work file schema, and the scope contract live in [references/legacy-migration.md](references/legacy-migration.md).
 
 ## The grilling session
 
-All three modes share one protocol:
+All four modes share one protocol:
 
 - The unit is one decision per message: a domain boundary, a subdomain class, a term definition, an aggregate ownership, a capability, an invariant, or a crossing event.
 - Clarification goes through the question tool. Shape-defining and costly decisions go through prism. Never mix the two.
@@ -118,8 +161,14 @@ All three modes share one protocol:
 - Silently rewriting or weakening an existing rule during Amend.
 - A decision record with no link from the file it changed.
 - An `Open:` point quietly filled with a guess.
+- Treating the local mirror as a second source of truth.
+- Restoring over a central suite that already has its entry point.
+- Migrating a whole legacy set in one session.
+- Writing a file outside Migrate's boundary.
 
 ## Resources
 
-- [references/pds-anatomy.md](references/pds-anatomy.md): suite layout, index contract, glossary, domain file schema, and decision record schema. Load it before writing any file.
+- [references/pds-anatomy.md](references/pds-anatomy.md): suite layout, entry-point contract, glossary, domain file schema, and decision record schema. Load it before writing any file.
+- [references/sync-and-restore.md](references/sync-and-restore.md): settings schema, session-start detection, restore, the end-of-session mirror, and its guards. Load it before the first configuration question.
+- [references/legacy-migration.md](references/legacy-migration.md): the Migrate protocol, next.json contract, work file schema, statuses, and the writing boundary. Load it before a Migrate session.
 - The `tidy` skill is the base contract this skill follows and never overrides. The `prism` skill supplies the format for costly decisions.
