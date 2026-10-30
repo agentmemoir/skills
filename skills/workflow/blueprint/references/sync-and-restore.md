@@ -65,8 +65,7 @@ A folder is a suite when it holds a `blueprint.json` that parses with `product` 
 ## Restore
 
 - Restore only when the central suite has no entry point. A central folder with `README.md` or `index.md` counts as present, even when it is partial; central wins.
-- Copy every file and folder from the local suite into the central path. When the central folder already holds `blueprint.json`, keep it: central settings win. Copy the local `blueprint.json` only when central has none.
-- Report one line with the copied file count. Continue the session.
+- Run `python3 <blueprint-skill-folder>/scripts/blueprint.py restore <product> [--owner <owner> --repo <repo>]` to find the local candidate, restore all suite files, preserve central settings, and report the copied count.
 - Never restore over a central entry point, and never merge file by file.
 - "Synchronized elsewhere" means another computer. Do not search other product slugs, other owners, or other repos.
 - After a restore, read the restored `blueprint.json`. When the local suite had none, ask the two configuration questions.
@@ -74,7 +73,7 @@ A folder is a suite when it holds a `blueprint.json` that parses with `product` 
 ## The end-of-session mirror
 
 - The mirror runs after the mode's final tidy check passes. When the check failed and cannot be fixed, report it and do not mirror.
-- The mirror copies the whole suite, including `blueprint.json`, to `local_dir`. It deletes local files and folders that the suite does not have, and reports one line: overwritten, deleted, and new counts.
+- Run `python3 <blueprint-skill-folder>/scripts/blueprint.py sync <suite-folder>` to mirror the whole suite, prune removed local files, and report the new, overwritten, and deleted counts.
 - The mirror creates `local_dir` when it is absent.
 - The first mirror stops and asks when `local_dir` exists, is not empty, and is not a suite (see *Finding a local suite*).
 - When the mirror fails, report it and leave the central suite untouched. Do not roll back central.

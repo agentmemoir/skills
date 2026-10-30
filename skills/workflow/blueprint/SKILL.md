@@ -24,8 +24,8 @@ say: >-
   folder into blueprints."
 license: MIT
 compatibility: >-
-  Needs a question tool for picks and git for the owner and repo. Requires the tidy skill. Writes
-  under ~/.agentmemoir and to an optional project-local mirror. Works best with the prism skill
+  Needs a question tool for picks and git for the owner and repo. Requires Python 3 and the tidy skill.
+  Writes under ~/.agentmemoir and to an optional project-local mirror. Works best with the prism skill
   installed.
 metadata:
   author: agentmemoir
@@ -85,7 +85,7 @@ Every suite holds `blueprint.json`, which records the sync choice and the mirror
 Run these steps in order before any other work.
 
 1. Load `tidy` per the gate above.
-2. Resolve `<owner>`, `<repo>`, and `<product>`. When the central suite has no entry point (`README.md`, or a legacy `index.md`) — the folder is absent or holds only settings — and a local suite exists, restore it and report the count, per [references/sync-and-restore.md](references/sync-and-restore.md).
+2. Resolve `<owner>`, `<repo>`, and `<product>`. When the central suite has no entry point (`README.md`, or a legacy `index.md`) — the folder is absent or holds only settings — and a local suite exists, run `python3 <blueprint-skill-folder>/scripts/blueprint.py restore <product>` to restore it and report the count, per [references/sync-and-restore.md](references/sync-and-restore.md).
 3. Read `blueprint.json`. When it is absent, ask the two configuration questions together and write the file immediately. When it is unreadable or incomplete, stop and ask; never guess a setting.
 4. State one line: the central suite path, the mirror path, and the sync state.
 5. When sync is off and a stale local copy exists, ask once whether to delete it.
@@ -95,7 +95,7 @@ Run these steps in order before any other work.
 The session ends after the final writing pass and its tidy check.
 
 1. The mode's final tidy check is the gate. When it failed and cannot be fixed, report it and do not mirror.
-2. When sync is on, mirror the whole suite to the local folder, delete local files that central does not have, and report the overwritten, deleted, and new counts. The first mirror into a non-empty folder that is not a suite stops and asks.
+2. When sync is on, run `python3 <blueprint-skill-folder>/scripts/blueprint.py sync <suite-folder>` to mirror the whole suite to the local folder, delete local files that central does not have, and report the overwritten, deleted, and new counts. The first mirror into a non-empty folder that is not a suite stops and asks.
 3. When sync is custom, follow the stored instruction within the core rules. When it conflicts with central-canonical or the mirror rule, apply the compatible part, stop, and ask.
 4. When sync is off, do nothing.
 
@@ -112,7 +112,7 @@ Detect the mode from my request. If it is unclear, ask one question before anyth
 3. When a choice is costly to undo and no option is clearly best, use the prism format. When one answer is clearly right, or the choice is cheap to undo, decide and tell me in one line.
 4. Before writing files, present the proposed topology: central suite path, mirror path, domain files, glossary, and entry-point layout. Wait for my approval. This is tidy's user alignment checkpoint.
 5. Write the suite per `references/pds-anatomy.md`: skeleton first, then every settled decision in its file as it settles, with unfinished domains at `Status: draft` and unsettled decisions as explicit `Open:` points. Never hold a settled decision only in the conversation, and never fill an open point with an invention.
-6. Wire the entry hub and the links. Run tidy's checker (`python3 <tidy-skill-folder>/scripts/check-tidy.py <suite-folder>`) and fix what it reports. If you cannot locate tidy's folder, ask me for the path, and never skip the check in silence.
+6. Run the generator (`python3 <blueprint-skill-folder>/scripts/blueprint.py generate <suite-folder>`) to compile `glossary.md`, the domain map, and the navigation index. Run the validator (`python3 <blueprint-skill-folder>/scripts/blueprint.py validate <suite-folder>`), then run tidy's checker (`python3 <tidy-skill-folder>/scripts/check-tidy.py <suite-folder>`) and fix what it reports. If you cannot locate tidy's folder, ask me for the path, and never skip the check in silence.
 
 ### Extract — distill from legacy docs
 
@@ -120,7 +120,7 @@ Detect the mode from my request. If it is unclear, ask one question before anyth
 2. Distill, never copy. Keep every domain rule, constraint, term, and behavioral commitment. Drop narration, history, meeting notes, implementation detail, and duplication. The suite is smaller than the sources because it holds only the domain, not the paperwork.
 3. When a source is ambiguous or self-contradictory, do not guess. If one reading is clearly right, or the choice is cheap to undo, ask a plain clarification. When two readings are valid and the choice between them reshapes the product, that choice is a decision, and it goes through prism.
 4. Propose the derived topology and the conflicts you found. Wait for my approval before writing files.
-5. Write the suite per `references/pds-anatomy.md`. Run tidy's checker, then report what you dropped in one short line per category: narration, history and meeting notes, implementation detail, duplication.
+5. Write the suite per `references/pds-anatomy.md`. Run `python3 <blueprint-skill-folder>/scripts/blueprint.py generate <suite-folder>`, run the validator (`python3 <blueprint-skill-folder>/scripts/blueprint.py validate <suite-folder>`), run tidy's checker, then report what you dropped in one short line per category: narration, history and meeting notes, implementation detail, duplication.
 
 ### Amend — extend an existing suite
 
@@ -128,18 +128,18 @@ Detect the mode from my request. If it is unclear, ask one question before anyth
 2. Grill me on the new decisions the same way as in Author mode. A new capability, a new rule, a changed boundary, or a new term is settled before any edit.
 3. Preserve 100 percent of existing invariants. When the change conflicts with one, surface the conflict and settle it with me before touching anything, through prism when the conflict is costly to undo.
 4. Apply the change. Flip affected `Status: draft` markers, resolve `Open:` points I settled, and record every amendment as a decision record in `decisions/` per `references/pds-anatomy.md`.
-5. Link the record from every file it changed, update the entry point and glossary, and run tidy's checker on the suite.
+5. Link the record from every file it changed, update the entry point and glossary via `python3 <blueprint-skill-folder>/scripts/blueprint.py generate <suite-folder>`, run `python3 <blueprint-skill-folder>/scripts/blueprint.py validate <suite-folder>`, and run tidy's checker on the suite.
 
 ### Migrate — distill a very large legacy set across sessions
 
 1. Resolve the legacy root from my request; ask for it when it is missing. Resolve the migration working directory from my request, then `blueprint.json`, then the default `./agent-files/blueprint-migration/`; save a directory I name when it differs.
-2. Read `next.json` when it exists. Treat it as the session scope. When its shape is not migration scope — for example, it names build or implementation work — stop and ask. Move the consumed file to `~/.agentmemoir/<owner>/<repo>/migration-consumed/<date>-next.json` before starting. When no file exists, choose a reasonable subset of work units and present it to me for approval.
-3. Read the suite and every work file in the working directory. Report which work units are already `migrated` or `verified`, and never repeat them.
+2. Read `next.json` when it exists. Treat it as the session scope. When its shape is not migration scope — for example, it names build or implementation work — stop and ask. Archive the consumed file to `~/.agentmemoir/<owner>/<repo>/migration-consumed/<date>-next.json` via `python3 <blueprint-skill-folder>/scripts/blueprint.py migrate rollover --work <work-dir>` before starting. When no file exists, run `blueprint.py migrate init --legacy <legacy-dir> --work <work-dir>` to scaffold work files, choose a reasonable subset of units, and present it to me for approval.
+3. Inspect work units via `python3 <blueprint-skill-folder>/scripts/blueprint.py migrate status --work <work-dir>`. Report which work units are already `migrated` or `verified`, and never repeat them.
 4. For each work unit in scope, read every source, distill by Extract's rules, and settle every open decision one message at a time. Write the unit's targets and update its work file.
 5. Write a decision record for every decision the legacy sources settle, per `references/pds-anatomy.md`.
 6. Finish exactly the scope. Carry every unfinished unit into the new `next.json` with its status and reason.
-7. Write the new `next.json` for the next session, in the shape `references/legacy-migration.md` defines.
-8. Run tidy's checker, then follow *Session end*.
+7. Write the new `next.json` for the next session via `blueprint.py migrate rollover`.
+8. Run `python3 <blueprint-skill-folder>/scripts/blueprint.py generate <suite-folder>`, run `python3 <blueprint-skill-folder>/scripts/blueprint.py validate <suite-folder>`, run tidy's checker, then follow *Session end*.
 
 Migrate writes the PDS core and, for a philosophy unit, the repo-root `PHILOSOPHY.md`. It never authors another file. The full boundary, the work file schema, and the scope contract live in [references/legacy-migration.md](references/legacy-migration.md).
 
@@ -168,6 +168,7 @@ All four modes share one protocol:
 
 ## Resources
 
+- `scripts/blueprint.py`: suite generator, sync mirror, restore engine, and migration scope tracker.
 - [references/pds-anatomy.md](references/pds-anatomy.md): suite layout, entry-point contract, glossary, domain file schema, and decision record schema. Load it before writing any file.
 - [references/sync-and-restore.md](references/sync-and-restore.md): settings schema, session-start detection, restore, the end-of-session mirror, and its guards. Load it before the first configuration question.
 - [references/legacy-migration.md](references/legacy-migration.md): the Migrate protocol, next.json contract, work file schema, statuses, and the writing boundary. Load it before a Migrate session.
