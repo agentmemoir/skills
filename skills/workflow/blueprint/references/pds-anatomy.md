@@ -29,14 +29,16 @@ Four required sections, per tidy's entry-point contract. The same sections apply
 
 1. **Purpose & Problem Statement** — why the product exists and the problem it solves, in two or three sentences.
 2. **Scope & Boundaries** — what the product governs, and what it explicitly does not.
-3. **Domain Map** — every bounded context with its subdomain class (core, supporting, generic) and its relationships to the others as a text topology, using the DDD patterns: partnership, shared kernel, customer-supplier, conformist, anti-corruption layer, open host service, published language. Name in one line what crosses each boundary. This is the context map, and it is the single home of each subdomain class and relationship.
-4. **Navigation Index & Reading Paths** — one relative link per file with a one-sentence summary, plus a reading path per reader goal, such as implementer, reviewer, or new stakeholder.
+3. **Domain Map** — every bounded context with its subdomain class (core, supporting, generic) and its relationships to the others as a text topology, using the DDD patterns. This section is automatically generated between `<!-- BEGIN GENERATED: domain map -->` and `<!-- END GENERATED: domain map -->` from domain files by `blueprint.py generate`.
+4. **Navigation Index & Reading Paths** — one relative link per file with a one-sentence summary, plus reading paths. The file and decision tables are automatically generated between `<!-- BEGIN GENERATED: navigation -->` and `<!-- END GENERATED: navigation -->` by `blueprint.py generate`.
 
 Zero duplication: the entry point routes, it does not define. Terms, rules, and models live in their domain files. An `Open:` point about the map or a term name parks under the Domain Map when no domain file owns it yet.
 
 ## glossary.md — the ubiquitous language
 
-One line per term: the term, a short gloss, and a relative link to the domain file that owns it. Every term appears here exactly once. The domain file owns the full definition of its terms; the gloss is a pointer, never a second definition. When a gloss drifts from its domain file, fix the gloss in the same pass. When two contexts need the same word for different things, each context names its own term, and the glossary records both, each linked to its owner.
+One line per term: the term, a short gloss, and a relative link to the domain file that owns it. Every term appears here exactly once. The domain file owns the full definition of its terms; the gloss is a pointer, never a second definition. When a gloss drifts from its domain file, fix the gloss in the same pass.
+
+`glossary.md` is compiled automatically between `<!-- BEGIN GENERATED: ubiquitous language -->` and `<!-- END GENERATED: ubiquitous language -->` by `python3 <blueprint-skill-folder>/scripts/blueprint.py generate <suite-folder>`. Never hand-edit terms inside the generated region; update the domain file and regenerate.
 
 ## Domain file schema
 
@@ -67,4 +69,6 @@ One file per amendment or migrated decision, named `NNNN-<slug>.md`. Numbers are
 - One paragraph per line. Newlines only for structure: headings, list items, table rows, and fenced blocks.
 - Present tense, as if the product already exists: "The ledger rejects a duplicate entry", never "will" or "should eventually".
 - Relative links only. No file repeats another file's content.
+- Run the generator (`python3 <blueprint-skill-folder>/scripts/blueprint.py generate <suite-folder>`) after changing domain files or decisions.
+- Run the structural validator (`python3 <blueprint-skill-folder>/scripts/blueprint.py validate <suite-folder>`) to verify schema and link integrity.
 - Run tidy's checker (`python3 <tidy-skill-folder>/scripts/check-tidy.py <suite-folder>`) after every writing pass and fix what it reports. Never skip it in silence.

@@ -49,8 +49,8 @@ The legacy root comes from my request at each session. Ask for it when it is mis
 Extra keys are allowed. The four keys above are required.
 
 - A file whose shape is not migration scope is not a scope. When it names build, implementation, delivery, commands, or code targets, stop and ask.
-- Move the consumed file to `migration-consumed/<YYYY-MM-DD>-next.json` before starting. Add a numeric suffix when that name already exists, so no archive is overwritten. Create the folder when it is absent. When the move fails, stop.
-- When no file exists, choose a reasonable subset of work units and present it to me for approval. Wait before writing anything.
+- Move the consumed file to `migration-consumed/<YYYY-MM-DD>-next.json` before starting. `python3 <blueprint-skill-folder>/scripts/blueprint.py migrate rollover --work <work-dir>` automates archiving the consumed scope and carrying forward pending deliverables with numeric suffix collision guards.
+- When no file exists, run `python3 <blueprint-skill-folder>/scripts/blueprint.py migrate init --legacy <legacy-dir> --work <work-dir>` to scaffold unit work files and an initial `next.json`, then present it to me for approval.
 
 ## Work units
 
@@ -101,13 +101,13 @@ For a philosophy unit, preserve every belief, hard line, and precedence rule. Wh
 
 1. Follow the tidy gate, the settings step, the notice, and the restore step in [sync-and-restore.md](sync-and-restore.md).
 2. Resolve the legacy root and the working directory.
-3. Read `next.json`, validate it, archive it, or propose a scope.
-4. Read the suite and every work file. Report the units already `migrated` or `verified`.
+3. Read `next.json`, validate it, archive it via `blueprint.py migrate rollover`, or scaffold with `blueprint.py migrate init`.
+4. Read the suite and work files via `python3 <blueprint-skill-folder>/scripts/blueprint.py migrate status --work <work-dir>`. Report the units already `migrated` or `verified`.
 5. For each unit in scope, read every source, distill, and settle every open decision one message at a time. Write the targets and update the work file.
 6. Write a decision record for every decision the legacy sources settle.
 7. Stop at the scope boundary. Carry every unfinished unit into the new file.
-8. Write the new `next.json` for the next session.
-9. Run tidy's checker, then follow the session-end mirror.
+8. Write the new `next.json` for the next session via `blueprint.py migrate rollover`.
+9. Run `python3 <blueprint-skill-folder>/scripts/blueprint.py generate <suite-folder>`, run tidy's checker, then run `blueprint.py sync`.
 
 ## Effort and carry-over
 

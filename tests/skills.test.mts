@@ -15,6 +15,7 @@ type Check = [label: string, cmd: string, args: string[], options?: ExecFileOpti
 const CHECKS: Check[] = [
   ["format --check", NODE, ["scripts/format.cjs", "--check"]],
   ["autopsy report", NODE, ["skills/review/autopsy/scripts/generate-report.cjs", "--self-check"]],
+  ["blueprint self-check", PY, ["skills/workflow/blueprint/scripts/blueprint.py", "--self-check"]],
   ["rust flake loop", "bash", ["skills/code/rust-flaky-test-investigator/scripts/flake-loop.sh", "--self-check"]],
   ["python subprocess recipes", PY, ["skills/code/python-subprocess-and-concurrency/scripts/verify-recipes.py"]],
   ["noexec python self-check", PY, ["skills/portability/noexec-python/scripts/self-check.py"]],
