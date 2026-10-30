@@ -310,9 +310,9 @@ Say: "Build my Svelte 5 static site with runes."
 npx skills add agentmemoir/skills --skill blueprint --global -y
 ```
 
-Turns a product idea or scattered legacy docs into a Product Domain Specification: one bounded context per file, under the tidy contract. Questions every decision that shapes the product, puts costly choices through prism, and records every amendment as a decision record so the suite grows across sessions.
+Turns a product idea or scattered legacy docs into a Product Domain Specification: one bounded context per file, under the tidy contract. Questions every decision that shapes the product, puts costly choices through prism, and records every amendment as a decision record so the suite grows across sessions. Keeps the suite central, mirrors it to an optional project folder, restores it from a clone when the central copy is missing, and migrates large legacy sets one session scope at a time.
 
-Say: "Blueprint a PDS for this" or "Extract the product spec from these docs."
+Say: "Blueprint a PDS for this", "Extract the product spec from these docs", or "Migrate this legacy folder into blueprints."
 
 #### Maestro
 
