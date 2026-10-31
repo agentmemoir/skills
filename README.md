@@ -301,7 +301,7 @@ Say: "Build my Svelte 5 static site with runes."
 | [`oracle`](skills/workflow/oracle/SKILL.md) | Searches primary sources before any claim about tools, libraries, APIs, standards, or versions, and reports the evidence behind it. |
 | [`prism`](skills/workflow/prism/SKILL.md) | Puts a costly, hard-to-undo decision to you as one short question, one option per lens, and a recommendation. |
 | [`probe`](skills/workflow/probe/SKILL.md) | Grills you on a request before any code changes, then turns the settled decisions into a plan, a GitHub master issue, or a coding session. |
-| [`progress`](skills/workflow/progress/SKILL.md) | Keeps a ledger of the large work items in a long task and sends a 12-line progress and ETA report each time one changes state. |
+| [`progress`](skills/workflow/progress/SKILL.md) | Keeps a ledger of the large work items in a long task and sends a compact progress and ETA report each time one changes state. |
 | [`retro`](skills/workflow/retro/SKILL.md) | Ends a session with up to three suggestions to fix your skills, agent instructions, and rules, each grounded in something that happened. |
 
 #### Blueprint
@@ -360,7 +360,7 @@ Say: "Probe me on the auth refactor before you touch any code."
 npx skills add agentmemoir/skills --skill progress --global -y
 ```
 
-Keeps a ledger of the large work items in a long task and sends a 12-line progress and ETA report each time one changes state. Items are never silently dropped or renamed. Scope changes are stated, and the ETA is always a range based on evidence. Works for one agent alone or for an orchestrator with subagents.
+Keeps a ledger of the large work items in a long task and sends a compact progress and ETA report each time one changes state. Items are never silently dropped or renamed. Scope changes are stated, and the ETA is always a range based on evidence. Works for one agent alone or for an orchestrator running concurrent workers.
 
 Say: "Track progress on this and give me ETAs."
 
