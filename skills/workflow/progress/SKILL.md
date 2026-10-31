@@ -8,17 +8,17 @@ description: >-
 category: workflow
 title: Progress
 summary: >-
-  Keeps a ledger of the large work items in a long task and sends a 12-line progress and ETA report
+  Keeps a ledger of the large work items in a long task and sends a compact progress and ETA report
   each time one changes state. Items are never silently dropped or renamed. Scope changes are
   stated, and the ETA is always a range based on evidence. Works for one agent alone or for an
-  orchestrator with subagents.
+  orchestrator running concurrent workers.
 say: >-
   "Track progress on this and give me
   ETAs."
 license: MIT
 metadata:
   author: agentmemoir
-  version: "1.0"
+  version: "1.1"
 ---
 
 # Progress
@@ -27,7 +27,7 @@ One ledger, one report shape, one ETA rule. You always know what is done, what r
 
 ## Modes
 
-- **Orchestrator:** you dispatch work items to workers (subagents). A worker report arrives, and you accept or reject it.
+- **Orchestrator:** you dispatch work items to workers (subagents), one or many at a time. Worker reports arrive, and you accept or reject each one; several may arrive together.
 - **Solo:** you do the work yourself. When you finish an item and check it, that counts as an accepted report. "Dispatch" means you start the next item.
 
 Everything below applies to both modes.
@@ -58,15 +58,16 @@ Rules for every location:
 
 ## When to report
 
-- Send a report in chat when a work item changes state.
+- Send a report in chat when a work item changes state, or when a batch of items changes state together.
 - Several state changes in a row get one report.
+- When several workers report while you are busy, or one worker finishes a batch, send one report that covers all of them.
 - Send nothing if no state changed since the last report.
 - A blocked work item is a state change. Report it at once.
-- Order: accept or reject the worker report, send the report, then dispatch the next work item.
+- Order: accept or reject every worker report that arrived, send the report, then fill the free slots.
 
 ## The report
 
-At most 12 lines, not counting blank lines. Use these lines and headings, in this order. Start each heading line with its emoji.
+Keep the report dense: one short line per item, no prose, no explanation, no blank padding. There is no fixed line cap; the length follows the number of items in flight. Use these lines and headings, in this order. Start each heading line with its emoji.
 
 ```md
 # <goal>
@@ -82,18 +83,20 @@ IN PROGRESS
 NEXT
 
 📦 <work item>
+📦 <work item>
 
 COMPLETED
 
+✅ <work item>
 ✅ <work item>
 ✅ ~~<work item> — cancelled: <reason>~~
 ```
 
 - `📊` counts accepted completed work items only. Cancelled and abandoned items do not count. The total leaves them out.
 - `📋 Scope` appears only when the total or the item set changes. Name the change in a few words.
-- `IN PROGRESS` holds the items that run now, plus every blocked item and its blocker.
-- `NEXT` holds the one item that starts after the current items.
-- `COMPLETED` holds the items accepted since the last report. Do not repeat earlier items. It also holds items cancelled or abandoned since the last report, with strikethrough and a short reason.
+- `IN PROGRESS` holds every item that runs now, one line each, however many run at once, plus every blocked item and its blocker.
+- `NEXT` holds every unblocked item that can start now or as soon as a slot frees, in dispatch order. List them all; it does not stop at one.
+- `COMPLETED` holds the items accepted since the last report, one line each, including a whole batch a worker finished at once. Do not repeat earlier items. It also holds items cancelled or abandoned since the last report, with strikethrough and a short reason.
 - Write `None` under a section that has no item. Keep its heading.
 
 This shape replaces a prose status report. It is allowed even when other instructions cap reply length. At the end of the task, the final report follows your normal rules. Use the ledger as its source.
@@ -105,6 +108,7 @@ The ETA is a forecast, not a measurement. Report a range, such as `60–90 minut
 - Base the range on two facts: the unblocked work items that are left, and the time each item has taken so far. When the range changes, state that basis in one short line.
 - Revise the range when new evidence arrives. A stale range is wrong.
 - Forecast across unblocked work only. Leave out blocked, cancelled, and abandoned items.
+- When items run concurrently, overlap their durations in proportion to the slots you have. Do not add up each item's time as if they ran one at a time.
 - Write `⏰ unknown` when no evidence supports a range, for example before the first item finishes. Name the missing evidence on the same line.
 - If scope changes, revise the range, or write `⏰ unknown` and name the missing evidence.
 
@@ -112,19 +116,23 @@ The ETA is a forecast, not a measurement. Report a range, such as `60–90 minut
 
 ```md
 # Ship the cache fix
-⏰ 40–70 minutes remaining (2 items left, about 25 minutes each so far)
-📊 2/4 done
-📋 Scope: 4 large items. Split "tests" into unit and load tests.
+⏰ 25–45 minutes remaining (4 items left, 2 workers in parallel)
+📊 3/7 done
+📋 Scope: 7 large items. Split "tests" into unit and load tests.
 
 IN PROGRESS
 
 🎯 Version field on cache entries
+🎯 Load test for concurrent writers
 
 NEXT
 
-📦 Load test for concurrent writers
+📦 Load test for eviction storms
+📦 Migration for existing cache files
 
 COMPLETED
 
 ✅ Stale-read reproduction test
+✅ Unit tests for cache hits
+✅ ~~Byte-range cache keys — cancelled: no caller needs them~~
 ```
