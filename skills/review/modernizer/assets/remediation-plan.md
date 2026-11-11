@@ -96,3 +96,32 @@ Mark every item **proposed** and **not yet filed**. Do not create issues from th
 | Proposed issue title | Finding IDs | Work item | Scope | Dependencies | Status |
 |---|---|---|---|---|---|
 | <title> | <IDs> | <work item> | <short scope> | <blockers> | proposed, not filed |
+
+## 10. Dependency decisions and licence report
+
+Fill this section when the audit covered dependencies. It keeps the legal and supply-chain reasoning beside the decisions, so the issue handoff can cite it without re-deriving anything.
+
+### Dependency decisions
+
+| Finding ID | Package | Installed | Target or replacement | Recommendation | My decision | Status | Licence verdict | Review trigger |
+|---|---|---|---|---|---|---|---|---|
+| <ID> | <package> | <version> | <version or replacement> | <A / B / C / D> | <upgrade / replace / migrate / retain / remove / defer / pending> | <approved / rejected / deferred / pending / blocked> | <none / low / high / blocked / legal review / unknown> | <end-of-life date, advisory, major release> |
+
+### Licence report
+
+- Incompatible or unknown licences: <IDs and the terms that conflict>
+- Copyleft and network-copyleft exposure: <IDs and the obligations that bind>
+- Transitive obligations: <IDs and the packages that create them>
+- Notice and attribution changes: <files or artefacts to update>
+- Source-disclosure duties: <IDs and what distribution would trigger them>
+- Legal reviews open: <IDs, the exact question, and the owner>
+- Approved waivers: <IDs, who approved, and the expiry date>
+- Deferred licence decisions: <IDs, the risk, and the review trigger>
+
+### Supply-chain trust
+
+- Replacements verified at the exact version: <package, version, and what was checked>
+- Unresolved suspicious findings: <IDs and the evidence held>
+- Surfaces that could not be verified: <list>
+
+When I asked for the machine-readable copy, it follows [the decisions schema](dependency-decisions.schema.json) and must agree with this section state for state.

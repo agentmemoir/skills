@@ -1,0 +1,131 @@
+{
+  "date": "2026-11-11",
+  "repository": "example/shop-api",
+  "audit_report": "~/.agentmemoir/example/shop-api/modernizer/2026-11-11-dependency-audit.md",
+  "distribution_model": "hosted-service",
+  "scope": {
+    "ecosystems": [
+      "cargo",
+      "npm"
+    ],
+    "surfaces_inspected": [
+      "Cargo.toml and Cargo.lock",
+      "package.json and package-lock.json",
+      "GitHub Actions workflows",
+      "Dockerfile"
+    ],
+    "surfaces_not_inspected": [
+      "Base image digest after the next release line"
+    ],
+    "direct_dependencies": 18,
+    "resolved_dependencies": 214
+  },
+  "summary": {
+    "total_findings": 3,
+    "by_priority": {
+      "Critical": 0,
+      "High": 1,
+      "Medium": 1,
+      "Low": 1
+    },
+    "by_recommendation": {
+      "A": 1,
+      "B": 0,
+      "C": 1,
+      "D": 1
+    },
+    "licence_blocked": 0
+  },
+  "decisions": [
+    {
+      "id": "D-001",
+      "package": "demo-http",
+      "ecosystem": "cargo",
+      "surface": "package",
+      "directness": "direct",
+      "dependency_type": "production",
+      "installed_version": "1.8.0",
+      "latest_version": "2.0.1",
+      "target_version": "1.9.2",
+      "recommendation": "A",
+      "decision": "upgrade",
+      "priority": "High",
+      "effort": "low",
+      "confidence": "high",
+      "status": "approved",
+      "rationale": "The patched 1.9.2 release leaves the 1.x line, so no major migration is needed. Version 2.0.0 changes the client builder, which this repository would have to rewrite.",
+      "licence": {
+        "current": "MIT",
+        "target": "MIT",
+        "risk": "none",
+        "obligations": [
+          "Keep the copyright notice in the third-party notices file."
+        ]
+      },
+      "evidence": [
+        {
+          "source": "Advisory database entry, illustrative identifier",
+          "url": "https://osv.dev/vulnerability/GHSA-xxxx-xxxx-xxxx",
+          "checked": "2026-11-11",
+          "note": "Affected range below 1.9.2, fixed in 1.9.2. Reachable from the public checkout handler."
+        },
+        {
+          "source": "Upstream CHANGELOG for 1.9.2",
+          "url": "https://example.invalid/demo-http/CHANGELOG.md",
+          "checked": "2026-11-11"
+        }
+      ],
+      "review_trigger": "When the 1.x line reaches end of support."
+    },
+    {
+      "id": "D-002",
+      "title": "Migrate off the abandoned YAML parser",
+      "members": [
+        "D-002"
+      ],
+      "recommendation": "C",
+      "decision": "migrate",
+      "priority": "Medium",
+      "effort": "medium",
+      "status": "deferred",
+      "rationale": "The parser is archived upstream and its replacement is not yet cleared: the licence review for the replacement is open. Deferred with a review date, not resolved."
+    },
+    {
+      "id": "D-003",
+      "package": "react",
+      "ecosystem": "npm",
+      "surface": "package",
+      "directness": "direct",
+      "dependency_type": "production",
+      "installed_version": "19.1.0",
+      "recommendation": "D",
+      "decision": "retain",
+      "priority": "Low",
+      "effort": "unknown",
+      "confidence": "high",
+      "status": "approved",
+      "rationale": "Supported, actively maintained, MIT licensed, and compatible with the current distribution model. No advisory applies to the installed version.",
+      "licence": {
+        "current": "MIT",
+        "risk": "none",
+        "obligations": [
+          "Keep the MIT notice in the third-party notices file."
+        ]
+      },
+      "review_trigger": "The next major release or an advisory against the installed version."
+    }
+  ],
+  "accepted_risks": [
+    {
+      "id": "D-002",
+      "description": "The abandoned YAML parser stays in the dependency graph until the replacement clears licence review.",
+      "owner": "alex",
+      "mitigation": "Parsing input is size-limited and runs in a separate process.",
+      "review_date": "2026-12-09",
+      "expiry_date": "2027-02-11"
+    }
+  ],
+  "gaps": [
+    "Base image digest not yet verified for the next release line."
+  ]
+}

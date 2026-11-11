@@ -13,6 +13,7 @@
     "test:tidy": "python3 skills/docs/tidy/scripts/check-tidy.py skills/docs/tidy",
     "test:tidy-selfcheck": "python3 skills/docs/tidy/scripts/check-tidy.py --self-check",
     "test:wordsmith-tidy": "python3 skills/docs/tidy/scripts/check-tidy.py skills/docs/wordsmith --exclude references/upstream/",
+    "test:modernizer": "node --test tests/modernizer.test.mts",
     "test:flake-loop": "bash skills/code/rust-flaky-test-investigator/scripts/flake-loop.sh --self-check",
     "test:python-subprocess-concurrency": "python3 skills/code/python-subprocess-and-concurrency/scripts/verify-recipes.py",
     "check:rust-skill-commands": "node scripts/verify-rust-skill-commands.cjs",

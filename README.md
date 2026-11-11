@@ -226,7 +226,7 @@ Say: "Run an autopsy on docs/plan.md and show me the report."
 npx skills add agentmemoir/skills --skill modernizer --global -y
 ```
 
-Audits a codebase for outdated, unsupported, vulnerable, and abandoned technology, then plans and files the remediation. Four levels run in strict order: read-only audit, human review, deliberation, and authorized GitHub issues. Evidence, priority, and confidence survive every handoff, and the repository is never modified.
+Audits a codebase for outdated, unsupported, vulnerable, and abandoned technology, then plans and files the remediation. Four levels run in strict order: read-only audit, human review, deliberation, and authorized GitHub issues. Dependency work adds a blocking licence gate and a supply-chain trust check, so no upgrade or replacement is recommended before it is legal and verified. Evidence, priority, and confidence survive every handoff, and the repository is never modified.
 
 Say: "Audit this codebase for outdated technology and plan the remediation."
 
