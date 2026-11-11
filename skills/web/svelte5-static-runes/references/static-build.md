@@ -21,25 +21,31 @@ If you need real path-based routes (`/about`, not `/#/about`) without a server, 
 
 Use when you want file-based routing (`src/routes/...`) and either full prerendering (every route becomes real, SEO-visible HTML at build time) or a single-page-app fallback shell.
 
+SvelteKit 3 removed `svelte.config.js`: configuration now lives in the `sveltekit()` Vite plugin. On the 2.x line the same options go in `svelte.config.js` under `kit`; everything else below is unchanged. Options that are not SvelteKit's own are passed through to `vite-plugin-svelte`, so preprocessing now goes there too: add `preprocess: vitePreprocess()` (from `@sveltejs/vite-plugin-svelte`) to the `sveltekit()` call if you use SCSS or other preprocessors inside `.svelte` files.
+
 ```bash
 npm install -D @sveltejs/adapter-static
 ```
 
 ```js
-// svelte.config.js
+// vite.config.js
+import { sveltekit } from '@sveltejs/kit/vite';
 import adapter from '@sveltejs/adapter-static';
+import { defineConfig } from 'vite';
 
-export default {
-  kit: {
-    adapter: adapter({
-      pages: 'build',
-      assets: 'build',
-      fallback: undefined, // set to 'index.html' only for SPA mode — see below
-      precompress: false,
-      strict: true
+export default defineConfig({
+  plugins: [
+    sveltekit({
+      adapter: adapter({
+        pages: 'build',
+        assets: 'build',
+        fallback: undefined, // set to 'index.html' only for SPA mode — see below
+        precompress: false,
+        strict: true
+      })
     })
-  }
-};
+  ]
+});
 ```
 
 ### Full prerendering (preferred — better SEO, works without JS)
@@ -64,14 +70,16 @@ Only use this when SEO doesn't matter and there's no server-side logic in the ap
 export const ssr = false; // whole app renders client-side only
 ```
 ```js
-// svelte.config.js
-adapter({ fallback: 'index.html' })
+// vite.config.js — same plugin block as above, only this line differs
+sveltekit({ adapter: adapter({ fallback: 'index.html' }) })
 ```
 You can still prerender specific pages (e.g. a marketing landing page) alongside an SPA-mode app: give that page's own `+page.js` `export const prerender = true; export const ssr = true;`, while the root layout keeps `ssr = false` for everything else. SvelteKit docs explicitly recommend prerendering as many routes as possible even in SPA mode — full client-only SPA is a "last resort" pattern because it's worse for SEO, worse for perceived performance, and breaks entirely if JS fails to load.
 
+SPA mode is also the only mode where shallow routing makes sense, because the page that stays rendered is the shell. Once `fallback` and `ssr = false` are in place, read [url-state.md](url-state.md) before adding tabs or filters that live in the query string.
+
 ## Deployment notes by host
 
-- **GitHub Pages**: serves from a repo/branch; needs `base` set in `svelte.config.js` (`kit: { paths: { base: '/repo-name' } }`) if not deploying to a custom domain or user/org root page. GitHub Pages needs a `.nojekyll` file in the output (Jekyll otherwise ignores `_`-prefixed files SvelteKit generates) and, for SPA-mode client routing, a `404.html` that's a copy of `index.html` (GitHub Pages' fallback mechanism).
+- **GitHub Pages**: serves from a repo/branch; needs a base path set in the `sveltekit()` plugin (`paths: { base: '/repo-name' }`, or `kit: { paths: { base } }` in a 2.x `svelte.config.js`) if not deploying to a custom domain or user/org root page. GitHub Pages needs a `.nojekyll` file in the output (Jekyll otherwise ignores `_`-prefixed files SvelteKit generates) and, for SPA-mode client routing, a `404.html` that's a copy of `index.html` (GitHub Pages' fallback mechanism).
 - **Netlify**: drop a `_redirects` file (`/* /index.html 200`) in `static/` for SPA-mode fallback routing; use a `_headers` file for CSP/security headers (see `references/security.md`).
 - **Cloudflare Pages**: same `_headers`/`_redirects` file convention as Netlify.
 - **Vercel (static export)**: configure headers/rewrites via `vercel.json` instead of `_headers`/`_redirects`.

@@ -286,7 +286,7 @@ Say: "Build my Svelte 5 app with SSR and runes."
 npx skills add agentmemoir/skills --skill svelte5-static-runes --global -y
 ```
 
-Static (no server) Svelte 5 apps with runes and adapter-static. Build, migrate, or review apps that use runes instead of legacy Svelte 4 reactivity, with SvelteKit adapter-static setup and an XSS/CSP/secrets security checklist.
+Static (no server) Svelte 5 apps with runes and adapter-static. Build, migrate, or review apps that use runes instead of legacy Svelte 4 reactivity, with SvelteKit 3 adapter-static setup, URL/tab state in the query string, and an XSS/CSP/secrets security checklist.
 
 Say: "Build my Svelte 5 static site with runes."
 
