@@ -228,6 +228,17 @@ Share the exact path and a concise overview. **Do not create GitHub issues at Le
 
 **The Level 4 gate is the authorization.** Bugster's standing authorization applies here, not during the audit. Do not file a confirmed bug from Levels 1–3 before this gate. Report a critical audit finding and hold it.
 
+### Public artifacts stand alone
+
+Applies to pull request titles and bodies, commit messages, issue text, changelog entries, and documentation changes.
+
+- Write for a maintainer who joined today and never saw my session. If a sentence needs a file, a draft, or a conversation they cannot open, delete it or rewrite it.
+- Never cite local-only material, secrets, private files, scratch files, plans stored outside the repository, session logs, or chat history.
+- Never narrate the conversation: no "as decided", "as you asked", "as discussed", "per our earlier exchange". Give the technical reason instead.
+- Do not refer to me in the third person when posting under my name.
+- Alternatives belong in the text when they explain a trade-off. They do not belong when their only purpose is to show what was ruled out in private.
+- Before submitting, read the artifact alone and answer two questions: what changed, and why does it need to change? If either answer points outside the repository, revise it.
+
 ### Before filing
 
 1. Confirm the Level 4 authorization, the intended repository, and which items are approved or explicitly deferred. Never infer an unknown repository or owner.
