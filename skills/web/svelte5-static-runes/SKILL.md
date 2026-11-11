@@ -38,6 +38,8 @@ These two constraints interact: a static build only works cleanly if *no* code â
 
 Targets SvelteKit 3.x (currently 3.2) and Svelte 5.x. Where SvelteKit 2.x differs, the 2.x form is given in parentheses; do not mix the two in one codebase.
 
+When you write, migrate, or change code, load the `debloat` skill first. This skill fixes what the app must do; debloat caps how much code you may add to do it.
+
 ## Process
 
 - [ ] 1. Pick the project shape (Step 1). Note whether routing exists at all.

@@ -38,6 +38,8 @@ The runes part is what makes SSR tricky: every component runs twice, once on the
 
 Those three failures account for most SSR bugs in runes code, and each has a small correct pattern below.
 
+When you write, migrate, or change code, load the `debloat` skill first. This skill fixes the rendering contract; debloat caps the code you add to satisfy it.
+
 ## Step 1 — Pick the project shape
 
 | Need | Use |
