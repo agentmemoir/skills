@@ -1,6 +1,6 @@
 # Svelte 5 Runes — Reference
 
-Runes are compiler keywords, not functions: they are prefixed with `$`, are never imported, cannot be reassigned to a variable, and only work in specific positions (top level of `<script>`, inside `.svelte.js`/`.svelte.ts` modules). Stable since Svelte 5.0 (October 2024).
+Runes are compiler keywords, not functions: they are prefixed with `$`, are never imported, cannot be reassigned to a variable, and only work in specific positions (top level of `<script>`, inside `.svelte.js`/`.svelte.ts` modules). A plain `.js`/`.ts` file is not compiled, so runes there fail at runtime. Stable since Svelte 5.0 (October 2024).
 
 ## `$state` — reactive state
 
@@ -149,7 +149,7 @@ export const counter = new Counter();
 ```
 This replaces Svelte 4's `writable()`/`readable()` stores for most app-wide client state. Reach for plain module-level `$state` (not a class) only for the very simplest single-value case; the class form scales better once you add derived values or methods.
 
-Because this skill is about **static-only** apps, module-level state like this is safe by default — there's no server, so there's no risk of one request's state leaking into another's (a real concern in SvelteKit SSR, where module-level state is shared across all requests unless scoped correctly). You don't need `setContext`/`getContext` request-scoping tricks here unless you specifically need per-component-tree isolation.
+Because this skill is about **static-only** apps, module-level state like this is safe for app-wide UI state: one browser session owns one module instance, so there is no risk of one request's state leaking into another's. Two qualifiers keep that true. A prerendered page still evaluates the module during the build, so the initial value must not depend on per-user data. And if the same module also runs under SSR, module-level state is shared across all users' requests — see `svelte5-ssr-runes`. You don't need `setContext`/`getContext` request-scoping tricks here unless you specifically need per-component-tree isolation.
 
 ## `$inspect` and `$host` (dev/component-authoring tools)
 
