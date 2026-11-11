@@ -44,6 +44,8 @@ A rule match is a signal, not a verdict. Concurrency advice is context-dependent
 
 Do not restate the deferred skills' rules here. Where they overlap, this skill states the *same* principle in the process/thread domain and names their rule (for example `async-bound-concurrency` for bounded fan-out, `determinism-sync-not-sleep` for concurrency tests).
 
+When a rule here leads you to write or refactor code, load the `debloat` skill first. This skill decides what the code must do; debloat decides how much of it to build and how to shape it.
+
 Read the ownership honestly before claiming a gap. `async-no-blocking-event-loop` already covers the offload decision, the `min(32, cpu + 4)` then `process_cpu_count()` executor-sizing formula, free-threaded 3.13+ builds, and the fact that a running thread cannot be interrupted. `thread-for-io-not-cpu`, `thread-size-and-bound` and `thread-cannot-be-killed` go deeper on those for code that never touches asyncio, and each names that rule as the earlier statement rather than claiming the ground.
 
 What is genuinely uncovered upstream, and owned here: `subprocess` in full; thread ownership, join and `excepthook`; lock discipline and pool deadlocks; `ThreadPoolExecutor` exit semantics; multiprocessing start methods, pickling, IPC and pool failure; and hang, orphan and zombie diagnosis.

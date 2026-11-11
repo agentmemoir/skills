@@ -83,13 +83,23 @@ Do not add, until a confirmed requirement demands it:
 
 Prefer, in order: reuse existing code, use the standard library, write a few plain lines, and only then add a dependency. Duplication is cheaper than the wrong abstraction, so wait for the third repetition before extracting.
 
+Copying is not reuse. If the logic already ships, call or import it rather than pasting it into your file. The third-repetition rule licenses a new extraction; it does not license a second copy of an existing function.
+
+**Replace, do not accumulate.** When a change supersedes a function, flag, branch, or test, delete the old one in the same change. Keep a compatibility shim only for a caller outside this repository, and name that caller in the final message.
+
+**Name the input that reaches each branch.** For every new branch, catch block, retry, or fallback, state the concrete input that reaches it. If you cannot name one, delete it.
+
+**An abstraction must hide a decision.** A function that forwards its arguments unchanged, wraps a single call, or exposes an interface as large as its body is a rename, not an abstraction. Inline it and call the inner thing. Keep the wrapper only when it hides a choice callers must not make.
+
+**Export only what has a caller.** Make a symbol public only when code in another file uses it. For every export you add, name the file that calls it. An export without an outside caller freezes an internal detail into the interface.
+
 If you notice a nearby bug or improvement outside the requested scope, always mention it in the final message and leave it unchanged.
 
 ## Verification
 
 Before finishing, check each item:
 
-1. **Deletion test:** for every function, dependency, and flag you added, ask "what breaks if I delete this?" If the answer is "nothing," delete it.
+1. **Deletion test:** for every function, dependency, flag, branch, and error path you added, ask "what breaks if I delete this?" If the answer is "nothing," delete it. Apply it to what you replaced as well: a superseded symbol that still exists is leftover, not compatibility.
 2. **Requirement trace:** every added item maps to a confirmed requirement.
 3. **Run it:** the affected tests pass — the smallest check that can prove the change. If there is no suite, run a smoke check (execute the script, call the function with a representative input) and report what you ran. Never claim it works without running something. If the only proof is a check that runs over five minutes, `verification-antipattern` overrides this step: scope the run to the change, or background it and leave the full gate to CI — do not block the task on it. Say what you ran, and what you left to a slower stage.
 4. **Diff size:** skim the diff. Anything you would not defend line by line to a reviewer goes.

@@ -32,6 +32,8 @@ How to write Rust tests that pass every time, on your machine and on a loaded CI
 
 Use this when writing a new Rust test, reviewing someone else's, or deciding whether a test needs to change. Use `rust-flaky-test-investigator` instead when a test is *already* failing intermittently and you need a diagnosis.
 
+When you write or change a test, load the `debloat` skill first. This skill governs whether the test is reliable; debloat governs whether it needs to exist and how much code it may add.
+
 ## The default that prevents most problems
 
 Write every test so it can run **in any order, in parallel, on any machine, at any time of day**, and pass. When that is genuinely impossible, say so in a comment and contain the test explicitly — do not leave the coupling implicit.
