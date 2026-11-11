@@ -5,16 +5,21 @@ description: >-
   abandoned, or superseded technologies and dependencies. Then walks me through four levels in strict
   order: the audit report in chat and under `~/.agentmemoir`, my review gate, Probe-and-Prism
   deliberation into an external remediation plan, my plan review, and finally authorized
-  Bugster-compliant GitHub issues. Use it when I say modernize the codebase, audit our dependencies,
-  check for outdated tech, plan a technology upgrade, or ask what is end-of-life or risky. No level
-  may be skipped, and no repository change is made at any level.
+  Bugster-compliant GitHub issues. Dependency work carries two extra gates: every retain, upgrade,
+  replace, or migrate decision must pass a licence compatibility check, and every proposed
+  replacement must clear a supply-chain trust check. Use it when I say modernize the codebase, audit
+  our dependencies, check for outdated tech, review our licences or supply chain, plan a technology
+  upgrade, or ask what is end-of-life or risky. No level may be skipped, and no repository change is
+  made at any level.
 category: review
 title: Modernizer
 summary: >-
   Audits a codebase for outdated, unsupported, vulnerable, and abandoned technology, then plans and
   files the remediation. Four levels run in strict order: read-only audit, human review,
-  deliberation, and authorized GitHub issues. Evidence, priority, and confidence survive every
-  handoff, and the repository is never modified.
+  deliberation, and authorized GitHub issues. Dependency work adds a blocking licence gate and a
+  supply-chain trust check, so no upgrade or replacement is recommended before it is legal and
+  verified. Evidence, priority, and confidence survive every handoff, and the repository is never
+  modified.
 say: "Audit this codebase for outdated technology and plan the remediation."
 compatibility: >-
   Works best with probe, prism, bugster, oracle, progress, and retro installed, and needs the GitHub
@@ -34,10 +39,23 @@ An audit you cannot trace is an opinion. An upgrade you cannot undo is a risk. M
 
 - Use it for a repository-wide check of outdated, deprecated, unsupported, vulnerable, abandoned, or superseded technology and dependencies.
 - Use it when you want a remediation plan and, after approval, GitHub issues.
+- Use it for dependency questions that end in a decision: keep, upgrade, replace, or migrate a package, toolchain, container, or CI action.
+- Use it when licences or supply-chain trust are part of the question, because those checks are built in and block a recommendation that fails them.
 - Use `tracer` for a focused security audit with reproducible proof; Modernizer still reports security findings it meets during a technology audit.
 - Use `autopsy` instead for a second pass on one finished artifact.
 - Use `review` instead for a bug hunt.
 - Do not use it for a one-line dependency bump, a code-style review, or a question with a clear answer.
+
+## Dependency and licence gates
+
+Whenever the audit meets a package, toolchain, container, CI action, runtime, vendored library, or licence question, read [references/dependencies.md](references/dependencies.md) and follow it. It covers every dependency surface, version and advisory facts, maintenance and trust checks, replacement vetting, the blocking licence gate, priority, governance controls, and the execution handoff.
+
+Two rules outrank convenience:
+
+1. **The licence gate blocks.** No upgrade, replacement, or migration leaves Level 3 without a licence verdict. An incompatible or uncertain verdict is marked blocked or sent to legal review; it is never presented as an approved path.
+2. **Trust is verified, not assumed.** A replacement is recommended only after its advisories, regressions, transitive licences, and release provenance are checked at the exact version.
+
+When I ask for a decision file, write it outside the repository to `~/.agentmemoir/<owner>/<repo>/modernizer/<yyyy-mm-dd>-<short-slug>-decisions.json`, following [assets/dependency-decisions.schema.json](assets/dependency-decisions.schema.json).
 
 ## The four levels
 
@@ -69,6 +87,7 @@ An audit you cannot trace is an opinion. An upgrade you cannot undo is a risk. M
 - **Level 1 audit report:** present it in chat, then save one copy to `~/.agentmemoir/<owner>/<repo>/modernizer/<yyyy-mm-dd>-<short-slug>-audit.md`. Never save it inside the audited repository.
 - **Level 3 plan:** `~/.agentmemoir/<owner>/<repo>/plans/<yyyy-mm-dd>-<short-slug>.md`. Read the owner and repository name from `git remote -v`.
 - **Progress ledger:** `~/.agentmemoir/<owner>/<repo>/plans/<yyyy-mm-dd>-<short-slug>.ledger.md`, following the `progress` skill.
+- **Decision file (optional):** `~/.agentmemoir/<owner>/<repo>/modernizer/<yyyy-mm-dd>-<short-slug>-decisions.json`, following [the schema](assets/dependency-decisions.schema.json). Write it only when I ask for it, and never inside the audited repository.
 - Never place any artifact inside the audited repository, and never keep the only copy in a CLI data folder such as `~/.claude/plans/`; session cleanup can delete it.
 - Do not overwrite an existing report or plan without my authorization. If no file can be written, give the full content in the response and say plainly that it was not written.
 - **Under Maestro:** a background worker does the reading and writes the audit report. The coordinator keeps the four gates and reads only the worker's report and saved artifacts.
@@ -84,6 +103,8 @@ An audit you cannot trace is an opinion. An upgrade you cannot undo is a risk. M
 Begin without asking for permission when the repository is accessible. If it is not accessible, say what is unavailable and produce the strongest partial report possible.
 
 Read [references/audit.md](references/audit.md) and follow it exactly. It holds the full read-only constraints, discovery coverage, methodology, evidence rules, severity model, required finding fields, and report structure.
+
+When the audit covers dependencies, also read [references/dependencies.md](references/dependencies.md). It adds the dependency inventory, advisory and trust checks, the licence gate, and the dependency sections the report must carry.
 
 Key boundaries:
 
@@ -146,6 +167,8 @@ For each finding, or a clearly justified group of related findings, present:
 - **Consequences and dependencies:** breaking changes, reversibility, risks, prerequisites, validation, and information gaps.
 - **Decision status:** `Approved`, `Rejected`, `Deferred`, or `Open`. Never mark a decision approved through silence.
 
+For a dependency finding, the same message must also carry the licence verdict and the trust check, because those two can override a technically good answer. State the current and target licence, the obligations that bind for this distribution model, whether legal review is needed, and what the replacement candidate cleared. Ask the distribution-model question once, at the first decision that needs it, and reuse the answer.
+
 **Probe scope.** Use only Probe's Step 3 decision method: one decision per message, simple English (CEFR A2), wait for my answer, and never invent my intent. Do not run Probe's Steps 1, 2, 4, or 5. Level 3 already fixes the goal and the ending, so Probe's goal restatement and ending choice would duplicate this workflow. State this scope in one line when Level 3 starts.
 
 When my answer is unclear, ask again and name the unclear part instead of picking for me. Use the question tool when available to collect the pick; put the full option text in the message.
@@ -174,6 +197,8 @@ When a conflict could change the recommendation, ask the question. Explain the t
 
 Map every finding ID to its alternatives, recommended choice, Prism or "Decide and move on" classification, my decision, evidence, and open questions. Preserve deferred decisions as open or conditional work with their risk, consequence, needed information, and trigger or deadline. Record invalid, duplicate, or inapplicable findings with their evidence and disposition instead of creating work.
 
+When I accept a risk, record the description, justification, accountable owner, mitigation, review date, and expiry date. Never write an accepted risk as resolved. Keep licence status beside security priority rather than folded into it, so a Low finding that is licence-blocked still reads as blocked.
+
 ### F. Write the remediation plan
 
 Write the plan only after every finding has been worked through. Use [assets/remediation-plan.md](assets/remediation-plan.md) as the structure and save it to the plan path in **Where files live**. The plan must contain:
@@ -187,6 +212,7 @@ Write the plan only after every finding has been worked through. Use [assets/rem
 7. Dependency ordering.
 8. Explicit exclusions.
 9. GitHub issue handoff, marked **proposed** and **not yet filed**.
+10. Dependency decisions and the licence report, when the audit covered dependencies. Follow [assets/dependency-decisions.schema.json](assets/dependency-decisions.schema.json) when I ask for the machine-readable copy, so the plan and the file cannot disagree.
 
 Share the exact path and a concise overview. **Do not create GitHub issues at Level 3.**
 
@@ -218,6 +244,7 @@ For each authorized, nonduplicative work item:
 - Use the appropriate repository issue template and a Bugster-compatible format.
 - Write a concise, actionable title covering the problem, evidence, behavior, impact, and scope.
 - Link the audit finding IDs and remediation-plan decisions, including material uncertainty.
+- For a dependency issue, include the installed and target version, the advisory it closes, the licence verdict and any obligation it creates, what the replacement candidate cleared, the migration steps, and the rollback.
 - State the approved target state, approach, prerequisites, risks, and constraints. Never present a plan as completed work.
 - Include measurable acceptance criteria, suggested validation, and dependent issues or ordering.
 - Apply Bugster's mandatory type, area, and difficulty labels, using the repository's real label names. Ask once if a kind has no match. Never invent labels, issue types, priorities, or milestones.
@@ -237,6 +264,12 @@ Report:
 5. **Repository integrity:** only what can be established. Never imply code changed or tests ran.
 6. **Close:** run `retro` once, if installed. Mark Level 4 complete in the Progress ledger.
 
+## After the four levels: execution
+
+Modernizer ends at a plan, a decision file, or filed issues. It never changes the repository. When I approve implementation, the work leaves this skill and runs in a coding session with me or another agent. Give that session [the execution handoff](references/dependencies.md#14-execution-handoff): what to confirm before touching anything, what to run, what never to bundle in, and what to do when verification fails.
+
+A level is not complete because code changed. A follow-up audit re-runs Level 1 against the new state and compares it with the approved target.
+
 ## Completion gate
 
 Before you call any level complete:
@@ -250,9 +283,15 @@ Before you call any level complete:
 - [ ] Every claim is backed by opened evidence or labeled unverified.
 - [ ] Finding IDs, priorities, confidence, and evidence status survived into the decisions, plan, and issues.
 - [ ] Skipped, deferred, blocked, and rejected items are stated, never hidden.
+- [ ] Every A, B, or C dependency recommendation carries a licence verdict, and a blocked item was escalated, not approved.
+- [ ] Every accepted risk has an owner, a mitigation, a review date, and an expiry date.
+- [ ] The decision file, when requested, matches the plan and satisfies [the schema](assets/dependency-decisions.schema.json).
+- [ ] No remediation ran inside this skill, and any approved change was handed off with its contract.
 - [ ] Retro ran once, or the missing skill was reported.
 
 ## Resources
 
 - [references/audit.md](references/audit.md): the full Level 1 audit specification. Read it before starting any audit.
+- [references/dependencies.md](references/dependencies.md): the dependency, supply-chain, and licence reference, including the blocking licence gate and the execution handoff. Read it whenever the audit covers dependencies.
 - [assets/remediation-plan.md](assets/remediation-plan.md): the Level 3 plan structure. Load it when writing the plan.
+- [assets/dependency-decisions.schema.json](assets/dependency-decisions.schema.json): the shape of the machine-readable decision file, with [an example](assets/dependency-decisions.example.json).

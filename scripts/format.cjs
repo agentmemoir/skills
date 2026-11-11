@@ -16,6 +16,8 @@ const checkOnly = process.argv.includes("--check");
 const JSON_FILES = [
   "skills/review/autopsy/references/findings.schema.json",
   "skills/review/autopsy/references/findings.example.json",
+  "skills/review/modernizer/assets/dependency-decisions.schema.json",
+  "skills/review/modernizer/assets/dependency-decisions.example.json",
   "skills/code/rust-flaky-test-investigator/references/flaky-finding.schema.json",
   "skills/code/rust-flaky-test-investigator/references/flaky-finding.example.json",
   "skills/docs/wordsmith/references/upstream/humanizer.json",
