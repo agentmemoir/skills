@@ -236,6 +236,17 @@ A future agent must be able to resume from the pushed head and the PR descriptio
 
 **Public and private stay separate.** Never put plans, internal prompts, agent rules, hidden requirements, credentials, logs, execution state, reservation data, frozen trackers, private nonces, or sensitive evidence in a public commit or PR description. A requested document must itself be approved for publication. Write short, sanitized public summaries, and keep detailed private evidence in the designated private artifacts. Redact secrets without erasing what failed.
 
+### Public artifacts stand alone
+
+Applies to pull request titles and bodies, commit messages, issue text, changelog entries, and documentation changes.
+
+- Write for a maintainer who joined today and never saw my session. If a sentence needs a file, a draft, or a conversation they cannot open, delete it or rewrite it.
+- Never cite local-only material, secrets, private files, scratch files, plans stored outside the repository, session logs, or chat history.
+- Never narrate the conversation: no "as decided", "as you asked", "as discussed", "per our earlier exchange". Give the technical reason instead.
+- Do not refer to me in the third person when posting under my name.
+- Alternatives belong in the text when they explain a trade-off. They do not belong when their only purpose is to show what was ruled out in private.
+- Before submitting, read the artifact alone and answer two questions: what changed, and why does it need to change? If either answer points outside the repository, revise it.
+
 Keep text validation, write approval, reservation fences, branch ownership, readiness checks, and merge authority intact. PR publication is not merge approval: never merge, force-push, delete branches, or clean up destructively without the authorization that applies.
 
 ## 7. Worker results and handoff

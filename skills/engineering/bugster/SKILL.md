@@ -36,6 +36,17 @@ Every confirmed, previously unfiled bug must produce an issue. That covers in-sc
 
 Task scope, task completion, and an existing fix are not permission to skip reporting. Higher-priority safety, privacy, and authorization rules still win.
 
+### Public artifacts stand alone
+
+Applies to pull request titles and bodies, commit messages, issue text, changelog entries, and documentation changes.
+
+- Write for a maintainer who joined today and never saw my session. If a sentence needs a file, a draft, or a conversation they cannot open, delete it or rewrite it.
+- Never cite local-only material, secrets, private files, scratch files, plans stored outside the repository, session logs, or chat history.
+- Never narrate the conversation: no "as decided", "as you asked", "as discussed", "per our earlier exchange". Give the technical reason instead.
+- Do not refer to me in the third person when posting under my name.
+- Alternatives belong in the text when they explain a trade-off. They do not belong when their only purpose is to show what was ruled out in private.
+- Before submitting, read the artifact alone and answer two questions: what changed, and why does it need to change? If either answer points outside the repository, revise it.
+
 ## 2. Reproduce before fixing
 
 A passing test is not evidence that the reported failure was reproduced or fixed. Verify the failing path itself.
