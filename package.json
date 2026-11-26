@@ -10,6 +10,7 @@
     "test:blueprint": "python3 skills/workflow/blueprint/scripts/blueprint.py --self-check",
     "test:noexec-python": "python3 skills/portability/noexec-python/scripts/self-check.py",
     "test:noexec-rust": "bash skills/portability/noexec-rust/scripts/self-check.sh",
+    "test:design-lock": "python3 skills/engineering/design-lock/tests/run_tests.py",
     "test:tidy": "python3 skills/docs/tidy/scripts/check-tidy.py skills/docs/tidy",
     "test:tidy-selfcheck": "python3 skills/docs/tidy/scripts/check-tidy.py --self-check",
     "test:wordsmith-tidy": "python3 skills/docs/tidy/scripts/check-tidy.py skills/docs/wordsmith --exclude references/upstream/",
