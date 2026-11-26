@@ -23,7 +23,7 @@ sys.path.insert(0, HERE)
 import dlcore  # noqa: E402
 
 SCHEMA = "design-lock/1"
-# Defaults are tighter than the errors owners complain about (1 dp offsets, 0.5 sp fonts). Loosen only in .design-lock.json, owner-only.
+# Defaults are tight enough to catch 1 dp offsets and 0.5 sp fonts. Loosen only in .design-lock.json, which is locked.
 DEFAULT_TOL = {"box": 0.5, "fontSize": 0.1, "lineHeight": 0.1, "letterSpacing": 0.1, "radius": 0.25, "borderWidth": 0.1, "color": 2.0, "alpha": 0.02,
                "pixelRatio": 0.001, "pixelBlock": 4}
 ROLES = ("container", "text", "image")
@@ -228,7 +228,7 @@ def compare_specs(frame, app, tol, exceptions=(), known=(), allow_extra=False):
         if doc.get("schema") != SCHEMA:
             raise ValueError(f"{name} file is not {SCHEMA}")
     for p in validate_spec(frame):
-        rows.append(_row("(frame spec)", "invalid", p, "-", "fail", "the approved frame does not pin this down; the owner completes the spec"))
+        rows.append(_row("(frame spec)", "invalid", p, "-", "fail", "the approved frame does not pin this down; I complete the spec"))
     for who, doc in (("app", app), ("frame", frame)):
         for i in _dups(doc):
             rows.append(_row(i, "duplicate id", "unique", "twice", "fail", f"two elements of the {who} share an id, so one would go unchecked"))
@@ -440,7 +440,7 @@ def screen_rows(name, row, cfg, root, tol, known):
     pixel = row.get("mode", "structure") == "pixel"
     for k in ("frame", "image"):
         if not row.get(k) or not os.path.isfile(os.path.join(root, row[k])):
-            return [_row("(screen)", k, f"approved {k}", f"missing {row.get(k)}", "fail", "the owner supplies the approved frame spec and image for every screen")]
+            return [_row("(screen)", k, f"approved {k}", f"missing {row.get(k)}", "fail", "I supply the approved frame spec and image for every screen")]
     mp = os.path.join(root, row["measured"])
     if not os.path.isfile(mp):
         return [_row("(screen)", "measured", "approved frame", f"missing {row['measured']}", "fail", "the screen did not run: capture produced nothing for it")]
@@ -713,7 +713,7 @@ def cmd_init(a):
     if subprocess.run(["git", "-C", d, "check-ignore", "-q", ".design-lock.json"], capture_output=True).returncode == 0:
         print("design-lock init: WARNING a gitignore (maybe a global `.*` rule) hides .design-lock.json; commit it with `git add -f .design-lock.json`")
     print(f"design-lock init ({a.platform}): wrote {len(files)} files, among them .design-lock.json (dotfile: `ls -a`, `git add -f`). The local hooks are advisory; "
-          f"the protection is the required CI check `design-ok` (branch protection or a ruleset), so the repo is not protected until that is set. Next, the owner: put the approved frame image and spec for screen {s!r} in design/frames/, "
+          f"the protection is the required CI check `design-ok` (branch protection or a ruleset), so the repo is not protected until that is set. Next, I put the approved frame image and spec for screen {s!r} in design/frames/, "
           f"edit tools/design-lock/capture.sh, run `python3 tools/design-lock/designlock.py gate`, then commit and make `design-ok` a required check.")
     return 0
 

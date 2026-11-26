@@ -1,12 +1,11 @@
 # Copy to .github/workflows/design-lock.yml (`designlock.py init` does it) and make the job `design-ok` a REQUIRED check
-# (Settings > Rules > Rulesets or branch protection; a skipped job counts as passing for GitHub, so design-ok fails unless both jobs succeeded).
+# (Settings > Rules > Rulesets or branch protection). GitHub counts a skipped job as passing, so design-ok fails unless both jobs succeed.
 #
-# Why pull_request_target: GitHub then runs THIS file and the tooling (designlock.py, guard.py) from the base branch, so a pull request cannot edit the gate
-# that judges it. The pull request is checked out into pr/ and measured. Be plain about what runs: the capture command builds and runs the PR's own code
-# (npm scripts, gradle, tests), so PR code DOES execute on this runner. It has a read-only token and no secrets, and base tooling then (a) fails the gate
-# if capture changed any frame, config or locked file, and (b) re-validates the measured output it wrote. A PR can still lie in the measured file about its
-# own rendering; the owner's review of the capture script (a locked path) and of the report is what closes that.
-# Branch protection, the required check and the label permission must stay with the owner, not with the agent's token.
+# pull_request_target makes GitHub run this file and the tooling (designlock.py, guard.py) from the base branch, so a pull request cannot edit
+# the gate that judges it. The pull request is checked out into pr/ and measured. The capture command builds and runs the PR's own code, so PR code
+# does execute on this runner, with a read-only token and without any secret. Base tooling then fails the gate if capture changed a frame, the config, or
+# a locked file, and re-validates the measured output. A PR can still misreport its own rendering, so I review the capture script (a locked path)
+# and the report. Branch protection, the required check, and the label permission stay out of the agent's reach.
 # Pin the action SHAs the way your repo does (these are v4.2.2 / v4.6.2).
 name: design-lock
 on:

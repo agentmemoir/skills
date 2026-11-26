@@ -81,7 +81,7 @@ def case_insensitive(root):
 
 
 def protected(cfg):
-    """Paths only the owner changes: frames, frame images, the config, the change ledger, and the `locked` globs."""
+    """Paths only I change: frames, frame images, the config, the change ledger, and the `locked` globs."""
     out = list(cfg.get("locked", [])) + [CONFIG, cfg.get("ledger", DEFAULT_LEDGER)]
     for row in cfg["screens"].values():
         out += [row["frame"]] + ([row["image"]] if row.get("image") else [])

@@ -46,7 +46,7 @@ def main():
     base, head = os.environ["BASE_SHA"], os.environ.get("HEAD_SHA", "HEAD")
     base_cfg = show(base, dlcore.CONFIG)
     if not base_cfg:
-        print("design guard: the base commit has no .design-lock.json, so this pull request adopts design-lock; the owner reviews it by hand")
+        print("design guard: the base commit has no .design-lock.json, so this pull request adopts design-lock; I review it by hand")
         return 0
     cfg = dlcore.parse_config(base_cfg)
     head_cfg = dlcore.parse_config(show(head, dlcore.CONFIG) or base_cfg)
@@ -65,7 +65,7 @@ def main():
     if guarded:
         why = []
         if LABEL not in labels():
-            why.append(f"it has no label {LABEL} (the owner adds it, and it must be added again after every push)")
+            why.append(f"it has no label {LABEL} (I add it, and it must be added again after every push)")
         led = cfg.get("ledger", dlcore.DEFAULT_LEDGER)
         if not dlcore.ledger_gained_entry(load(base, led, []), load(head, led, [])):
             why.append(f"{led} gained no entry with a reason and requestedBy: an approved design changes only for a recorded, explicitly requested reason")
