@@ -20,7 +20,7 @@ npx skills add agentmemoir/skills --all --global -y
 |---|---:|---|
 | [Code](#code) | 4 | Write, run, and test code inside one language |
 | [Docs](#docs) | 3 | Write and improve documentation |
-| [Engineering](#engineering) | 3 | Build lean code and keep verification gates honest |
+| [Engineering](#engineering) | 4 | Build lean code and keep verification gates honest |
 | [Portability](#portability) | 3 | Code that runs on hosts that block execution |
 | [Review](#review) | 4 | Verdicts on finished work |
 | [Web](#web) | 3 | Apps that run in a browser |
@@ -127,6 +127,7 @@ Say: "Rewrite this README with wordsmith" or "These docs read like AI wrote them
 |---|---|
 | [`bugster`](skills/engineering/bugster/SKILL.md) | Files every confirmed bug as a labeled issue, reproduces it through the real entry point before the fix, and keeps both logs. |
 | [`debloat`](skills/engineering/debloat/SKILL.md) | Forces lean code in any language and caps every file it creates or modifies at 450 lines. |
+| [`design-lock`](skills/engineering/design-lock/SKILL.md) | Compares every element of the built UI with its approved frame and fails on any constant that differs. |
 | [`verification-antipattern`](skills/engineering/verification-antipattern/SKILL.md) | Finds verification gates that block people or agents for over 5 minutes, names the cause, and ranks the fixes. |
 
 #### Bugster
@@ -148,6 +149,16 @@ npx skills add agentmemoir/skills --skill debloat --global -y
 Forces lean code in any language and caps every file it creates or modifies at 450 lines. Confirms requirements, researches current best practices, then writes the smallest implementation that works.
 
 Say: "Add the endpoint, but keep it debloated."
+
+#### Design Lock
+
+```
+npx skills add agentmemoir/skills --skill design-lock --global -y
+```
+
+Compares every element of the built UI with its approved frame and fails on any constant that differs. It checks position, size, container, font and colour per theme, and hooks plus a required CI check enforce it instead of anyone remembering.
+
+Say: "Build this screen from the approved frame and prove it matches."
 
 #### Verification antipattern
 

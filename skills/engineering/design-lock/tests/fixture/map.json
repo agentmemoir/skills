@@ -1,0 +1,15 @@
+{
+  "root": ".screen",
+  "elements": [
+    {"id": "screen", "selector": ".screen", "role": "container"},
+    {"id": "title", "selector": ".title", "role": "text"},
+    {"id": "label", "selector": ".label", "role": "text"},
+    {"id": "row", "selector": ".row", "role": "container"},
+    {"id": "logo", "selector": ".logo", "role": "image", "variable": true},
+    {"id": "name", "selector": ".name", "role": "text", "variable": true},
+    {"id": "sym", "selector": ".sym", "role": "text", "variable": true},
+    {"id": "price", "selector": ".price", "role": "text", "variable": true},
+    {"id": "chg", "selector": ".chg", "role": "text", "variable": true, "flex": ["color"]}
+  ],
+  "ignore": []
+}
