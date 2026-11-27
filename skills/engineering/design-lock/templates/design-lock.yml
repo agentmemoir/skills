@@ -5,8 +5,8 @@
 # that judges it. The pull request is checked out into pr/ and measured. Be plain about what runs: the capture command builds and runs the PR's own code
 # (npm scripts, gradle, tests), so PR code DOES execute on this runner. It has a read-only token and no secrets, and base tooling then (a) fails the gate
 # if capture changed any frame, config or locked file, and (b) re-validates the measured output it wrote. A PR can still lie in the measured file about its
-# own rendering; the owner's review of the capture script (a locked path) and of the report is what closes that.
-# Branch protection, the required check and the label permission must stay with the owner, not with the agent's token.
+# own rendering; a maintainer's review of the capture script (a locked path) and of the report closes that.
+# Branch protection, the required check and the label permission must stay with a maintainer, not with the agent's token.
 # Pin the action SHAs the way your repo does (these are v4.2.2 / v4.6.2).
 name: design-lock
 on:

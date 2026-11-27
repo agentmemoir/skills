@@ -2,7 +2,7 @@
 
 A capture command renders every registered screen at the frame's size, density and theme, and writes each screen's `measured` path. Two modes:
 
-- **structure** (best): write `design-lock/1` JSON with every element found by its id. Element-level findings, exact numbers.
+- **structure** (best): write `design-lock/1` JSON with every element found by its id. Reports exact numbers per element.
 - **pixel** (works anywhere a command can write an 8-bit RGB/RGBA PNG): the capture is compared with the frame image; the spec's variable regions are masked, everything else is a constant. Set `"mode": "pixel"`; the spec then lists only variable regions (`{"id", "role", "variable": true, "box"}`).
 
 Start with pixel mode if no structural adapter exists, then add one. Either way pin everything that makes renderings differ: device or browser version, fonts, locale, clock, density, theme, animations off.
@@ -24,3 +24,11 @@ Contract: same `id`, same units (logical px = dp = pt), same colour model, all c
 - **Flutter.** A widget test: `find.byKey(ValueKey(id))`, `tester.getRect`, `RenderParagraph.text.style` and `BoxDecoration` of the found render objects.
 
 The adapter is part of the measurement, so keep it under `locked` and review it once.
+
+## Limits of the web extractor
+
+| Gap | Mitigation |
+| :- | :- |
+| Frames extracted on one OS and measured on another: fonts differ and text widths drift | The spec records `renderer` and a mismatch warns. Pin browser and fonts in CI and extract frames in that same environment |
+| Colour syntaxes | `rgb()` and `rgba()` are parsed. Everything else (oklch, `color()`, `color-mix`) goes through a canvas into sRGB, and an unparseable colour fails extraction |
+| Gradients inside `url()` images (an image is a variable slot), SVG internals, animations, hover states | Write them as named exceptions or capture them as their own screens |

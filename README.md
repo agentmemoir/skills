@@ -156,7 +156,7 @@ Say: "Add the endpoint, but keep it debloated."
 npx skills add agentmemoir/skills --skill design-lock --global -y
 ```
 
-Compares every element of the built UI with its approved frame and fails on any constant that differs. It checks position, size, container, font and colour per theme, and hooks plus a required CI check enforce it instead of anyone remembering.
+Compares every element of the built UI with its approved frame and fails on any constant that differs. It checks position, size, container, font, and colour per theme. Hooks and a required CI check enforce it, so nobody has to remember it.
 
 Say: "Build this screen from the approved frame and prove it matches."
 
