@@ -20,7 +20,6 @@ const CHECKS: Check[] = [
   ["python subprocess recipes", PY, ["skills/code/python-subprocess-and-concurrency/scripts/verify-recipes.py"]],
   ["noexec python self-check", PY, ["skills/portability/noexec-python/scripts/self-check.py"]],
   ["noexec rust self-check", "bash", ["skills/portability/noexec-rust/scripts/self-check.sh"]],
-  ["design-lock tests (web e2e skipped)", PY, ["skills/engineering/design-lock/scripts/self-check.py", "--skip-web"]],
   ["tidy verification", PY, ["skills/docs/tidy/scripts/check-tidy.py", "skills/docs/tidy"]],
   ["tidy self-check", PY, ["skills/docs/tidy/scripts/check-tidy.py", "--self-check"]],
   ["wordsmith tidy floor", PY, ["skills/docs/tidy/scripts/check-tidy.py", "skills/docs/wordsmith", "--exclude", "references/upstream/"]],

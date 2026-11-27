@@ -19,7 +19,6 @@
         "./skills/docs/wordsmith",
         "./skills/engineering/bugster",
         "./skills/engineering/debloat",
-        "./skills/engineering/design-lock",
         "./skills/engineering/verification-antipattern",
         "./skills/portability/noexec-coding",
         "./skills/portability/noexec-python",
