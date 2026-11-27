@@ -45,8 +45,8 @@ def out(obj):
     sys.stdout.flush()
 
 
-def owner_change():
-    """The owner starts a session with DESIGN_LOCK_CHANGE='<why>' when the design itself must change; CI still requires the label and ledger entry."""
+def change_requested():
+    """A session started with DESIGN_LOCK_CHANGE='<why>' means the design itself must change; CI still requires the label and ledger entry."""
     return bool(os.environ.get("DESIGN_LOCK_CHANGE", "").strip())
 
 
@@ -184,7 +184,7 @@ def stop(data, root):
     block_or_release(data, (
         f"DESIGN GATE FAILED. Work is not done until it is green; passing tests do not count.\n{tail}\n\n"
         "Fix the app so every listed element matches its approved frame. Do not edit frames, tolerances, exceptions or the baseline, "
-        "and do not re-record goldens or snapshots over a failing design check. If the design itself must change, stop and tell the owner."))
+        "and do not re-record goldens or snapshots over a failing design check. If the design itself must change, stop and tell me."))
 
 
 # ---------------------------------------------------------------- pretool
@@ -193,8 +193,8 @@ def deny(reason):
     out({"hookSpecificOutput": {"hookEventName": "PreToolUse", "permissionDecision": "deny", "permissionDecisionReason": "design-lock: " + reason}})
 
 
-LOCKED_WHY = ("approved frames, specs, tolerances, exceptions and the design-lock setup change only when the owner asks for it (a recorded change request), "
-              "never to make a screen pass. Fix the app to match the frame instead; if the design itself is wrong, stop and tell the owner.")
+LOCKED_WHY = ("approved frames, specs, tolerances, exceptions and the design-lock setup change only when I ask for it (a recorded change request), "
+              "never to make a screen pass. Fix the app to match the frame instead; if the design itself is wrong, stop and tell me.")
 
 
 def literal_prefix(pattern):
@@ -216,7 +216,7 @@ def check_path(data, path, how="write", content=None):
     low = (lambda t: t.lower()) if fold else (lambda t: t)
     if dlcore.matches(rel, dlcore.triggers(cfg), fold):
         note_edit(data, root)
-    if owner_change():
+    if change_requested():
         return False
     prot = dlcore.protected(cfg)
     hit = dlcore.matches(rel, prot, fold) or (how == "destroy" and (rel == "." or any(low(literal_prefix(p)).startswith(low(rel).rstrip("/") + "/") for p in prot)))
@@ -357,7 +357,7 @@ def bash(data, ti, cwd):
     if root:
         for pat in dlcore.load_config(root).get("forbidCommands", []):
             if re.search(pat, cmd):
-                return deny(f"the command matches forbidCommands ({pat}). Goldens and snapshots are never re-recorded over a failing design check; the owner or CI does it.")
+                return deny(f"the command matches forbidCommands ({pat}). Goldens and snapshots are never re-recorded over a failing design check; a maintainer or CI does it.")
     for path, how in written_paths(cmd, cwd):  # each target finds its own project, so a command run from another directory is checked too
         if check_path(data, path, how):
             return

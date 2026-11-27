@@ -1,7 +1,7 @@
 #!/bin/sh
 # Capture recipe: iOS Simulator, pixel mode. Boot the simulator with the frame's device, appearance and content size first:
 #   xcrun simctl boot "iPhone 15"; xcrun simctl ui booted appearance dark
-# For element-level checks use an XCUITest adapter that writes the design-lock/1 JSON (see recipes/README.md).
+# For element-level checks use an XCUITest adapter that writes the design-lock/1 JSON (see references/capture-recipes.md).
 set -e
 OUT=build/design-lock/measured; mkdir -p "$OUT"
 BUNDLE_ID="${BUNDLE_ID:?set BUNDLE_ID}"
